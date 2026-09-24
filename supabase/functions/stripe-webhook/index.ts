@@ -20,6 +20,13 @@ Deno.serve(async (req) => {
   if (event.type === "checkout.session.completed" || event.type === "checkout.session.async_payment_succeeded") {
     const session = event.data.object as Stripe.Checkout.Session;
     if (session.payment_status !== "paid") return new Response("Waiting for payment", { status: 200 });
+    if (session.metadata?.purpose === "voucher") {
+      const { error } = await admin.rpc("confirm_voucher_payment", {
+        p_voucher: session.metadata.voucher_id, p_amount_pence: session.amount_total ?? 0, p_session: session.id,
+      });
+      if (error) return new Response(`Could not confirm voucher: ${error.message}`, { status: 500 });
+      return new Response("ok", { status: 200 });
+    }
     const vendor = session.metadata?.vendor_id;
     const qty = Number(session.metadata?.qty);
     const unit = Number(session.metadata?.unit_pence);

@@ -29,12 +29,15 @@ for (const [src, name] of [
   ['qrcode-generator/dist/qrcode.js', 'qrcode.js'],
   ['jsqr/dist/jsQR.js', 'jsQR.js'],
   ['@supabase/supabase-js/dist/umd/supabase.js', 'supabase.js'],
+  ['leaflet/dist/leaflet.js', 'leaflet.js'],
+  ['leaflet/dist/leaflet.css', 'leaflet.css'],
 ]) fs.copyFileSync(path.join(root, 'node_modules', src), path.join(www, 'vendor', name));
 
 // Config comes from the environment (GitHub secrets) or config.local.json.
 // TASTEMATE_TARGET=web builds the website (vendors can buy tokens there); anything else builds the Android app.
 const target = process.env.TASTEMATE_TARGET === 'web' ? 'web' : 'android';
-let cfg = { GOOGLE_MAPS_API_KEY: '', GOOGLE_MAP_ID: '', SUPABASE_URL: '', SUPABASE_ANON_KEY: '', APP_URL: '', BUY_TOKENS_IN_APP: target === 'web' };
+// OSM: interactive OpenStreetMap map and live places when there's no Google Maps key (set TASTEMATE_OSM=false to turn off)
+let cfg = { GOOGLE_MAPS_API_KEY: '', GOOGLE_MAP_ID: '', SUPABASE_URL: '', SUPABASE_ANON_KEY: '', APP_URL: '', BUY_TOKENS_IN_APP: target === 'web', OSM: process.env.TASTEMATE_OSM !== 'false', BUILD: true };
 const local = path.join(root, 'config.local.json');
 if (fs.existsSync(local)) Object.assign(cfg, JSON.parse(fs.readFileSync(local, 'utf8')));
 if (process.env.TASTEMATE_MAPS_KEY) cfg.GOOGLE_MAPS_API_KEY = process.env.TASTEMATE_MAPS_KEY;
@@ -49,7 +52,7 @@ fs.writeFileSync(path.join(www, 'config.js'), `window.TASTEMATE_CONFIG = ${JSON.
 let app = fs.readFileSync(path.join(root, 'src/app.html'), 'utf8');
 app = app.replace(/<link rel="preconnect"[^>]*>\s*/g, '')
          .replace(/<link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com[^>]*>/, '<link rel="stylesheet" href="fonts/fonts.css">')
-         .replace(/<script src="https:\/\/cdnjs\.cloudflare\.com\/ajax\/libs\/jszip\/[^"]+"><\/script>/, '<script src="vendor/jszip.min.js"></script>\n<script src="vendor/jsQR.js"></script>\n<script src="vendor/supabase.js"></script>')
+         .replace(/<script src="https:\/\/cdnjs\.cloudflare\.com\/ajax\/libs\/jszip\/[^"]+"><\/script>/, '<script src="vendor/jszip.min.js"></script>\n<script src="vendor/jsQR.js"></script>\n<script src="vendor/supabase.js"></script>\n<link rel="stylesheet" href="vendor/leaflet.css">\n<script src="vendor/leaflet.js"></script>')
          .replace(/<script src="https:\/\/cdn\.jsdelivr\.net\/npm\/qrcode-generator[^"]+"><\/script>/, '<script src="vendor/qrcode.js"></script>');
 const split = app.indexOf('<div class="app">');
 const head = app.slice(0, split), body = app.slice(split);
@@ -70,4 +73,4 @@ ${body}
 `;
 fs.writeFileSync(path.join(www, 'index.html'), html);
 if (target === 'web' && fs.existsSync(path.join(root, 'docs'))) for (const f of fs.readdirSync(path.join(root, 'docs'))) fs.copyFileSync(path.join(root, 'docs', f), path.join(www, f));
-console.log(`Built www/ for ${target}: ` + [cfg.SUPABASE_URL ? 'live backend' : 'DEMO MODE (no backend configured)', cfg.GOOGLE_MAPS_API_KEY ? 'Google Maps on' : 'simple map'].join(', '));
+console.log(`Built www/ for ${target}: ` + [cfg.SUPABASE_URL ? 'live backend' : 'DEMO MODE (no backend configured)', cfg.GOOGLE_MAPS_API_KEY ? 'Google Maps + Places' : cfg.OSM ? 'OpenStreetMap map + places' : 'simple map'].join(', '));

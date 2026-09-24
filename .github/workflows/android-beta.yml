@@ -8,26 +8,50 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      # Works whether the project is at the top of the repository or inside a tastemate-android folder
+      - name: Find the project folder
+        run: |
+          DIR=$(dirname "$(find . -name capacitor.config.json -not -path '*/node_modules/*' -not -path '*/android/*' | head -n 1)")
+          if [ -z "$DIR" ] || [ "$DIR" = "." ] && [ ! -f capacitor.config.json ]; then
+            echo "::error::Can't find the project files (capacitor.config.json). Upload the whole tastemate-android folder to the repository."; exit 1
+          fi
+          for f in package.json src/app.html scripts/build-web.mjs android/gradlew; do
+            if [ ! -f "$DIR/$f" ]; then echo "::error::Missing $f in the repository. Upload the whole tastemate-android folder again."; exit 1; fi
+          done
+          echo "Project folder: $DIR"
+          echo "APP_DIR=$DIR" >> "$GITHUB_ENV"
+
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
-          cache: npm
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
 
-      - uses: android-actions/setup-android@v3
+      # GitHub's build machines already include the Android SDK; just accept its licences and add Android 16 (API 36)
+      - name: Prepare Android SDK
+        run: |
+          SDK="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}}"
+          SDKM=$(ls -d "$SDK"/cmdline-tools/*/bin/sdkmanager 2>/dev/null | sort -V | tail -n 1)
+          echo "Android SDK: $SDK  (sdkmanager: $SDKM)"
+          echo "ANDROID_HOME=$SDK" >> "$GITHUB_ENV"
+          echo "ANDROID_SDK_ROOT=$SDK" >> "$GITHUB_ENV"
+          yes | "$SDKM" --licenses > /dev/null || true
+          "$SDKM" --install "platforms;android-36" "platform-tools" > /dev/null
 
       - name: Install
-        run: npm ci
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi
 
       - name: Build the app screens and copy them into Android
+        working-directory: ${{ env.APP_DIR }}
         env:
           TASTEMATE_TARGET: android
           TASTEMATE_MAPS_KEY: ${{ secrets.MAPS_API_KEY }}
@@ -42,12 +66,14 @@ jobs:
       - name: Restore the upload key
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
         run: |
-          if [ -z "$KEYSTORE_BASE64" ]; then echo "::error::Add the KEYSTORE_BASE64 secret (see PUBLISHING.md)"; exit 1; fi
-          echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/upload.jks"
+          if [ -z "$KEYSTORE_BASE64" ]; then echo "::error::Add the KEYSTORE_BASE64 secret (Settings > Secrets and variables > Actions)"; exit 1; fi
+          if [ -z "$KEYSTORE_PASSWORD" ]; then echo "::error::Add the KEYSTORE_PASSWORD secret (Settings > Secrets and variables > Actions)"; exit 1; fi
+          echo "$KEYSTORE_BASE64" | tr -d ' \r\n' | base64 -d > "$RUNNER_TEMP/upload.jks" || { echo "::error::KEYSTORE_BASE64 isn't valid. Paste the whole long line from GITHUB-SECRETS.txt again."; exit 1; }
 
       - name: Build signed app bundle (.aab) and test APK
-        working-directory: android
+        working-directory: ${{ env.APP_DIR }}/android
         env:
           TASTEMATE_KEYSTORE_FILE: ${{ runner.temp }}/upload.jks
           TASTEMATE_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -62,6 +88,7 @@ jobs:
         with:
           name: tastemate-beta-${{ github.run_number }}
           path: |
-            android/app/build/outputs/bundle/release/*.aab
-            android/app/build/outputs/apk/release/*.apk
+            ${{ env.APP_DIR }}/android/app/build/outputs/bundle/release/*.aab
+            ${{ env.APP_DIR }}/android/app/build/outputs/apk/release/*.apk
+          if-no-files-found: error
           retention-days: 30

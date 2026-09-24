@@ -10,3 +10,6 @@ verify_jwt = false
 
 [functions.delete-account]
 verify_jwt = true
+
+[functions.create-voucher-checkout]
+verify_jwt = true

@@ -25,6 +25,7 @@
 <tr><td>Business name, venue and contact email</td><td>Businesses</td><td>To check that you run the venue and to show your offers</td></tr>
 <tr><td>Your ratings of places, including any you import from Google, Tripadvisor or Yelp</td><td>Diners</td><td>To find people with similar taste and recommend places. Other members' recommendations use your ratings anonymously, never with your name or email.</td></tr>
 <tr><td>Vouchers you claim and when they are used, plus the bill total and party size if the venue enters them</td><td>Diners</td><td>To run offers and give venues visit statistics. Venues see voucher codes and times, not your name or email.</td></tr>
+<tr><td>Tickets and £1 offer-securing payments (what you bought, amount, date)</td><td>Diners who pay</td><td>To issue your ticket or guaranteed voucher, and for accounting. Card details go directly to Stripe. We never see or store them.</td></tr>
 <tr><td>Token purchases (quantity, amount, date)</td><td>Businesses</td><td>To add tokens to your account and keep accounting records. Card details go directly to Stripe. We never see or store them.</td></tr>
 <tr><td>Location</td><td>Anyone who taps "Use my location"</td><td>To show distances and nearby offers. It is used on your device only and is not sent to us or stored.</td></tr>
 </table></div>
@@ -37,7 +38,8 @@
 <ul>
   <li><strong>Supabase</strong>: hosts our database and sign-in (servers in the UK/EU region we choose).</li>
   <li><strong>Stripe</strong>: processes business payments and sends receipts (<a href="https://stripe.com/gb/privacy">Stripe privacy policy</a>).</li>
-  <li><strong>Google Maps Platform</strong>: shows maps and live place ratings. When a map is shown, your device requests map data from Google (<a href="https://policies.google.com/privacy">Google privacy policy</a>).</li>
+  <li><strong>OpenStreetMap services</strong> (used when Google Maps isn't set up): the map comes from CARTO, nearby places from the Overpass API, and search from Photon (komoot). They receive the area shown on your map or your search words, not your identity.</li>
+      <li><strong>Google Maps Platform</strong>: shows maps and live place ratings. When a map is shown, your device requests map data from Google (<a href="https://policies.google.com/privacy">Google privacy policy</a>).</li>
 </ul>
 <p>We don't sell your data or use it for advertising. There are no ads and no third-party analytics in Tastemate.</p>
 

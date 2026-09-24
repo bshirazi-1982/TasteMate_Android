@@ -111,6 +111,13 @@ td.c,th.c{text-align:center}
 .rec .why{font-size:.85rem;color:var(--muted)}
 .offerbox{border:1.5px solid var(--offer);background:color-mix(in srgb,var(--offer) 7%,var(--surface));border-radius:10px;padding:8px 10px;font-size:.88rem;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
 .offerdeal{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.chooser{display:grid;gap:10px;border:1.5px solid var(--accent);border-radius:12px;padding:12px;background:color-mix(in srgb,var(--accent) 5%,var(--surface))}
+.choice{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.choice > div{flex:1 1 200px}
+.pricefields{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+.pricefields label{display:grid;gap:4px;font-size:.85rem;font-weight:600}
+.leaflet-container{font:inherit;background:var(--surface-2)}
+.leaflet-div-icon,.leaflet-marker-icon{background:none;border:0}
 .rec.hasoffer{border-color:var(--offer);box-shadow:0 0 0 1px var(--offer)}
 .rec .dist{font:800 1.25rem var(--display);color:var(--accent)}
 .kindprog{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}
@@ -236,7 +243,7 @@ const LOCS = {
   bermuda:{label:'Hamilton, Bermuda', lat:32.2949, lng:-64.7814},
   nyc:{label:'Midtown, New York', lat:40.7549, lng:-73.9840}
 };
-const DATA = {"venues":[{"id":"p1","name":"Blacklock Soho","cat":"Steakhouse","kind":"Eat","area":"Soho","addr":"24 Great Windmill St, London W1D 7LG","lat":51.51178,"lng":-0.1347,"g":4.7,"gn":5250,"price":2,"pid":"ChIJOTAQhtMEdkgR9ZmC_mZR0UM","f":[1,0,0,0,0,0,0,0,0,0,0,0]},{"id":"p2","name":"The Soho Social","cat":"Restaurant & bar","kind":"Eat","area":"Soho","addr":"9 Berwick St, London W1F 0PJ","lat":51.51325,"lng":-0.13454,"g":4.7,"gn":938,"price":2,"pid":"ChIJhVBIm2AFdkgRe9fUbPJSvdc","f":[0,0,0,0,0.5,0,0.6,0,0,0,0,0]},{"id":"p3","name":"Milk Beach Soho","cat":"Australian brunch","kind":"Eat","area":"Soho","addr":"14 Greek St, James Court, London W1D 4AL","lat":51.51424,"lng":-0.13077,"g":4.7,"gn":1679,"price":2,"pid":"ChIJR96P1aQFdkgRVCU0FCf6358","f":[0,0,0,0,1,0,0.2,0,0,0,0,0]},{"id":"p4","name":"Scarlett Green","cat":"Brunch & cocktails","kind":"Eat","area":"Soho","addr":"4 Noel St, London W1F 8GB","lat":51.51531,"lng":-0.1358,"g":4.8,"gn":11911,"price":2,"pid":"ChIJl8b8USsbdkgRwY4c6Yh7udU","f":[0,0,0,0,0.9,0,0.5,0,0,0,0,0]},{"id":"p5","name":"Dirty Bones Soho","cat":"Burgers & brunch","kind":"Eat","area":"Soho","addr":"14 Denman St, London W1D 7HN","lat":51.51083,"lng":-0.13531,"g":4.5,"gn":3528,"price":2,"pid":"ChIJwYSoC9QEdkgR1DbvuJwey8o","f":[0.5,0,0,0,0.7,0,0,0,0,0,0,0]},{"id":"p6","name":"Nessa Soho","cat":"Brasserie & cocktails","kind":"Drink","area":"Soho","addr":"86 Brewer St, London W1F 9UB","lat":51.51073,"lng":-0.13722,"g":4.5,"gn":1098,"price":null,"pid":"ChIJr5F6YRwFdkgRNR-MS9GLn8s","f":[0,0,0,0,0.5,0,0.7,0,0,0,0,0]},{"id":"p7","name":"The Devonshire","cat":"Pub & grill","kind":"Drink","area":"Soho","addr":"The Devonshire, 17 Denman St, London W1D 7HW","lat":51.51063,"lng":-0.13534,"g":4.5,"gn":3272,"price":null,"pid":"ChIJsc95TQcFdkgRDgDjFkIJCz8","f":[0.6,0,0,0,0,0,0.6,0,0,0,0,0]},{"id":"p8","name":"Harry's Covent Garden","cat":"Italian","kind":"Eat","area":"Covent Garden","addr":"11-12 Russell St, London WC2B 5HZ","lat":51.51219,"lng":-0.12179,"g":4.5,"gn":1352,"price":3,"pid":"ChIJvYQ6oMsEdkgRG9zlwh2N_-U","f":[0,1,0,0,0,0.2,0,0,0,0,0,0]},{"id":"p9","name":"Brother Marcus Covent Garden","cat":"Mediterranean brunch","kind":"Eat","area":"Covent Garden","addr":"23 Slingsby Pl, London WC2E 9AB","lat":51.5128,"lng":-0.12636,"g":4.9,"gn":6217,"price":2,"pid":"ChIJp9exgRcFdkgRpjsnrbLsyto","f":[0,0,0,0.7,0.8,0,0,0,0,0,0,0]},{"id":"p10","name":"Blacklock Covent Garden","cat":"Steakhouse","kind":"Eat","area":"Covent Garden","addr":"16a Bedford St, London WC2E 9HE","lat":51.51066,"lng":-0.12471,"g":4.7,"gn":2828,"price":2,"pid":"ChIJyeTsrLoFdkgRdsewS8ne0fQ","f":[1,0,0,0,0,0,0,0,0,0,0,0]},{"id":"p11","name":"Ave Mario","cat":"Italian","kind":"Eat","area":"Covent Garden","addr":"15 Henrietta St, London WC2E 8QG","lat":51.51086,"lng":-0.12397,"g":4.8,"gn":30272,"price":2,"pid":"ChIJoaTWHMsFdkgREy3QGecEo6c","f":[0,1,0,0,0,0,0.2,0,0,0,0,0]},{"id":"p12","name":"Flat Iron Covent Garden","cat":"Steakhouse","kind":"Eat","area":"Covent Garden","addr":"17-18 Henrietta St, London WC2E 8QH","lat":51.51079,"lng":-0.12407,"g":4.6,"gn":11127,"price":2,"pid":"ChIJ7a_rDcwEdkgRdiGLXlk7s-g","f":[1,0,0,0,0,0,0,0,0,0,0,0]},{"id":"p13","name":"Gloria","cat":"Italian trattoria","kind":"Eat","area":"Shoreditch","addr":"54-56 Great Eastern St, London EC2A 3QR","lat":51.52512,"lng":-0.08138,"g":4.8,"gn":24718,"price":3,"pid":"ChIJj99O4ScddkgRNnDfPFxdplY","f":[0,1,0,0,0,0,0.2,0,0,0,0,0]},{"id":"p14","name":"Kricket Shoreditch","cat":"Indian","kind":"Eat","area":"Shoreditch","addr":"35-42 Charlotte Rd, London EC2A 3PB","lat":51.52525,"lng":-0.08095,"g":4.9,"gn":2088,"price":2,"pid":"ChIJAQxeaAAddkgRkKAT-b-BK14","f":[0,0,1,0,0,0,0,0,0,0,0,0]},{"id":"p15","name":"Hoppers Shoreditch","cat":"Sri Lankan","kind":"Eat","area":"Shoreditch","addr":"Tea Building, 56 Shoreditch High St, London E1 6JJ","lat":51.52372,"lng":-0.07648,"g":4.9,"gn":1022,"price":2,"pid":"ChIJJViZx8UddkgRz7PTUq6ZXRw","f":[0,0,1,0,0,0,0,0,0,0,0,0]},{"id":"p16","name":"Dishoom Shoreditch","cat":"Indian","kind":"Eat","area":"Shoreditch","addr":"7 Boundary St, London E2 7JE","lat":51.5245,"lng":-0.0766,"g":4.8,"gn":48105,"price":2,"pid":"ChIJxYs1ArocdkgR-G13PLmofec","f":[0,0,1,0,0.3,0,0,0,0,0,0,0]},{"id":"p17","name":"Padella Shoreditch","cat":"Fresh pasta","kind":"Eat","area":"Shoreditch","addr":"Padella, Shoreditch, 1 Phipp St, London EC2A 4PS","lat":51.52338,"lng":-0.08177,"g":4.7,"gn":4459,"price":2,"pid":"ChIJmdTnioQddkgRkUPct-OykWI","f":[0,1,0,0,0,0,0,0,0,0,0,0]},{"id":"p18","name":"Blacklock Shoreditch","cat":"Steakhouse","kind":"Eat","area":"Shoreditch","addr":"28-30 Rivington St, London EC2A 3DZ","lat":51.52602,"lng":-0.08196,"g":4.7,"gn":3327,"price":2,"pid":"ChIJ44hFhjgddkgRdPaKatX_eGY","f":[1,0,0,0,0,0,0,0,0,0,0,0]},{"id":"p19","name":"Pavyllon London","cat":"French fine dining","kind":"Eat","area":"Mayfair","addr":"Hamilton Pl, London W1J 7DR","lat":51.50417,"lng":-0.14995,"g":4.7,"gn":700,"price":4,"pid":"ChIJBfOjfiUFdkgRvsanD9nfpA0","f":[0,0,0,0,0,1,0,0,0,0,0,0]},{"id":"p20","name":"Ormer Mayfair","cat":"Fine dining, seafood","kind":"Eat","area":"Mayfair","addr":"Flemings Mayfair, 7-12 Half Moon St, 7-12 Half Moon St, London W1J 7BH","lat":51.50645,"lng":-0.14514,"g":4.8,"gn":531,"price":4,"pid":"ChIJQxoh3SgFdkgRqFi4kGLn29c","f":[0,0,0,0,0,1,0,0,0,0,0,0]},{"id":"p21","name":"Noble Rot Mayfair","cat":"Wine bar & restaurant","kind":"Eat","area":"Mayfair","addr":"5 Trebeck St, Shepherd Market, London W1J 7LT","lat":51.50652,"lng":-0.1472,"g":4.7,"gn":402,"price":4,"pid":"ChIJAzNI_8sFdkgRbRvnLqAvUJY","f":[0,0,0,0,0,0.6,0.5,0,0,0,0,0]},{"id":"p22","name":"HIDE","cat":"Fine dining","kind":"Eat","area":"Piccadilly","addr":"85 Piccadilly, London W1J 7NB","lat":51.50619,"lng":-0.14444,"g":4.5,"gn":4641,"price":4,"pid":"ChIJn1DE_XsFdkgR6NyYk4IWd64","f":[0.2,0,0,0,0,1,0,0,0,0,0,0]},{"id":"p23","name":"Bacchanalia","cat":"Mediterranean","kind":"Eat","area":"Mayfair","addr":"1-3 Mount St, London W1K 3NB","lat":51.51057,"lng":-0.14773,"g":4.1,"gn":4774,"price":4,"pid":"ChIJf53OwjQFdkgR_FlcHpcOo2g","f":[0,0,0,0.6,0,0.7,0,0,0,0,0,0]},{"id":"p24","name":"Carlotta","cat":"Italian","kind":"Eat","area":"Marylebone","addr":"77-78 Marylebone High St, London W1U 5JX","lat":51.52097,"lng":-0.15213,"g":4.8,"gn":15967,"price":4,"pid":"ChIJefT-hWIbdkgRAGGu1AuI0qg","f":[0,1,0,0,0,0,0.3,0,0,0,0,0]},{"id":"p25","name":"108 Brasserie","cat":"Brasserie","kind":"Eat","area":"Marylebone","addr":"108 Marylebone Ln, London W1U 2QE","lat":51.51795,"lng":-0.15061,"g":4.6,"gn":2532,"price":null,"pid":"ChIJIckEWtIadkgR0jqFi7ItZbA","f":[0,0,0,0,0.6,0.2,0,0,0,0,0,0]},{"id":"p26","name":"Delamina Marylebone","cat":"Eastern Mediterranean","kind":"Eat","area":"Marylebone","addr":"56-58 Marylebone Ln, London W1U 2NX","lat":51.51638,"lng":-0.15009,"g":4.4,"gn":1419,"price":2,"pid":"ChIJfZ_N4NIadkgRS-9ZCmodXHw","f":[0,0,0,1,0,0,0,0,0,0,0,0]},{"id":"p27","name":"The Ivy Cafe Marylebone","cat":"British brasserie","kind":"Eat","area":"Marylebone","addr":"96 Marylebone Ln, London W1U 2QA","lat":51.5175,"lng":-0.15061,"g":4.5,"gn":3823,"price":3,"pid":"ChIJecXp99IadkgRnWOHbk1a1Ec","f":[0,0,0,0,0.8,0,0,0,0,0,0,0]},{"id":"p28","name":"Lina Stores Marylebone","cat":"Pasta & deli","kind":"Eat","area":"Marylebone","addr":"13-15 Marylebone Ln, London W1U 2NE","lat":51.51626,"lng":-0.1502,"g":4.6,"gn":3502,"price":2,"pid":"ChIJDzt8MxQbdkgREAU6tIAGDbM","f":[0,1,0,0,0,0,0,0,0,0,0,0]},{"id":"p29","name":"Brother Marcus Borough","cat":"Mediterranean brunch","kind":"Eat","area":"Borough","addr":"1 Dirty Ln, London SE1 9PA","lat":51.50564,"lng":-0.09223,"g":4.8,"gn":6842,"price":2,"pid":"ChIJST09sxMDdkgROwVZQizAacI","f":[0,0,0,0.7,0.8,0,0,0,0,0,0,0]},{"id":"p30","name":"Salt Yard Borough","cat":"Tapas","kind":"Eat","area":"Borough","addr":"New Hibernia House, Winchester Walk, London SE1 9AG","lat":51.50623,"lng":-0.09079,"g":4.8,"gn":3521,"price":2,"pid":"ChIJY6uVgmoDdkgR5axDgVfG9_Q","f":[0,0,0,1,0,0,0.3,0,0,0,0,0]},{"id":"p31","name":"Padella Borough Market","cat":"Fresh pasta","kind":"Eat","area":"Borough","addr":"6 Southwark St, London SE1 1TQ","lat":51.50517,"lng":-0.08992,"g":4.7,"gn":12762,"price":2,"pid":"ChIJdZ6paFcDdkgRpPUHPngIeq8","f":[0,1,0,0,0,0,0,0,0,0,0,0]},{"id":"p32","name":"OMA","cat":"Greek","kind":"Eat","area":"Borough","addr":"2-4 Bedale St, London SE1 9AL","lat":51.50535,"lng":-0.09002,"g":4.7,"gn":2552,"price":4,"pid":"ChIJ4co2k5kDdkgROKjVBk6wD8k","f":[0,0,0,1,0,0.4,0,0,0,0,0,0]},{"id":"p33","name":"Elliot's Borough Market","cat":"Wine bar & grill","kind":"Drink","area":"Borough","addr":"12 Stoney St, London SE1 9AD","lat":51.50567,"lng":-0.0916,"g":4.4,"gn":975,"price":2,"pid":"ChIJA6RcmFcDdkgRhKbA3VHeY5U","f":[0,0,0,0.3,0,0,0.6,0,0,0,0,0]},{"id":"p34","name":"Osteria Napoletana","cat":"Neapolitan pizza","kind":"Eat","area":"Notting Hill","addr":"186 Kensington Park Rd, ES W11 2ES","lat":51.51543,"lng":-0.20548,"g":4.7,"gn":3040,"price":2,"pid":"ChIJNWlwNBgRdkgRj-WJmjibnCw","f":[0,1,0,0,0,0,0,0,0,0,0,0]},{"id":"p35","name":"Gold","cat":"Modern European","kind":"Eat","area":"Notting Hill","addr":"95-97 Portobello Rd, London W11 2QB","lat":51.51298,"lng":-0.20264,"g":4.5,"gn":2549,"price":3,"pid":"ChIJlbCxxa4PdkgR18AHB07QwLA","f":[0,0,0,0,0,0.3,0.5,0,0,0,0,0]},{"id":"p36","name":"Granger and Co. Notting Hill","cat":"Australian brunch","kind":"Eat","area":"Notting Hill","addr":"175 Westbourne Grove, London W11 2SB","lat":51.5146,"lng":-0.19775,"g":4.4,"gn":3569,"price":2,"pid":"ChIJK44GY_0PdkgRZqwjZA3l7-w","f":[0,0,0,0,1,0,0,0,0,0,0,0]},{"id":"p37","name":"Frame Notting Hill","cat":"Tapas","kind":"Eat","area":"Notting Hill","addr":"39 Hereford Rd, London W2 4AB","lat":51.51486,"lng":-0.19395,"g":4.8,"gn":474,"price":2,"pid":"ChIJMzkn7zoRdkgRbRuR09X_t8Q","f":[0,0,0,1,0,0,0.3,0,0,0,0,0]},{"id":"p38","name":"The National Gallery","cat":"Art museum","kind":"Culture","area":"Trafalgar Square","addr":"Trafalgar Square, London WC2N 5DN","lat":51.50893,"lng":-0.1283,"g":4.8,"gn":63454,"price":null,"pid":"ChIJeclqF84EdkgRtKAjTmWFr0I","f":[0,0,0,0,0,0,0,1,0,0,0,0]},{"id":"p39","name":"Victoria and Albert Museum","cat":"Design museum","kind":"Culture","area":"South Kensington","addr":"Cromwell Rd, London SW7 2RL","lat":51.49664,"lng":-0.17218,"g":4.8,"gn":68568,"price":null,"pid":"ChIJw1d-sUMFdkgRH2XN_U0Jt54","f":[0,0,0,0,0,0,0,1,0,0,0,0]},{"id":"p40","name":"The British Museum","cat":"Museum","kind":"Culture","area":"Bloomsbury","addr":"Great Russell St, London WC1B 3DG","lat":51.51941,"lng":-0.12696,"g":4.5,"gn":3118,"price":null,"pid":"ChIJB9OTMDIbdkgRp0JWbQGZsS8","f":[0,0,0,0,0,0,0,1,0,0,0,0]},{"id":"p41","name":"The Wallace Collection","cat":"Art collection","kind":"Culture","area":"Marylebone","addr":"Hertford House, Manchester Square, London W1U 3BN","lat":51.51732,"lng":-0.15309,"g":4.8,"gn":10973,"price":null,"pid":"ChIJczuZfc0adkgRc8X-u3ZiHcE","f":[0,0,0,0,0,0,0,1,0,0,0,0]},{"id":"p42","name":"Tate Modern","cat":"Modern art","kind":"Culture","area":"Bankside","addr":"Bankside, London SE1 9TG","lat":51.5076,"lng":-0.09936,"g":4.5,"gn":83840,"price":null,"pid":"ChIJlRl2MakEdkgR55tr4CNv_B8","f":[0,0,0,0,0,0,0,1,0,0,0,0]},{"id":"p43","name":"Frameless","cat":"Immersive art","kind":"Culture","area":"Marble Arch","addr":"6 Marble Arch, London W1H 7AP","lat":51.51368,"lng":-0.16036,"g":4.6,"gn":5444,"price":null,"pid":"ChIJId2oNroFdkgReafXXIrGnkY","f":[0,0,0,0,0,0,0.2,0.7,0,0,0,0]},{"id":"p44","name":"Foyles","cat":"Bookshop","kind":"Shop","area":"Charing Cross Road","addr":"107 Charing Cross Rd, London WC2H 0EB","lat":51.51431,"lng":-0.1299,"g":4.7,"gn":13643,"price":null,"pid":"ChIJ5574rdIEdkgRA9294QpXDhw","f":[0,0,0,0,0,0,0,0,1,0,0,0]},{"id":"p45","name":"Daunt Books Marylebone","cat":"Bookshop","kind":"Shop","area":"Marylebone","addr":"84 Marylebone High St, London W1U 4QW","lat":51.5204,"lng":-0.15199,"g":4.8,"gn":7143,"price":null,"pid":"ChIJTQJH99EadkgRgli4gpxCkOY","f":[0,0,0,0,0,0,0,0,1,0,0,0]},{"id":"p46","name":"Waterstones Piccadilly","cat":"Bookshop","kind":"Shop","area":"Piccadilly","addr":"203-206 Piccadilly, London W1J 9HD","lat":51.50912,"lng":-0.13605,"g":4.7,"gn":13780,"price":null,"pid":"ChIJHXK0sdYEdkgRcrN_uxt5bOM","f":[0,0,0,0,0,0,0,0,1,0,0,0]},{"id":"p47","name":"Word on the Water","cat":"Canal-boat bookshop","kind":"Shop","area":"King's Cross","addr":"Regent's Canal Towpath, London N1C 4LW","lat":51.53541,"lng":-0.12348,"g":4.8,"gn":1568,"price":null,"pid":"ChIJ16mQBD4bdkgRQ8z5iJUz9fo","f":[0,0,0,0,0,0,0,0.3,0.8,0,0,0]},{"id":"p48","name":"The Notting Hill Bookshop","cat":"Bookshop","kind":"Shop","area":"Notting Hill","addr":"13 Blenheim Cres, London W11 2EE","lat":51.51567,"lng":-0.20552,"g":4.5,"gn":4247,"price":null,"pid":"ChIJ6y6Z4x0QdkgRMlPKETeKZKs","f":[0,0,0,0,0,0,0,0,1,0,0,0]},{"id":"p49","name":"STEREO Covent Garden","cat":"Cocktails & live music","kind":"Drink","area":"Covent Garden","addr":"35 The Piazza, London WC2E 8BE","lat":51.51166,"lng":-0.12213,"g":4.1,"gn":854,"price":2,"pid":"ChIJMwnuyW4FdkgRVdwzLW-kJRw","f":[0,0,0,0,0,0,1,0,0,0,0,0]},{"id":"p50","name":"Cahoots Underground","cat":"Cocktail bar","kind":"Drink","area":"Carnaby","addr":"13 Kingly Ct, Carnaby, London W1B 5PW","lat":51.51248,"lng":-0.13855,"g":4.6,"gn":5342,"price":2,"pid":"ChIJ-2mrB9UEdkgReKgh9HDC-7s","f":[0,0,0,0,0,0,1,0,0,0,0,0]},{"id":"p51","name":"Amazing Grace London Bridge","cat":"Karaoke cocktail bar","kind":"Drink","area":"London Bridge","addr":"9a St Thomas St, London SE1 9RY","lat":51.505,"lng":-0.08844,"g":4.4,"gn":1705,"price":2,"pid":"ChIJLQhK3sUDdkgRjdb6JaFRLAo","f":[0,0,0,0,0,0,1,0,0,0,0,0]},{"id":"p52","name":"The Little Violet Door","cat":"Cocktail bar","kind":"Drink","area":"Carnaby","addr":"9 Kingly St, Carnaby, London W1B 5PH","lat":51.51244,"lng":-0.13899,"g":4.8,"gn":2265,"price":2,"pid":"ChIJ936KxucFdkgRV_Wlcb-EVL8","f":[0,0,0,0,0,0,1,0,0,0,0,0]},{"id":"p53","name":"Nightjar","cat":"Speakeasy jazz bar","kind":"Drink","area":"Old Street","addr":"129 City Rd, London EC1V 1JB","lat":51.52652,"lng":-0.08774,"g":4.6,"gn":2809,"price":2,"pid":"ChIJO5NM4aUcdkgR-XrNmE-75f8","f":[0,0,0,0,0,0,1,0.2,0,0,0,0]},{"id":"p54","name":"Piccadilly Theatre","cat":"West End musical","kind":"Theatre","area":"Piccadilly","addr":"16 Denman St, London W1D 7DY","lat":51.51095,"lng":-0.13558,"g":4.7,"gn":8944,"price":null,"pid":"ChIJZ98vDNQEdkgRJE51ZgjyTaE","f":[0,0,0,0,0,0,0,0,0,1,0,0]},{"id":"p55","name":"Theatre Royal Drury Lane","cat":"West End musical","kind":"Theatre","area":"Covent Garden","addr":"Catherine St, London WC2B 5JF","lat":51.51285,"lng":-0.12037,"g":4.8,"gn":11822,"price":null,"pid":"ChIJj91E_coEdkgRlUibJh13Jws","f":[0,0,0,0,0,0,0,0,0,1,0,0]},{"id":"p56","name":"Gillian Lynne Theatre","cat":"West End show","kind":"Theatre","area":"Covent Garden","addr":"166 Drury Ln, London WC2B 5PW","lat":51.51532,"lng":-0.12258,"g":4.7,"gn":7524,"price":null,"pid":"ChIJ7eA75soEdkgRZXtgpYnGHYI","f":[0,0,0,0,0,0,0,0,0,0.7,0.4,0]},{"id":"p57","name":"Palace Theatre","cat":"West End play","kind":"Theatre","area":"Soho","addr":"113 Shaftesbury Ave, London W1D 5AY","lat":51.51319,"lng":-0.12945,"g":4.6,"gn":10746,"price":null,"pid":"ChIJYxVJmtIEdkgRSFNK6hLhPvQ","f":[0,0,0,0,0,0,0,0,0,0.5,0.6,0]},{"id":"p58","name":"The Criterion Theatre","cat":"Comedy musical","kind":"Theatre","area":"Piccadilly","addr":"218-223 Piccadilly, London W1J 9HR","lat":51.50973,"lng":-0.13427,"g":4.6,"gn":3818,"price":null,"pid":"ChIJJSck4NMEdkgR-oXVKxbGNbw","f":[0,0,0,0,0,0,0,0,0,0.6,0,0.6]},{"id":"p59","name":"@sohoplace","cat":"New theatre","kind":"Theatre","area":"Soho","addr":"4 Soho Pl, Charing Cross Rd, London W1D 3BG","lat":51.51571,"lng":-0.13061,"g":4.7,"gn":1153,"price":null,"pid":"ChIJazKQ6Z0bdkgRTkmUhLKe2kM","f":[0,0,0,0,0,0,0,0,0,0,1,0]},{"id":"p60","name":"The Old Vic","cat":"Drama theatre","kind":"Theatre","area":"Waterloo","addr":"103 The Cut, London SE1 8NB","lat":51.50206,"lng":-0.10931,"g":4.7,"gn":4930,"price":null,"pid":"ChIJZU00SboEdkgRl0iY1cDec9k","f":[0,0,0,0,0,0,0,0,0,0,1,0]},{"id":"p61","name":"National Theatre","cat":"Drama theatre","kind":"Theatre","area":"South Bank","addr":"London SE1 9PX","lat":51.50722,"lng":-0.11437,"g":4.7,"gn":10091,"price":null,"pid":"ChIJdYvbqaMEdkgRDdOt_IfsYRc","f":[0,0,0,0,0,0,0,0.2,0,0,1,0]},{"id":"p62","name":"The Top Secret Comedy Club","cat":"Stand-up comedy","kind":"Theatre","area":"Covent Garden","addr":"170a Drury Ln, London WC2B 5PD","lat":51.51539,"lng":-0.12309,"g":4.9,"gn":19641,"price":null,"pid":"ChIJ6zivZswEdkgR8Vd0G2Df5KE","f":[0,0,0,0,0,0,0.2,0,0,0,0,1]},{"id":"p63","name":"The London Cabaret Club","cat":"Dinner cabaret","kind":"Theatre","area":"Bloomsbury","addr":"The Bloomsbury Ballroom, Bloomsbury Square, London WC1B 4DA","lat":51.51888,"lng":-0.12187,"g":4.3,"gn":812,"price":null,"pid":"ChIJkzlMivEPdkgRgn5iDCYesp8","f":[0,0,0,0,0,0.4,0,0,0,0.6,0,0.2]},{"id":"p64","name":"Getaway Comedy, Soho","cat":"Stand-up comedy","kind":"Theatre","area":"Soho","addr":"Zebrano, 18 Greek St, London W1D 4DS","lat":51.51406,"lng":-0.13036,"g":4.8,"gn":252,"price":null,"pid":"ChIJAQCUKtIEdkgRLmGJ_deAP08","f":[0,0,0,0,0,0,0.3,0,0,0,0,1]}],"users":[{"id":"u0","name":"Amara A.","arch":"Steak & cocktails","lat":51.4971,"lng":-0.1177,"r":{"p1":5,"p3":5,"p4":5,"p5":5,"p7":5,"p8":5,"p10":5,"p12":5,"p13":4,"p14":3,"p18":5,"p21":5,"p23":5,"p24":4,"p25":4,"p31":4,"p33":5,"p34":3,"p36":5,"p40":4,"p41":2,"p42":4,"p44":4,"p45":5,"p48":2,"p49":4,"p51":5,"p52":5,"p54":3,"p55":5,"p56":4,"p57":5,"p62":5,"p64":5}},{"id":"u1","name":"Theo B.","arch":"Brunch crowd","lat":51.4364,"lng":-0.1603,"r":{"p1":5,"p2":5,"p3":5,"p6":5,"p8":4,"p9":5,"p12":5,"p13":5,"p15":5,"p16":5,"p17":4,"p24":5,"p26":4,"p28":5,"p31":5,"p32":4,"p34":5,"p36":5,"p38":5,"p43":5,"p44":5,"p47":5,"p49":3,"p50":5,"p51":5,"p53":5,"p55":5,"p56":5,"p57":5,"p61":5}},{"id":"u2","name":"Priya D.","arch":"Fine-dining foodie","lat":51.5376,"lng":-0.1056,"r":{"p4":4,"p6":4,"p9":5,"p14":5,"p16":5,"p17":5,"p20":5,"p23":4,"p24":5,"p27":5,"p28":5,"p30":5,"p32":3,"p37":4,"p38":5,"p39":5,"p46":5,"p48":5,"p51":3,"p53":4,"p54":5,"p58":5,"p60":5,"p61":5,"p63":5}},{"id":"u3","name":"Jonah L.","arch":"Culture & books","lat":51.516,"lng":-0.1173,"r":{"p1":5,"p2":3,"p3":4,"p6":5,"p7":4,"p8":4,"p9":5,"p11":5,"p12":5,"p13":4,"p14":5,"p17":3,"p18":5,"p21":2,"p23":4,"p24":5,"p25":3,"p26":2,"p30":4,"p31":3,"p32":5,"p33":5,"p34":4,"p39":5,"p40":5,"p42":5,"p46":5,"p48":5,"p57":5,"p58":4,"p59":5,"p60":5,"p61":5}},{"id":"u4","name":"Mei T.","arch":"Spice & pasta","lat":51.5029,"lng":-0.0896,"r":{"p3":5,"p5":5,"p9":5,"p11":4,"p12":3,"p13":5,"p14":5,"p15":5,"p16":5,"p17":5,"p18":4,"p19":3,"p23":5,"p24":5,"p27":5,"p28":5,"p31":5,"p32":5,"p33":4,"p34":5,"p35":3,"p39":5,"p40":3,"p42":4,"p44":5,"p45":5,"p50":5,"p52":5,"p53":4,"p55":5,"p61":5,"p62":5,"p63":3}},{"id":"u5","name":"Sofia S.","arch":"Night owl","lat":51.5736,"lng":-0.1479,"r":{"p2":5,"p3":5,"p4":5,"p6":5,"p7":5,"p11":5,"p13":5,"p14":5,"p16":5,"p17":5,"p20":5,"p21":5,"p23":5,"p32":5,"p35":5,"p37":5,"p38":5,"p41":5,"p43":5,"p44":5,"p45":4,"p49":5,"p50":5,"p51":5,"p54":5,"p56":5,"p58":5,"p59":5,"p62":5,"p64":5}},{"id":"u6","name":"Kwame S.","arch":"Mediterranean lover","lat":51.4794,"lng":-0.1011,"r":{"p2":5,"p3":5,"p6":5,"p10":5,"p14":5,"p15":5,"p17":5,"p19":5,"p20":5,"p21":5,"p22":5,"p24":5,"p25":4,"p27":5,"p28":5,"p29":5,"p31":5,"p32":5,"p34":5,"p37":5,"p38":5,"p39":5,"p42":5,"p45":5,"p46":5,"p47":4,"p50":5,"p52":5,"p53":5,"p55":5,"p56":5,"p58":5,"p59":5,"p63":5,"p64":2}},{"id":"u7","name":"Lena K.","arch":"Steak & cocktails","lat":51.5725,"lng":-0.0935,"r":{"p2":5,"p3":5,"p4":5,"p5":5,"p6":5,"p7":5,"p10":5,"p11":5,"p12":5,"p13":5,"p14":5,"p18":5,"p19":5,"p20":4,"p24":5,"p26":4,"p27":5,"p28":5,"p30":5,"p32":5,"p35":5,"p36":5,"p41":5,"p42":5,"p43":4,"p45":5,"p47":5,"p48":5,"p49":4,"p51":5,"p53":5,"p54":4,"p56":3,"p60":3,"p62":5,"p64":5}},{"id":"u8","name":"Omar G.","arch":"Brunch crowd","lat":51.4933,"lng":-0.1416,"r":{"p2":5,"p3":5,"p4":5,"p7":5,"p9":5,"p10":5,"p11":5,"p13":5,"p15":5,"p18":5,"p19":3,"p21":5,"p26":5,"p28":5,"p29":5,"p35":4,"p36":5,"p37":5,"p38":5,"p41":5,"p42":5,"p44":4,"p47":5,"p49":5,"p50":5,"p51":5,"p54":5,"p55":5,"p56":5,"p57":5,"p58":5,"p60":5,"p64":5}},{"id":"u9","name":"Hana C.","arch":"Fine-dining foodie","lat":51.5223,"lng":-0.1448,"r":{"p7":5,"p8":4,"p9":5,"p11":3,"p12":4,"p13":4,"p16":4,"p17":5,"p19":5,"p21":5,"p22":5,"p23":5,"p26":5,"p27":4,"p28":3,"p29":5,"p32":5,"p34":4,"p35":4,"p36":1,"p39":5,"p43":5,"p47":5,"p48":4,"p51":4,"p52":3,"p54":5,"p56":5,"p57":5,"p60":5,"p63":5}},{"id":"u10","name":"Diego O.","arch":"Culture & books","lat":51.5467,"lng":-0.1967,"r":{"p3":4,"p6":2,"p7":2,"p8":4,"p9":5,"p10":5,"p11":5,"p12":5,"p13":4,"p14":5,"p15":5,"p19":4,"p20":5,"p21":4,"p23":5,"p24":5,"p25":5,"p26":3,"p27":5,"p28":4,"p30":4,"p34":5,"p36":4,"p38":5,"p41":5,"p42":5,"p45":5,"p47":5,"p48":5,"p50":3,"p51":3,"p57":5,"p59":5,"p60":5,"p61":5,"p63":5,"p64":4}},{"id":"u11","name":"Chloe T.","arch":"Spice & pasta","lat":51.6234,"lng":-0.0705,"r":{"p3":5,"p4":5,"p11":5,"p12":3,"p14":5,"p15":5,"p16":5,"p17":5,"p24":5,"p25":4,"p26":3,"p27":5,"p28":5,"p29":5,"p31":5,"p33":5,"p34":5,"p38":5,"p39":4,"p42":2,"p43":5,"p44":5,"p46":5,"p49":4,"p50":4,"p52":5,"p56":5,"p57":5,"p58":5,"p60":5,"p62":5}},{"id":"u12","name":"Ravi P.","arch":"Night owl","lat":51.5602,"lng":-0.1064,"r":{"p2":5,"p3":5,"p4":5,"p6":5,"p9":5,"p12":5,"p13":4,"p14":5,"p17":2,"p18":5,"p19":5,"p20":5,"p22":3,"p23":5,"p24":4,"p27":4,"p28":3,"p31":5,"p32":5,"p34":3,"p35":5,"p38":5,"p41":5,"p42":5,"p44":5,"p45":5,"p50":5,"p51":5,"p58":4,"p60":5,"p62":5,"p63":4,"p64":5}},{"id":"u13","name":"Ines W.","arch":"Mediterranean lover","lat":51.5051,"lng":-0.1626,"r":{"p3":5,"p7":5,"p8":5,"p13":5,"p14":4,"p16":5,"p17":5,"p20":5,"p25":5,"p26":4,"p28":5,"p30":5,"p34":5,"p36":5,"p37":5,"p38":4,"p39":5,"p40":5,"p44":5,"p45":5,"p50":5,"p51":5,"p52":5,"p53":5,"p55":5,"p56":5,"p58":5,"p59":5,"p60":5}},{"id":"u14","name":"Felix N.","arch":"Steak & cocktails","lat":51.5467,"lng":-0.1637,"r":{"p2":5,"p8":5,"p10":5,"p11":5,"p12":5,"p13":5,"p16":5,"p18":5,"p20":5,"p22":5,"p26":5,"p27":5,"p28":5,"p29":5,"p30":5,"p32":5,"p36":5,"p38":5,"p40":4,"p42":5,"p44":5,"p45":5,"p46":5,"p50":5,"p51":5,"p52":5,"p53":5,"p55":4,"p56":5,"p57":5,"p60":5,"p63":4,"p64":5}},{"id":"u15","name":"Yuki T.","arch":"Brunch crowd","lat":51.4473,"lng":-0.2253,"r":{"p4":5,"p7":5,"p8":5,"p11":4,"p12":5,"p13":5,"p15":5,"p20":5,"p22":4,"p24":5,"p25":5,"p26":5,"p27":5,"p31":5,"p32":5,"p34":5,"p39":4,"p40":5,"p47":5,"p48":5,"p49":5,"p50":5,"p51":5,"p54":5,"p57":5,"p58":5,"p60":4,"p62":5,"p63":5}},{"id":"u16","name":"Zara L.","arch":"Fine-dining foodie","lat":51.5558,"lng":-0.168,"r":{"p2":5,"p3":4,"p6":3,"p7":5,"p12":5,"p13":5,"p16":5,"p24":5,"p26":5,"p28":5,"p29":3,"p32":5,"p33":5,"p34":5,"p35":5,"p36":3,"p37":5,"p39":5,"p41":5,"p42":5,"p45":5,"p46":5,"p52":5,"p53":4,"p54":5,"p55":5,"p56":5,"p59":5,"p62":5,"p63":5}},{"id":"u17","name":"Luca D.","arch":"Culture & books","lat":51.5583,"lng":-0.1559,"r":{"p1":4,"p3":5,"p4":4,"p8":4,"p9":4,"p10":5,"p14":5,"p16":5,"p19":5,"p21":5,"p22":5,"p24":5,"p27":5,"p28":4,"p29":3,"p30":3,"p31":5,"p34":5,"p37":5,"p38":5,"p42":5,"p43":5,"p46":5,"p48":5,"p49":2,"p50":2,"p51":4,"p52":4,"p57":5,"p59":5,"p60":5,"p61":5,"p63":1}},{"id":"u18","name":"Nadia D.","arch":"Spice & pasta","lat":51.5456,"lng":-0.0479,"r":{"p3":3,"p4":5,"p7":5,"p8":5,"p12":5,"p13":5,"p16":5,"p17":5,"p21":5,"p23":4,"p27":4,"p29":5,"p30":5,"p31":5,"p32":5,"p33":4,"p38":5,"p41":5,"p46":5,"p47":5,"p48":5,"p49":2,"p52":4,"p57":5,"p59":4,"p62":5,"p63":4}},{"id":"u19","name":"Sam H.","arch":"Night owl","lat":51.5402,"lng":-0.0646,"r":{"p2":5,"p4":5,"p7":5,"p8":5,"p10":4,"p11":5,"p13":5,"p15":5,"p17":5,"p18":3,"p23":5,"p28":3,"p30":5,"p31":5,"p32":5,"p36":5,"p38":4,"p39":5,"p42":5,"p44":5,"p45":5,"p47":5,"p52":5,"p53":5,"p54":3,"p55":5,"p58":5,"p62":5,"p63":4,"p64":5}},{"id":"u20","name":"Ada C.","arch":"Mediterranean lover","lat":51.51,"lng":-0.1713,"r":{"p2":5,"p4":5,"p7":5,"p9":5,"p10":5,"p11":5,"p13":5,"p14":5,"p22":4,"p24":5,"p26":5,"p29":5,"p31":5,"p34":5,"p35":5,"p36":5,"p37":5,"p38":5,"p39":5,"p42":3,"p43":4,"p44":5,"p45":5,"p49":3,"p50":5,"p51":5,"p53":5,"p54":5,"p55":5,"p56":5,"p57":5,"p58":5,"p63":4}},{"id":"u21","name":"Ben D.","arch":"Steak & cocktails","lat":51.5307,"lng":-0.1492,"r":{"p1":5,"p2":5,"p3":4,"p5":5,"p6":4,"p7":5,"p8":3,"p9":5,"p13":5,"p16":5,"p19":4,"p24":5,"p29":5,"p31":5,"p35":5,"p37":5,"p38":5,"p39":5,"p40":5,"p41":5,"p44":5,"p47":4,"p49":5,"p50":5,"p52":5,"p54":5,"p55":5,"p57":5,"p58":4,"p59":5,"p61":5}},{"id":"u22","name":"Leila D.","arch":"Brunch crowd","lat":51.4901,"lng":-0.1522,"r":{"p1":5,"p2":5,"p4":5,"p7":5,"p11":5,"p12":5,"p16":5,"p18":5,"p24":5,"p25":5,"p26":5,"p27":5,"p30":5,"p31":5,"p36":5,"p37":5,"p40":5,"p41":5,"p42":4,"p43":5,"p44":3,"p45":4,"p46":5,"p49":4,"p50":5,"p51":5,"p52":5,"p54":5,"p55":5,"p56":5,"p60":3,"p62":4}},{"id":"u23","name":"Marco V.","arch":"Fine-dining foodie","lat":51.4834,"lng":-0.1182,"r":{"p1":5,"p3":5,"p4":5,"p6":5,"p9":5,"p10":5,"p12":4,"p13":5,"p16":5,"p17":4,"p22":5,"p23":5,"p24":4,"p25":5,"p27":5,"p28":4,"p31":3,"p32":5,"p33":5,"p34":4,"p37":5,"p39":5,"p41":5,"p42":5,"p45":5,"p46":5,"p47":5,"p50":5,"p52":5,"p57":5,"p60":5,"p61":5,"p62":5}},{"id":"u24","name":"Tess H.","arch":"Culture & books","lat":51.4991,"lng":-0.1282,"r":{"p2":2,"p5":5,"p7":3,"p8":5,"p10":5,"p11":5,"p13":5,"p14":5,"p15":5,"p16":5,"p17":5,"p22":5,"p27":5,"p28":4,"p29":5,"p31":5,"p32":4,"p34":5,"p35":4,"p38":5,"p41":5,"p44":5,"p45":5,"p48":5,"p50":2,"p51":1,"p55":4,"p57":5,"p58":4,"p60":5,"p61":5}},{"id":"u25","name":"Rui D.","arch":"Spice & pasta","lat":51.5255,"lng":-0.0414,"r":{"p1":5,"p3":5,"p4":5,"p5":5,"p6":5,"p8":5,"p9":5,"p11":5,"p12":5,"p13":5,"p14":5,"p15":5,"p17":5,"p19":4,"p22":2,"p23":2,"p24":5,"p25":5,"p27":4,"p30":5,"p31":5,"p38":4,"p39":5,"p46":5,"p48":5,"p50":5,"p52":5,"p58":5,"p59":5,"p61":4,"p62":5,"p63":3}},{"id":"u26","name":"Aisha S.","arch":"Night owl","lat":51.544,"lng":-0.0641,"r":{"p2":5,"p3":5,"p5":5,"p7":5,"p11":4,"p13":4,"p16":4,"p21":5,"p23":2,"p24":4,"p31":3,"p32":3,"p33":5,"p34":3,"p35":5,"p37":3,"p38":5,"p41":5,"p44":4,"p45":4,"p47":5,"p52":5,"p53":5,"p54":5,"p56":3,"p57":2,"p59":2,"p61":5,"p62":5}},{"id":"u27","name":"Callum T.","arch":"Mediterranean lover","lat":51.529,"lng":-0.1023,"r":{"p5":5,"p7":4,"p10":3,"p11":5,"p15":5,"p16":5,"p17":5,"p18":4,"p22":5,"p23":5,"p25":5,"p26":5,"p27":5,"p29":5,"p30":5,"p31":5,"p32":5,"p34":5,"p35":5,"p36":5,"p39":5,"p41":5,"p42":5,"p44":5,"p45":5,"p48":5,"p49":4,"p51":5,"p56":5,"p57":5,"p59":5,"p60":5,"p61":5,"p63":5}},{"id":"u28","name":"Freya V.","arch":"Steak & cocktails","lat":51.5172,"lng":-0.1449,"r":{"p1":5,"p4":5,"p5":4,"p6":5,"p8":2,"p10":5,"p11":5,"p13":4,"p16":5,"p20":5,"p21":5,"p22":3,"p24":4,"p25":3,"p26":5,"p29":5,"p35":5,"p39":5,"p42":5,"p43":5,"p44":5,"p46":5,"p51":5,"p53":5,"p54":5,"p56":5,"p59":4,"p60":2,"p61":5,"p62":5,"p64":5}},{"id":"u29","name":"Dev F.","arch":"Brunch crowd","lat":51.5888,"lng":-0.198,"r":{"p1":5,"p2":5,"p3":5,"p4":5,"p6":3,"p7":4,"p9":5,"p13":5,"p14":5,"p15":5,"p16":5,"p17":5,"p21":5,"p24":5,"p25":5,"p27":5,"p31":5,"p32":3,"p33":3,"p34":5,"p36":4,"p38":5,"p39":5,"p41":5,"p47":5,"p48":4,"p52":5,"p54":5,"p56":4,"p58":3,"p62":2,"p63":4}},{"id":"u30","name":"Elif N.","arch":"Fine-dining foodie","lat":51.5876,"lng":-0.1303,"r":{"p1":2,"p5":4,"p8":5,"p9":5,"p12":5,"p15":5,"p16":4,"p17":4,"p18":5,"p19":5,"p22":5,"p23":5,"p26":4,"p27":4,"p28":4,"p30":5,"p32":5,"p36":5,"p37":4,"p39":5,"p40":5,"p42":4,"p44":5,"p45":5,"p46":4,"p49":5,"p50":4,"p52":5,"p53":4,"p55":5,"p56":5,"p58":4,"p62":5}},{"id":"u31","name":"Gabe E.","arch":"Culture & books","lat":51.4963,"lng":-0.1863,"r":{"p1":5,"p3":5,"p4":5,"p6":2,"p7":2,"p8":5,"p9":5,"p10":4,"p13":5,"p16":5,"p18":5,"p19":5,"p23":3,"p28":5,"p31":5,"p33":3,"p38":5,"p39":5,"p40":5,"p44":5,"p45":5,"p46":5,"p53":3,"p56":5,"p57":5,"p58":5,"p60":5,"p61":5,"p62":5}},{"id":"u32","name":"Harriet N.","arch":"Spice & pasta","lat":51.5437,"lng":-0.2089,"r":{"p1":5,"p2":4,"p3":5,"p4":5,"p7":5,"p9":4,"p11":5,"p12":4,"p13":5,"p14":5,"p15":5,"p16":5,"p17":5,"p21":5,"p24":5,"p27":5,"p28":5,"p34":5,"p38":5,"p39":5,"p41":5,"p45":5,"p46":5,"p48":4,"p49":4,"p51":5,"p52":5,"p53":5,"p54":5,"p56":5,"p58":5,"p60":5,"p62":5,"p64":5}},{"id":"u33","name":"Isaac A.","arch":"Night owl","lat":51.5212,"lng":-0.1512,"r":{"p2":5,"p4":5,"p9":5,"p11":5,"p12":5,"p15":5,"p16":5,"p18":3,"p19":5,"p20":5,"p24":5,"p25":5,"p31":4,"p32":5,"p33":5,"p36":5,"p38":5,"p39":5,"p42":5,"p44":5,"p48":4,"p49":5,"p50":5,"p51":5,"p53":5,"p54":5,"p57":3,"p58":5,"p61":5,"p62":5,"p63":5}},{"id":"u34","name":"Juno V.","arch":"Mediterranean lover","lat":51.5732,"lng":-0.1399,"r":{"p1":5,"p4":4,"p6":5,"p8":5,"p9":5,"p11":5,"p12":5,"p15":5,"p16":5,"p17":5,"p23":4,"p24":4,"p26":5,"p27":5,"p29":5,"p34":5,"p35":4,"p37":5,"p39":5,"p41":5,"p42":5,"p44":5,"p47":5,"p51":5,"p53":5,"p54":5,"p56":5,"p58":5,"p59":5,"p62":5,"p63":5}},{"id":"u35","name":"Kofi T.","arch":"Steak & cocktails","lat":51.4956,"lng":-0.1334,"r":{"p1":5,"p2":4,"p4":4,"p5":5,"p10":5,"p11":5,"p12":5,"p13":5,"p17":5,"p18":5,"p19":5,"p20":5,"p24":5,"p29":5,"p30":5,"p33":5,"p34":5,"p37":5,"p40":3,"p42":2,"p44":4,"p46":2,"p48":2,"p51":5,"p52":5,"p53":5,"p54":5,"p55":5,"p56":2,"p62":5,"p63":4}},{"id":"u36","name":"Maya M.","arch":"Brunch crowd","lat":51.5212,"lng":-0.0668,"r":{"p1":4,"p2":5,"p4":5,"p6":5,"p7":5,"p8":5,"p9":5,"p10":4,"p11":4,"p13":5,"p16":5,"p17":5,"p18":4,"p25":5,"p27":5,"p28":5,"p29":5,"p31":5,"p34":5,"p39":5,"p41":5,"p44":4,"p46":4,"p48":5,"p51":4,"p53":4,"p54":5,"p55":5,"p58":5,"p60":5,"p63":5,"p64":5}},{"id":"u37","name":"Niall V.","arch":"Fine-dining foodie","lat":51.5713,"lng":-0.1415,"r":{"p1":4,"p7":4,"p9":5,"p11":3,"p12":5,"p18":5,"p19":5,"p20":5,"p22":5,"p24":4,"p26":4,"p29":5,"p30":5,"p33":3,"p36":2,"p37":5,"p40":5,"p42":5,"p43":3,"p45":3,"p46":4,"p48":3,"p51":3,"p53":3,"p54":4,"p55":5,"p56":5,"p59":5,"p60":5,"p62":5}},{"id":"u38","name":"Olu A.","arch":"Culture & books","lat":51.4998,"lng":-0.2,"r":{"p3":5,"p4":5,"p5":4,"p9":5,"p11":5,"p17":5,"p18":5,"p24":5,"p25":5,"p28":5,"p29":5,"p30":5,"p31":5,"p32":5,"p33":3,"p35":4,"p36":5,"p37":4,"p39":5,"p42":5,"p44":5,"p46":5,"p48":5,"p51":2,"p53":2,"p54":4,"p58":3,"p59":5,"p60":5,"p61":5,"p63":4}},{"id":"u39","name":"Pia T.","arch":"Spice & pasta","lat":51.4733,"lng":-0.1848,"r":{"p2":5,"p4":5,"p6":5,"p8":5,"p12":5,"p13":5,"p14":5,"p16":5,"p18":5,"p23":2,"p28":5,"p29":5,"p31":5,"p32":5,"p33":4,"p34":5,"p35":5,"p37":5,"p40":5,"p41":4,"p42":5,"p44":5,"p45":5,"p48":5,"p49":3,"p52":5,"p55":5,"p56":5,"p58":5,"p60":5}},{"id":"u40","name":"Quentin G.","arch":"Night owl","lat":51.5273,"lng":-0.1209,"r":{"p4":5,"p9":5,"p10":5,"p11":5,"p13":5,"p16":4,"p17":5,"p18":5,"p24":5,"p26":4,"p29":5,"p31":5,"p35":4,"p39":5,"p41":5,"p42":5,"p45":5,"p47":4,"p49":5,"p50":5,"p52":5,"p53":5,"p57":4,"p59":5,"p60":5,"p61":5,"p62":5}},{"id":"u41","name":"Rosa G.","arch":"Mediterranean lover","lat":51.5311,"lng":-0.1064,"r":{"p3":5,"p5":2,"p7":4,"p11":5,"p12":4,"p13":5,"p16":5,"p17":5,"p19":5,"p20":5,"p22":5,"p23":3,"p24":5,"p26":5,"p27":2,"p28":5,"p30":5,"p34":5,"p35":4,"p36":5,"p37":5,"p39":5,"p40":4,"p42":3,"p45":5,"p46":4,"p51":4,"p52":5,"p53":5,"p55":5,"p56":5,"p58":4,"p60":4,"p61":3,"p62":5}},{"id":"u42","name":"Tariq J.","arch":"Steak & cocktails","lat":51.5149,"lng":-0.2156,"r":{"p1":5,"p4":5,"p5":5,"p7":5,"p11":5,"p12":5,"p17":4,"p19":5,"p22":4,"p24":5,"p25":5,"p27":3,"p28":4,"p31":4,"p33":5,"p34":5,"p35":4,"p39":3,"p40":4,"p41":3,"p45":5,"p46":4,"p49":4,"p50":5,"p53":5,"p55":4,"p58":5,"p60":5,"p61":2,"p62":5}},{"id":"u43","name":"Una F.","arch":"Brunch crowd","lat":51.4828,"lng":-0.1364,"r":{"p4":5,"p6":5,"p7":2,"p8":5,"p9":5,"p11":5,"p12":2,"p13":5,"p15":4,"p16":5,"p17":5,"p20":3,"p23":2,"p25":5,"p26":5,"p28":5,"p29":5,"p30":5,"p31":5,"p33":5,"p36":5,"p40":5,"p42":5,"p43":5,"p44":5,"p46":5,"p53":5,"p54":5,"p55":5,"p56":5,"p57":4,"p59":4,"p63":5}},{"id":"u44","name":"Vik N.","arch":"Fine-dining foodie","lat":51.4801,"lng":-0.0976,"r":{"p3":5,"p4":5,"p6":5,"p10":5,"p11":5,"p13":5,"p15":5,"p16":5,"p17":5,"p19":5,"p20":5,"p22":5,"p23":5,"p24":5,"p25":5,"p28":5,"p29":5,"p30":5,"p31":5,"p32":5,"p37":5,"p39":5,"p40":5,"p41":5,"p44":5,"p46":5,"p47":5,"p50":5,"p51":5,"p53":5,"p54":5,"p55":5,"p56":5,"p57":5,"p62":5}},{"id":"u45","name":"Willa B.","arch":"Culture & books","lat":51.5133,"lng":-0.1037,"r":{"p1":4,"p3":4,"p5":4,"p7":5,"p11":5,"p12":4,"p13":5,"p14":5,"p16":5,"p19":5,"p21":5,"p23":5,"p26":4,"p28":5,"p30":5,"p31":5,"p32":5,"p34":5,"p35":3,"p38":5,"p39":5,"p44":5,"p46":5,"p48":5,"p51":3,"p52":3,"p53":5,"p54":3,"p55":3,"p57":5,"p60":5,"p61":5,"p62":5,"p63":4}},{"id":"u46","name":"Xander D.","arch":"Spice & pasta","lat":51.5186,"lng":-0.2094,"r":{"p1":5,"p3":5,"p7":5,"p11":5,"p13":5,"p14":5,"p16":5,"p17":5,"p23":4,"p24":5,"p26":5,"p27":4,"p28":5,"p30":5,"p31":5,"p34":5,"p36":3,"p38":5,"p39":5,"p41":5,"p44":5,"p45":5,"p48":5,"p50":5,"p52":5,"p53":5,"p54":5,"p58":5,"p60":5,"p64":5}},{"id":"u47","name":"Yara O.","arch":"Night owl","lat":51.5477,"lng":-0.1539,"r":{"p1":5,"p2":5,"p3":4,"p6":5,"p7":5,"p8":4,"p9":5,"p10":4,"p11":5,"p16":3,"p18":5,"p19":5,"p22":5,"p23":4,"p24":5,"p25":3,"p27":4,"p30":5,"p31":5,"p32":5,"p33":5,"p35":5,"p38":3,"p39":3,"p42":3,"p45":5,"p46":5,"p47":5,"p49":5,"p57":2,"p58":3,"p62":5,"p63":4,"p64":5}},{"id":"u48","name":"Zeb L.","arch":"Mediterranean lover","lat":51.4534,"lng":-0.1628,"r":{"p3":5,"p4":5,"p6":5,"p7":5,"p9":5,"p11":5,"p13":5,"p17":5,"p18":5,"p22":5,"p23":5,"p25":5,"p26":5,"p30":5,"p31":5,"p35":5,"p36":5,"p37":5,"p38":5,"p40":5,"p41":5,"p44":5,"p46":5,"p48":5,"p50":5,"p51":5,"p55":5,"p58":5,"p61":5,"p62":5,"p63":5}},{"id":"u49","name":"Bea V.","arch":"Steak & cocktails","lat":51.5567,"lng":-0.2043,"r":{"p1":5,"p4":3,"p7":5,"p11":5,"p12":5,"p16":5,"p22":5,"p27":3,"p28":5,"p29":5,"p30":5,"p32":5,"p34":5,"p35":5,"p40":4,"p41":5,"p42":5,"p44":3,"p45":5,"p47":4,"p50":5,"p51":5,"p54":5,"p58":5,"p60":5,"p62":5,"p64":5}}]};
+const DATA = {"venues":[{"id":"p1","name":"Blacklock Soho","cat":"Steakhouse","kind":"Eat","area":"Soho","addr":"24 Great Windmill St, London W1D 7LG","lat":51.51178,"lng":-0.1347,"g":4.7,"gn":5250,"price":2,"pid":"ChIJOTAQhtMEdkgR9ZmC_mZR0UM","f":[1,0,0,0,0,0,0,0,0,0,0,0]},{"id":"p2","name":"The Soho Social","cat":"Restaurant & bar","kind":"Eat","area":"Soho","addr":"9 Berwick St, London W1F 0PJ","lat":51.51325,"lng":-0.13454,"g":4.7,"gn":938,"price":2,"pid":"ChIJhVBIm2AFdkgRe9fUbPJSvdc","f":[0,0,0,0,0.5,0,0.6,0,0,0,0,0]},{"id":"p3","name":"Milk Beach Soho","cat":"Australian brunch","kind":"Eat","area":"Soho","addr":"14 Greek St, James Court, London W1D 4AL","lat":51.51424,"lng":-0.13077,"g":4.7,"gn":1679,"price":2,"pid":"ChIJR96P1aQFdkgRVCU0FCf6358","f":[0,0,0,0,1,0,0.2,0,0,0,0,0]},{"id":"p4","name":"Scarlett Green","cat":"Brunch & cocktails","kind":"Eat","area":"Soho","addr":"4 Noel St, London W1F 8GB","lat":51.51531,"lng":-0.1358,"g":4.8,"gn":11911,"price":2,"pid":"ChIJl8b8USsbdkgRwY4c6Yh7udU","f":[0,0,0,0,0.9,0,0.5,0,0,0,0,0]},{"id":"p5","name":"Dirty Bones Soho","cat":"Burgers & brunch","kind":"Eat","area":"Soho","addr":"14 Denman St, London W1D 7HN","lat":51.51083,"lng":-0.13531,"g":4.5,"gn":3528,"price":2,"pid":"ChIJwYSoC9QEdkgR1DbvuJwey8o","f":[0.5,0,0,0,0.7,0,0,0,0,0,0,0]},{"id":"p6","name":"Nessa Soho","cat":"Brasserie & cocktails","kind":"Drink","area":"Soho","addr":"86 Brewer St, London W1F 9UB","lat":51.51073,"lng":-0.13722,"g":4.5,"gn":1098,"price":null,"pid":"ChIJr5F6YRwFdkgRNR-MS9GLn8s","f":[0,0,0,0,0.5,0,0.7,0,0,0,0,0]},{"id":"p7","name":"The Devonshire","cat":"Pub & grill","kind":"Drink","area":"Soho","addr":"The Devonshire, 17 Denman St, London W1D 7HW","lat":51.51063,"lng":-0.13534,"g":4.5,"gn":3272,"price":null,"pid":"ChIJsc95TQcFdkgRDgDjFkIJCz8","f":[0.6,0,0,0,0,0,0.6,0,0,0,0,0]},{"id":"p8","name":"Harry's Covent Garden","cat":"Italian","kind":"Eat","area":"Covent Garden","addr":"11-12 Russell St, London WC2B 5HZ","lat":51.51219,"lng":-0.12179,"g":4.5,"gn":1352,"price":3,"pid":"ChIJvYQ6oMsEdkgRG9zlwh2N_-U","f":[0,1,0,0,0,0.2,0,0,0,0,0,0]},{"id":"p9","name":"Brother Marcus Covent Garden","cat":"Mediterranean brunch","kind":"Eat","area":"Covent Garden","addr":"23 Slingsby Pl, London WC2E 9AB","lat":51.5128,"lng":-0.12636,"g":4.9,"gn":6217,"price":2,"pid":"ChIJp9exgRcFdkgRpjsnrbLsyto","f":[0,0,0,0.7,0.8,0,0,0,0,0,0,0]},{"id":"p10","name":"Blacklock Covent Garden","cat":"Steakhouse","kind":"Eat","area":"Covent Garden","addr":"16a Bedford St, London WC2E 9HE","lat":51.51066,"lng":-0.12471,"g":4.7,"gn":2828,"price":2,"pid":"ChIJyeTsrLoFdkgRdsewS8ne0fQ","f":[1,0,0,0,0,0,0,0,0,0,0,0]},{"id":"p11","name":"Ave Mario","cat":"Italian","kind":"Eat","area":"Covent Garden","addr":"15 Henrietta St, London WC2E 8QG","lat":51.51086,"lng":-0.12397,"g":4.8,"gn":30272,"price":2,"pid":"ChIJoaTWHMsFdkgREy3QGecEo6c","f":[0,1,0,0,0,0,0.2,0,0,0,0,0]},{"id":"p12","name":"Flat Iron Covent Garden","cat":"Steakhouse","kind":"Eat","area":"Covent Garden","addr":"17-18 Henrietta St, London WC2E 8QH","lat":51.51079,"lng":-0.12407,"g":4.6,"gn":11127,"price":2,"pid":"ChIJ7a_rDcwEdkgRdiGLXlk7s-g","f":[1,0,0,0,0,0,0,0,0,0,0,0]},{"id":"p13","name":"Gloria","cat":"Italian trattoria","kind":"Eat","area":"Shoreditch","addr":"54-56 Great Eastern St, London EC2A 3QR","lat":51.52512,"lng":-0.08138,"g":4.8,"gn":24718,"price":3,"pid":"ChIJj99O4ScddkgRNnDfPFxdplY","f":[0,1,0,0,0,0,0.2,0,0,0,0,0]},{"id":"p14","name":"Kricket Shoreditch","cat":"Indian","kind":"Eat","area":"Shoreditch","addr":"35-42 Charlotte Rd, London EC2A 3PB","lat":51.52525,"lng":-0.08095,"g":4.9,"gn":2088,"price":2,"pid":"ChIJAQxeaAAddkgRkKAT-b-BK14","f":[0,0,1,0,0,0,0,0,0,0,0,0]},{"id":"p15","name":"Hoppers Shoreditch","cat":"Sri Lankan","kind":"Eat","area":"Shoreditch","addr":"Tea Building, 56 Shoreditch High St, London E1 6JJ","lat":51.52372,"lng":-0.07648,"g":4.9,"gn":1022,"price":2,"pid":"ChIJJViZx8UddkgRz7PTUq6ZXRw","f":[0,0,1,0,0,0,0,0,0,0,0,0]},{"id":"p16","name":"Dishoom Shoreditch","cat":"Indian","kind":"Eat","area":"Shoreditch","addr":"7 Boundary St, London E2 7JE","lat":51.5245,"lng":-0.0766,"g":4.8,"gn":48105,"price":2,"pid":"ChIJxYs1ArocdkgR-G13PLmofec","f":[0,0,1,0,0.3,0,0,0,0,0,0,0]},{"id":"p17","name":"Padella Shoreditch","cat":"Fresh pasta","kind":"Eat","area":"Shoreditch","addr":"Padella, Shoreditch, 1 Phipp St, London EC2A 4PS","lat":51.52338,"lng":-0.08177,"g":4.7,"gn":4459,"price":2,"pid":"ChIJmdTnioQddkgRkUPct-OykWI","f":[0,1,0,0,0,0,0,0,0,0,0,0]},{"id":"p18","name":"Blacklock Shoreditch","cat":"Steakhouse","kind":"Eat","area":"Shoreditch","addr":"28-30 Rivington St, London EC2A 3DZ","lat":51.52602,"lng":-0.08196,"g":4.7,"gn":3327,"price":2,"pid":"ChIJ44hFhjgddkgRdPaKatX_eGY","f":[1,0,0,0,0,0,0,0,0,0,0,0]},{"id":"p19","name":"Pavyllon London","cat":"French fine dining","kind":"Eat","area":"Mayfair","addr":"Hamilton Pl, London W1J 7DR","lat":51.50417,"lng":-0.14995,"g":4.7,"gn":700,"price":4,"pid":"ChIJBfOjfiUFdkgRvsanD9nfpA0","f":[0,0,0,0,0,1,0,0,0,0,0,0]},{"id":"p20","name":"Ormer Mayfair","cat":"Fine dining, seafood","kind":"Eat","area":"Mayfair","addr":"Flemings Mayfair, 7-12 Half Moon St, 7-12 Half Moon St, London W1J 7BH","lat":51.50645,"lng":-0.14514,"g":4.8,"gn":531,"price":4,"pid":"ChIJQxoh3SgFdkgRqFi4kGLn29c","f":[0,0,0,0,0,1,0,0,0,0,0,0]},{"id":"p21","name":"Noble Rot Mayfair","cat":"Wine bar & restaurant","kind":"Eat","area":"Mayfair","addr":"5 Trebeck St, Shepherd Market, London W1J 7LT","lat":51.50652,"lng":-0.1472,"g":4.7,"gn":402,"price":4,"pid":"ChIJAzNI_8sFdkgRbRvnLqAvUJY","f":[0,0,0,0,0,0.6,0.5,0,0,0,0,0]},{"id":"p22","name":"HIDE","cat":"Fine dining","kind":"Eat","area":"Piccadilly","addr":"85 Piccadilly, London W1J 7NB","lat":51.50619,"lng":-0.14444,"g":4.5,"gn":4641,"price":4,"pid":"ChIJn1DE_XsFdkgR6NyYk4IWd64","f":[0.2,0,0,0,0,1,0,0,0,0,0,0]},{"id":"p23","name":"Bacchanalia","cat":"Mediterranean","kind":"Eat","area":"Mayfair","addr":"1-3 Mount St, London W1K 3NB","lat":51.51057,"lng":-0.14773,"g":4.1,"gn":4774,"price":4,"pid":"ChIJf53OwjQFdkgR_FlcHpcOo2g","f":[0,0,0,0.6,0,0.7,0,0,0,0,0,0]},{"id":"p24","name":"Carlotta","cat":"Italian","kind":"Eat","area":"Marylebone","addr":"77-78 Marylebone High St, London W1U 5JX","lat":51.52097,"lng":-0.15213,"g":4.8,"gn":15967,"price":4,"pid":"ChIJefT-hWIbdkgRAGGu1AuI0qg","f":[0,1,0,0,0,0,0.3,0,0,0,0,0]},{"id":"p25","name":"108 Brasserie","cat":"Brasserie","kind":"Eat","area":"Marylebone","addr":"108 Marylebone Ln, London W1U 2QE","lat":51.51795,"lng":-0.15061,"g":4.6,"gn":2532,"price":null,"pid":"ChIJIckEWtIadkgR0jqFi7ItZbA","f":[0,0,0,0,0.6,0.2,0,0,0,0,0,0]},{"id":"p26","name":"Delamina Marylebone","cat":"Eastern Mediterranean","kind":"Eat","area":"Marylebone","addr":"56-58 Marylebone Ln, London W1U 2NX","lat":51.51638,"lng":-0.15009,"g":4.4,"gn":1419,"price":2,"pid":"ChIJfZ_N4NIadkgRS-9ZCmodXHw","f":[0,0,0,1,0,0,0,0,0,0,0,0]},{"id":"p27","name":"The Ivy Cafe Marylebone","cat":"British brasserie","kind":"Eat","area":"Marylebone","addr":"96 Marylebone Ln, London W1U 2QA","lat":51.5175,"lng":-0.15061,"g":4.5,"gn":3823,"price":3,"pid":"ChIJecXp99IadkgRnWOHbk1a1Ec","f":[0,0,0,0,0.8,0,0,0,0,0,0,0]},{"id":"p28","name":"Lina Stores Marylebone","cat":"Pasta & deli","kind":"Eat","area":"Marylebone","addr":"13-15 Marylebone Ln, London W1U 2NE","lat":51.51626,"lng":-0.1502,"g":4.6,"gn":3502,"price":2,"pid":"ChIJDzt8MxQbdkgREAU6tIAGDbM","f":[0,1,0,0,0,0,0,0,0,0,0,0]},{"id":"p29","name":"Brother Marcus Borough","cat":"Mediterranean brunch","kind":"Eat","area":"Borough","addr":"1 Dirty Ln, London SE1 9PA","lat":51.50564,"lng":-0.09223,"g":4.8,"gn":6842,"price":2,"pid":"ChIJST09sxMDdkgROwVZQizAacI","f":[0,0,0,0.7,0.8,0,0,0,0,0,0,0]},{"id":"p30","name":"Salt Yard Borough","cat":"Tapas","kind":"Eat","area":"Borough","addr":"New Hibernia House, Winchester Walk, London SE1 9AG","lat":51.50623,"lng":-0.09079,"g":4.8,"gn":3521,"price":2,"pid":"ChIJY6uVgmoDdkgR5axDgVfG9_Q","f":[0,0,0,1,0,0,0.3,0,0,0,0,0]},{"id":"p31","name":"Padella Borough Market","cat":"Fresh pasta","kind":"Eat","area":"Borough","addr":"6 Southwark St, London SE1 1TQ","lat":51.50517,"lng":-0.08992,"g":4.7,"gn":12762,"price":2,"pid":"ChIJdZ6paFcDdkgRpPUHPngIeq8","f":[0,1,0,0,0,0,0,0,0,0,0,0]},{"id":"p32","name":"OMA","cat":"Greek","kind":"Eat","area":"Borough","addr":"2-4 Bedale St, London SE1 9AL","lat":51.50535,"lng":-0.09002,"g":4.7,"gn":2552,"price":4,"pid":"ChIJ4co2k5kDdkgROKjVBk6wD8k","f":[0,0,0,1,0,0.4,0,0,0,0,0,0]},{"id":"p33","name":"Elliot's Borough Market","cat":"Wine bar & grill","kind":"Drink","area":"Borough","addr":"12 Stoney St, London SE1 9AD","lat":51.50567,"lng":-0.0916,"g":4.4,"gn":975,"price":2,"pid":"ChIJA6RcmFcDdkgRhKbA3VHeY5U","f":[0,0,0,0.3,0,0,0.6,0,0,0,0,0]},{"id":"p34","name":"Osteria Napoletana","cat":"Neapolitan pizza","kind":"Eat","area":"Notting Hill","addr":"186 Kensington Park Rd, ES W11 2ES","lat":51.51543,"lng":-0.20548,"g":4.7,"gn":3040,"price":2,"pid":"ChIJNWlwNBgRdkgRj-WJmjibnCw","f":[0,1,0,0,0,0,0,0,0,0,0,0]},{"id":"p35","name":"Gold","cat":"Modern European","kind":"Eat","area":"Notting Hill","addr":"95-97 Portobello Rd, London W11 2QB","lat":51.51298,"lng":-0.20264,"g":4.5,"gn":2549,"price":3,"pid":"ChIJlbCxxa4PdkgR18AHB07QwLA","f":[0,0,0,0,0,0.3,0.5,0,0,0,0,0]},{"id":"p36","name":"Granger and Co. Notting Hill","cat":"Australian brunch","kind":"Eat","area":"Notting Hill","addr":"175 Westbourne Grove, London W11 2SB","lat":51.5146,"lng":-0.19775,"g":4.4,"gn":3569,"price":2,"pid":"ChIJK44GY_0PdkgRZqwjZA3l7-w","f":[0,0,0,0,1,0,0,0,0,0,0,0]},{"id":"p37","name":"Frame Notting Hill","cat":"Tapas","kind":"Eat","area":"Notting Hill","addr":"39 Hereford Rd, London W2 4AB","lat":51.51486,"lng":-0.19395,"g":4.8,"gn":474,"price":2,"pid":"ChIJMzkn7zoRdkgRbRuR09X_t8Q","f":[0,0,0,1,0,0,0.3,0,0,0,0,0]},{"id":"p38","name":"The National Gallery","cat":"Art museum","kind":"Culture","area":"Trafalgar Square","addr":"Trafalgar Square, London WC2N 5DN","lat":51.50893,"lng":-0.1283,"g":4.8,"gn":63454,"price":null,"pid":"ChIJeclqF84EdkgRtKAjTmWFr0I","f":[0,0,0,0,0,0,0,1,0,0,0,0]},{"id":"p39","name":"Victoria and Albert Museum","cat":"Design museum","kind":"Culture","area":"South Kensington","addr":"Cromwell Rd, London SW7 2RL","lat":51.49664,"lng":-0.17218,"g":4.8,"gn":68568,"price":null,"pid":"ChIJw1d-sUMFdkgRH2XN_U0Jt54","f":[0,0,0,0,0,0,0,1,0,0,0,0]},{"id":"p40","name":"The British Museum","cat":"Museum","kind":"Culture","area":"Bloomsbury","addr":"Great Russell St, London WC1B 3DG","lat":51.51941,"lng":-0.12696,"g":4.5,"gn":3118,"price":null,"pid":"ChIJB9OTMDIbdkgRp0JWbQGZsS8","f":[0,0,0,0,0,0,0,1,0,0,0,0]},{"id":"p41","name":"The Wallace Collection","cat":"Art collection","kind":"Culture","area":"Marylebone","addr":"Hertford House, Manchester Square, London W1U 3BN","lat":51.51732,"lng":-0.15309,"g":4.8,"gn":10973,"price":null,"pid":"ChIJczuZfc0adkgRc8X-u3ZiHcE","f":[0,0,0,0,0,0,0,1,0,0,0,0]},{"id":"p42","name":"Tate Modern","cat":"Modern art","kind":"Culture","area":"Bankside","addr":"Bankside, London SE1 9TG","lat":51.5076,"lng":-0.09936,"g":4.5,"gn":83840,"price":null,"pid":"ChIJlRl2MakEdkgR55tr4CNv_B8","f":[0,0,0,0,0,0,0,1,0,0,0,0]},{"id":"p43","name":"Frameless","cat":"Immersive art","kind":"Culture","area":"Marble Arch","addr":"6 Marble Arch, London W1H 7AP","lat":51.51368,"lng":-0.16036,"g":4.6,"gn":5444,"price":null,"pid":"ChIJId2oNroFdkgReafXXIrGnkY","f":[0,0,0,0,0,0,0.2,0.7,0,0,0,0]},{"id":"p44","name":"Foyles","cat":"Bookshop","kind":"Shop","area":"Charing Cross Road","addr":"107 Charing Cross Rd, London WC2H 0EB","lat":51.51431,"lng":-0.1299,"g":4.7,"gn":13643,"price":null,"pid":"ChIJ5574rdIEdkgRA9294QpXDhw","f":[0,0,0,0,0,0,0,0,1,0,0,0]},{"id":"p45","name":"Daunt Books Marylebone","cat":"Bookshop","kind":"Shop","area":"Marylebone","addr":"84 Marylebone High St, London W1U 4QW","lat":51.5204,"lng":-0.15199,"g":4.8,"gn":7143,"price":null,"pid":"ChIJTQJH99EadkgRgli4gpxCkOY","f":[0,0,0,0,0,0,0,0,1,0,0,0]},{"id":"p46","name":"Waterstones Piccadilly","cat":"Bookshop","kind":"Shop","area":"Piccadilly","addr":"203-206 Piccadilly, London W1J 9HD","lat":51.50912,"lng":-0.13605,"g":4.7,"gn":13780,"price":null,"pid":"ChIJHXK0sdYEdkgRcrN_uxt5bOM","f":[0,0,0,0,0,0,0,0,1,0,0,0]},{"id":"p47","name":"Word on the Water","cat":"Canal-boat bookshop","kind":"Shop","area":"King's Cross","addr":"Regent's Canal Towpath, London N1C 4LW","lat":51.53541,"lng":-0.12348,"g":4.8,"gn":1568,"price":null,"pid":"ChIJ16mQBD4bdkgRQ8z5iJUz9fo","f":[0,0,0,0,0,0,0,0.3,0.8,0,0,0]},{"id":"p48","name":"The Notting Hill Bookshop","cat":"Bookshop","kind":"Shop","area":"Notting Hill","addr":"13 Blenheim Cres, London W11 2EE","lat":51.51567,"lng":-0.20552,"g":4.5,"gn":4247,"price":null,"pid":"ChIJ6y6Z4x0QdkgRMlPKETeKZKs","f":[0,0,0,0,0,0,0,0,1,0,0,0]},{"id":"p49","name":"STEREO Covent Garden","cat":"Cocktails & live music","kind":"Drink","area":"Covent Garden","addr":"35 The Piazza, London WC2E 8BE","lat":51.51166,"lng":-0.12213,"g":4.1,"gn":854,"price":2,"pid":"ChIJMwnuyW4FdkgRVdwzLW-kJRw","f":[0,0,0,0,0,0,1,0,0,0,0,0]},{"id":"p50","name":"Cahoots Underground","cat":"Cocktail bar","kind":"Drink","area":"Carnaby","addr":"13 Kingly Ct, Carnaby, London W1B 5PW","lat":51.51248,"lng":-0.13855,"g":4.6,"gn":5342,"price":2,"pid":"ChIJ-2mrB9UEdkgReKgh9HDC-7s","f":[0,0,0,0,0,0,1,0,0,0,0,0]},{"id":"p51","name":"Amazing Grace London Bridge","cat":"Karaoke cocktail bar","kind":"Drink","area":"London Bridge","addr":"9a St Thomas St, London SE1 9RY","lat":51.505,"lng":-0.08844,"g":4.4,"gn":1705,"price":2,"pid":"ChIJLQhK3sUDdkgRjdb6JaFRLAo","f":[0,0,0,0,0,0,1,0,0,0,0,0]},{"id":"p52","name":"The Little Violet Door","cat":"Cocktail bar","kind":"Drink","area":"Carnaby","addr":"9 Kingly St, Carnaby, London W1B 5PH","lat":51.51244,"lng":-0.13899,"g":4.8,"gn":2265,"price":2,"pid":"ChIJ936KxucFdkgRV_Wlcb-EVL8","f":[0,0,0,0,0,0,1,0,0,0,0,0]},{"id":"p53","name":"Nightjar","cat":"Speakeasy jazz bar","kind":"Drink","area":"Old Street","addr":"129 City Rd, London EC1V 1JB","lat":51.52652,"lng":-0.08774,"g":4.6,"gn":2809,"price":2,"pid":"ChIJO5NM4aUcdkgR-XrNmE-75f8","f":[0,0,0,0,0,0,1,0.2,0,0,0,0]},{"id":"p54","name":"Piccadilly Theatre","cat":"West End musical","kind":"Theatre","area":"Piccadilly","addr":"16 Denman St, London W1D 7DY","lat":51.51095,"lng":-0.13558,"g":4.7,"gn":8944,"price":null,"pid":"ChIJZ98vDNQEdkgRJE51ZgjyTaE","f":[0,0,0,0,0,0,0,0,0,1,0,0]},{"id":"p55","name":"Theatre Royal Drury Lane","cat":"West End musical","kind":"Theatre","area":"Covent Garden","addr":"Catherine St, London WC2B 5JF","lat":51.51285,"lng":-0.12037,"g":4.8,"gn":11822,"price":null,"pid":"ChIJj91E_coEdkgRlUibJh13Jws","f":[0,0,0,0,0,0,0,0,0,1,0,0]},{"id":"p56","name":"Gillian Lynne Theatre","cat":"West End show","kind":"Theatre","area":"Covent Garden","addr":"166 Drury Ln, London WC2B 5PW","lat":51.51532,"lng":-0.12258,"g":4.7,"gn":7524,"price":null,"pid":"ChIJ7eA75soEdkgRZXtgpYnGHYI","f":[0,0,0,0,0,0,0,0,0,0.7,0.4,0]},{"id":"p57","name":"Palace Theatre","cat":"West End play","kind":"Theatre","area":"Soho","addr":"113 Shaftesbury Ave, London W1D 5AY","lat":51.51319,"lng":-0.12945,"g":4.6,"gn":10746,"price":null,"pid":"ChIJYxVJmtIEdkgRSFNK6hLhPvQ","f":[0,0,0,0,0,0,0,0,0,0.5,0.6,0]},{"id":"p58","name":"The Criterion Theatre","cat":"Comedy musical","kind":"Theatre","area":"Piccadilly","addr":"218-223 Piccadilly, London W1J 9HR","lat":51.50973,"lng":-0.13427,"g":4.6,"gn":3818,"price":null,"pid":"ChIJJSck4NMEdkgR-oXVKxbGNbw","f":[0,0,0,0,0,0,0,0,0,0.6,0,0.6]},{"id":"p59","name":"@sohoplace","cat":"New theatre","kind":"Theatre","area":"Soho","addr":"4 Soho Pl, Charing Cross Rd, London W1D 3BG","lat":51.51571,"lng":-0.13061,"g":4.7,"gn":1153,"price":null,"pid":"ChIJazKQ6Z0bdkgRTkmUhLKe2kM","f":[0,0,0,0,0,0,0,0,0,0,1,0]},{"id":"p60","name":"The Old Vic","cat":"Drama theatre","kind":"Theatre","area":"Waterloo","addr":"103 The Cut, London SE1 8NB","lat":51.50206,"lng":-0.10931,"g":4.7,"gn":4930,"price":null,"pid":"ChIJZU00SboEdkgRl0iY1cDec9k","f":[0,0,0,0,0,0,0,0,0,0,1,0]},{"id":"p61","name":"National Theatre","cat":"Drama theatre","kind":"Theatre","area":"South Bank","addr":"London SE1 9PX","lat":51.50722,"lng":-0.11437,"g":4.7,"gn":10091,"price":null,"pid":"ChIJdYvbqaMEdkgRDdOt_IfsYRc","f":[0,0,0,0,0,0,0,0.2,0,0,1,0]},{"id":"p62","name":"The Top Secret Comedy Club","cat":"Stand-up comedy","kind":"Theatre","area":"Covent Garden","addr":"170a Drury Ln, London WC2B 5PD","lat":51.51539,"lng":-0.12309,"g":4.9,"gn":19641,"price":null,"pid":"ChIJ6zivZswEdkgR8Vd0G2Df5KE","f":[0,0,0,0,0,0,0.2,0,0,0,0,1]},{"id":"p63","name":"The London Cabaret Club","cat":"Dinner cabaret","kind":"Theatre","area":"Bloomsbury","addr":"The Bloomsbury Ballroom, Bloomsbury Square, London WC1B 4DA","lat":51.51888,"lng":-0.12187,"g":4.3,"gn":812,"price":null,"pid":"ChIJkzlMivEPdkgRgn5iDCYesp8","f":[0,0,0,0,0,0.4,0,0,0,0.6,0,0.2]},{"id":"p64","name":"Getaway Comedy, Soho","cat":"Stand-up comedy","kind":"Theatre","area":"Soho","addr":"Zebrano, 18 Greek St, London W1D 4DS","lat":51.51406,"lng":-0.13036,"g":4.8,"gn":252,"price":null,"pid":"ChIJAQCUKtIEdkgRLmGJ_deAP08","f":[0,0,0,0,0,0,0.3,0,0,0,0,1]}],"users":[{"id":"u0","name":"Amara A.","arch":"Steak & cocktails","lat":51.4971,"lng":-0.1177,"r":{"p1":5,"p3":5,"p4":5,"p5":5,"p7":5,"p8":5,"p10":5,"p12":5,"p13":4,"p14":3,"p18":5,"p21":5,"p23":5,"p24":4,"p25":4,"p31":4,"p33":5,"p34":3,"p36":5,"p40":4,"p41":2,"p42":4,"p44":4,"p45":5,"p48":2,"p49":4,"p51":5,"p52":5,"p54":3,"p55":5,"p56":4,"p57":5,"p62":5,"p64":5},"t":[1.14,-0.08,-0.05,0.32,-0.06,-0.47,1.15,-0.72,-0.6,0.05,-0.5,1.32],"bias":-0.37},{"id":"u1","name":"Theo B.","arch":"Brunch crowd","lat":51.4364,"lng":-0.1603,"r":{"p1":5,"p2":5,"p3":5,"p6":5,"p8":4,"p9":5,"p12":5,"p13":5,"p15":5,"p16":5,"p17":4,"p24":5,"p26":4,"p28":5,"p31":5,"p32":4,"p34":5,"p36":5,"p38":5,"p43":5,"p44":5,"p47":5,"p49":3,"p50":5,"p51":5,"p53":5,"p55":5,"p56":5,"p57":5,"p61":5},"t":[0.59,0.42,-0.05,0.24,0.65,-0.94,0.42,0.39,-0.11,1.17,-0.19,0.35],"bias":-0.28},{"id":"u2","name":"Priya D.","arch":"Fine-dining foodie","lat":51.5376,"lng":-0.1056,"r":{"p4":4,"p6":4,"p9":5,"p14":5,"p16":5,"p17":5,"p20":5,"p23":4,"p24":5,"p27":5,"p28":5,"p30":5,"p32":3,"p37":4,"p38":5,"p39":5,"p46":5,"p48":5,"p51":3,"p53":4,"p54":5,"p58":5,"p60":5,"p61":5,"p63":5},"t":[-0.41,0.39,0.3,-0.05,-0.32,0.95,-0.24,-0.13,0.05,0.37,1.29,-0.44],"bias":-0.2},{"id":"u3","name":"Jonah L.","arch":"Culture & books","lat":51.516,"lng":-0.1173,"r":{"p1":5,"p2":3,"p3":4,"p6":5,"p7":4,"p8":4,"p9":5,"p11":5,"p12":5,"p13":4,"p14":5,"p17":3,"p18":5,"p21":2,"p23":4,"p24":5,"p25":3,"p26":2,"p30":4,"p31":3,"p32":5,"p33":5,"p34":4,"p39":5,"p40":5,"p42":5,"p46":5,"p48":5,"p57":5,"p58":4,"p59":5,"p60":5,"p61":5},"t":[-0.04,-0.34,-0.61,-0.07,-0.16,-0.37,-1.22,1.32,1.7,-0.63,2.22,-0.12],"bias":-0.16},{"id":"u4","name":"Mei T.","arch":"Spice & pasta","lat":51.5029,"lng":-0.0896,"r":{"p3":5,"p5":5,"p9":5,"p11":4,"p12":3,"p13":5,"p14":5,"p15":5,"p16":5,"p17":5,"p18":4,"p19":3,"p23":5,"p24":5,"p27":5,"p28":5,"p31":5,"p32":5,"p33":4,"p34":5,"p35":3,"p39":5,"p40":3,"p42":4,"p44":5,"p45":5,"p50":5,"p52":5,"p53":4,"p55":5,"p61":5,"p62":5,"p63":3},"t":[-0.14,1.33,1.46,1.04,0.28,-0.87,-0.25,-0.37,0.43,0.44,-0.03,0.74],"bias":-0.4},{"id":"u5","name":"Sofia S.","arch":"Night owl","lat":51.5736,"lng":-0.1479,"r":{"p2":5,"p3":5,"p4":5,"p6":5,"p7":5,"p11":5,"p13":5,"p14":5,"p16":5,"p17":5,"p20":5,"p21":5,"p23":5,"p32":5,"p35":5,"p37":5,"p38":5,"p41":5,"p43":5,"p44":5,"p45":4,"p49":5,"p50":5,"p51":5,"p54":5,"p56":5,"p58":5,"p59":5,"p62":5,"p64":5},"t":[-0.27,0.3,1.53,-0.2,-0.61,0.21,1.46,-0.26,-0.97,-0.54,0.08,0.1],"bias":0.56},{"id":"u6","name":"Kwame S.","arch":"Mediterranean lover","lat":51.4794,"lng":-0.1011,"r":{"p2":5,"p3":5,"p6":5,"p10":5,"p14":5,"p15":5,"p17":5,"p19":5,"p20":5,"p21":5,"p22":5,"p24":5,"p25":4,"p27":5,"p28":5,"p29":5,"p31":5,"p32":5,"p34":5,"p37":5,"p38":5,"p39":5,"p42":5,"p45":5,"p46":5,"p47":4,"p50":5,"p52":5,"p53":5,"p55":5,"p56":5,"p58":5,"p59":5,"p63":5,"p64":2},"t":[0.12,0.65,-0.23,0.79,-0.07,0.64,0.37,0.31,-1.07,0.92,0.65,-0.25],"bias":0.02},{"id":"u7","name":"Lena K.","arch":"Steak & cocktails","lat":51.5725,"lng":-0.0935,"r":{"p2":5,"p3":5,"p4":5,"p5":5,"p6":5,"p7":5,"p10":5,"p11":5,"p12":5,"p13":5,"p14":5,"p18":5,"p19":5,"p20":4,"p24":5,"p26":4,"p27":5,"p28":5,"p30":5,"p32":5,"p35":5,"p36":5,"p41":5,"p42":5,"p43":4,"p45":5,"p47":5,"p48":5,"p49":4,"p51":5,"p53":5,"p54":4,"p56":3,"p60":3,"p62":5,"p64":5},"t":[0.92,-0.4,-0.47,0.44,0.63,-0.56,0.81,-0.61,-0.5,-0.04,-0.52,1.63],"bias":-0.22},{"id":"u8","name":"Omar G.","arch":"Brunch crowd","lat":51.4933,"lng":-0.1416,"r":{"p2":5,"p3":5,"p4":5,"p7":5,"p9":5,"p10":5,"p11":5,"p13":5,"p15":5,"p18":5,"p19":3,"p21":5,"p26":5,"p28":5,"p29":5,"p35":4,"p36":5,"p37":5,"p38":5,"p41":5,"p42":5,"p44":4,"p47":5,"p49":5,"p50":5,"p51":5,"p54":5,"p55":5,"p56":5,"p57":5,"p58":5,"p60":5,"p64":5},"t":[0.18,0.34,-0.17,0.01,1.35,-1.57,0.55,0.37,-0.34,0.89,0.03,-0.34],"bias":0.38},{"id":"u9","name":"Hana C.","arch":"Fine-dining foodie","lat":51.5223,"lng":-0.1448,"r":{"p7":5,"p8":4,"p9":5,"p11":3,"p12":4,"p13":4,"p16":4,"p17":5,"p19":5,"p21":5,"p22":5,"p23":5,"p26":5,"p27":4,"p28":3,"p29":5,"p32":5,"p34":4,"p35":4,"p36":1,"p39":5,"p43":5,"p47":5,"p48":4,"p51":4,"p52":3,"p54":5,"p56":5,"p57":5,"p60":5,"p63":5},"t":[-0.44,-0.21,-0.38,0.9,-0.99,1.4,-0.04,0.57,0.08,-0.05,0.97,-0.64],"bias":-0.08},{"id":"u10","name":"Diego O.","arch":"Culture & books","lat":51.5467,"lng":-0.1967,"r":{"p3":4,"p6":2,"p7":2,"p8":4,"p9":5,"p10":5,"p11":5,"p12":5,"p13":4,"p14":5,"p15":5,"p19":4,"p20":5,"p21":4,"p23":5,"p24":5,"p25":5,"p26":3,"p27":5,"p28":4,"p30":4,"p34":5,"p36":4,"p38":5,"p41":5,"p42":5,"p45":5,"p47":5,"p48":5,"p50":3,"p51":3,"p57":5,"p59":5,"p60":5,"p61":5,"p63":5,"p64":4},"t":[-0.35,0.67,0.05,0.23,0.54,-0.23,-1.58,1.43,1.3,-0.77,1.59,0.27],"bias":-0.42},{"id":"u11","name":"Chloe T.","arch":"Spice & pasta","lat":51.6234,"lng":-0.0705,"r":{"p3":5,"p4":5,"p11":5,"p12":3,"p14":5,"p15":5,"p16":5,"p17":5,"p24":5,"p25":4,"p26":3,"p27":5,"p28":5,"p29":5,"p31":5,"p33":5,"p34":5,"p38":5,"p39":4,"p42":2,"p43":5,"p44":5,"p46":5,"p49":4,"p50":4,"p52":5,"p56":5,"p57":5,"p58":5,"p60":5,"p62":5},"t":[-1.15,1.37,1.46,-0.48,0.76,-0.6,0.29,-0.45,0.15,0.64,0.34,0.83],"bias":-0.13},{"id":"u12","name":"Ravi P.","arch":"Night owl","lat":51.5602,"lng":-0.1064,"r":{"p2":5,"p3":5,"p4":5,"p6":5,"p9":5,"p12":5,"p13":4,"p14":5,"p17":2,"p18":5,"p19":5,"p20":5,"p22":3,"p23":5,"p24":4,"p27":4,"p28":3,"p31":5,"p32":5,"p34":3,"p35":5,"p38":5,"p41":5,"p42":5,"p44":5,"p45":5,"p50":5,"p51":5,"p58":4,"p60":5,"p62":5,"p63":4,"p64":5},"t":[0.61,-1.02,0.78,-0.39,-0.34,0.45,1.5,0.74,0.01,-0.24,0.35,1.17],"bias":-0.08},{"id":"u13","name":"Ines W.","arch":"Mediterranean lover","lat":51.5051,"lng":-0.1626,"r":{"p3":5,"p7":5,"p8":5,"p13":5,"p14":4,"p16":5,"p17":5,"p20":5,"p25":5,"p26":4,"p28":5,"p30":5,"p34":5,"p36":5,"p37":5,"p38":4,"p39":5,"p40":5,"p44":5,"p45":5,"p50":5,"p51":5,"p52":5,"p53":5,"p55":5,"p56":5,"p58":5,"p59":5,"p60":5},"t":[-0.29,1.18,-0.12,0.58,-0.2,0.56,0.21,-0.88,-0.02,1.23,1.36,0.25],"bias":0.08},{"id":"u14","name":"Felix N.","arch":"Steak & cocktails","lat":51.5467,"lng":-0.1637,"r":{"p2":5,"p8":5,"p10":5,"p11":5,"p12":5,"p13":5,"p16":5,"p18":5,"p20":5,"p22":5,"p26":5,"p27":5,"p28":5,"p29":5,"p30":5,"p32":5,"p36":5,"p38":5,"p40":4,"p42":5,"p44":5,"p45":5,"p46":5,"p50":5,"p51":5,"p52":5,"p53":5,"p55":4,"p56":5,"p57":5,"p60":5,"p63":4,"p64":5},"t":[1.89,0.65,0.01,0.6,-0.34,-0.12,0.53,-0.87,-0.22,-0.12,-0.67,0.48],"bias":0.25},{"id":"u15","name":"Yuki T.","arch":"Brunch crowd","lat":51.4473,"lng":-0.2253,"r":{"p4":5,"p7":5,"p8":5,"p11":4,"p12":5,"p13":5,"p15":5,"p20":5,"p22":4,"p24":5,"p25":5,"p26":5,"p27":5,"p31":5,"p32":5,"p34":5,"p39":4,"p40":5,"p47":5,"p48":5,"p49":5,"p50":5,"p51":5,"p54":5,"p57":5,"p58":5,"p60":4,"p62":5,"p63":5},"t":[0.69,0.85,0.22,1.5,1.29,-0.52,0.34,-0.1,1.04,1.68,-0.93,-0.18],"bias":0.11},{"id":"u16","name":"Zara L.","arch":"Fine-dining foodie","lat":51.5558,"lng":-0.168,"r":{"p2":5,"p3":4,"p6":3,"p7":5,"p12":5,"p13":5,"p16":5,"p24":5,"p26":5,"p28":5,"p29":3,"p32":5,"p33":5,"p34":5,"p35":5,"p36":3,"p37":5,"p39":5,"p41":5,"p42":5,"p45":5,"p46":5,"p52":5,"p53":4,"p54":5,"p55":5,"p56":5,"p59":5,"p62":5,"p63":5},"t":[-0.03,-0.05,0.16,0.15,-1.25,0.49,-0.05,0.17,0.45,0.36,0.91,0.01],"bias":0.1},{"id":"u17","name":"Luca D.","arch":"Culture & books","lat":51.5583,"lng":-0.1559,"r":{"p1":4,"p3":5,"p4":4,"p8":4,"p9":4,"p10":5,"p14":5,"p16":5,"p19":5,"p21":5,"p22":5,"p24":5,"p27":5,"p28":4,"p29":3,"p30":3,"p31":5,"p34":5,"p37":5,"p38":5,"p42":5,"p43":5,"p46":5,"p48":5,"p49":2,"p50":2,"p51":4,"p52":4,"p57":5,"p59":5,"p60":5,"p61":5,"p63":1},"t":[-0.41,0.12,-0.08,-0.56,-0.63,0.39,-0.69,2.16,2.12,-0.24,1.61,-0.16],"bias":-0.31},{"id":"u18","name":"Nadia D.","arch":"Spice & pasta","lat":51.5456,"lng":-0.0479,"r":{"p3":3,"p4":5,"p7":5,"p8":5,"p12":5,"p13":5,"p16":5,"p17":5,"p21":5,"p23":4,"p27":4,"p29":5,"p30":5,"p31":5,"p32":5,"p33":4,"p38":5,"p41":5,"p46":5,"p47":5,"p48":5,"p49":2,"p52":4,"p57":5,"p59":4,"p62":5,"p63":4},"t":[0.07,1.1,0.81,0.42,-0.12,-0.54,-0.69,0.79,0.13,0.68,-0.43,0.93],"bias":-0.19},{"id":"u19","name":"Sam H.","arch":"Night owl","lat":51.5402,"lng":-0.0646,"r":{"p2":5,"p4":5,"p7":5,"p8":5,"p10":4,"p11":5,"p13":5,"p15":5,"p17":5,"p18":3,"p23":5,"p28":3,"p30":5,"p31":5,"p32":5,"p36":5,"p38":4,"p39":5,"p42":5,"p44":5,"p45":5,"p47":5,"p52":5,"p53":5,"p54":3,"p55":5,"p58":5,"p62":5,"p63":4,"p64":5},"t":[-0.12,0.3,-0.15,0.42,0.09,0.21,1.82,0.74,0.52,-0.31,-0.45,0.85],"bias":-0.36},{"id":"u20","name":"Ada C.","arch":"Mediterranean lover","lat":51.51,"lng":-0.1713,"r":{"p2":5,"p4":5,"p7":5,"p9":5,"p10":5,"p11":5,"p13":5,"p14":5,"p22":4,"p24":5,"p26":5,"p29":5,"p31":5,"p34":5,"p35":5,"p36":5,"p37":5,"p38":5,"p39":5,"p42":3,"p43":4,"p44":5,"p45":5,"p49":3,"p50":5,"p51":5,"p53":5,"p54":5,"p55":5,"p56":5,"p57":5,"p58":5,"p63":4},"t":[-0.69,0.69,-0.3,1.35,0.36,-0.2,0.39,-0.82,0.11,1.25,0.11,0.22],"bias":0.2},{"id":"u21","name":"Ben D.","arch":"Steak & cocktails","lat":51.5307,"lng":-0.1492,"r":{"p1":5,"p2":5,"p3":4,"p5":5,"p6":4,"p7":5,"p8":3,"p9":5,"p13":5,"p16":5,"p19":4,"p24":5,"p29":5,"p31":5,"p35":5,"p37":5,"p38":5,"p39":5,"p40":5,"p41":5,"p44":5,"p47":4,"p49":5,"p50":5,"p52":5,"p54":5,"p55":5,"p57":5,"p58":4,"p59":5,"p61":5},"t":[0.42,-0.05,0.09,0.25,-0.24,-0.93,0.37,-0.01,-0.36,-0.45,0.05,-0.39],"bias":0.28},{"id":"u22","name":"Leila D.","arch":"Brunch crowd","lat":51.4901,"lng":-0.1522,"r":{"p1":5,"p2":5,"p4":5,"p7":5,"p11":5,"p12":5,"p16":5,"p18":5,"p24":5,"p25":5,"p26":5,"p27":5,"p30":5,"p31":5,"p36":5,"p37":5,"p40":5,"p41":5,"p42":4,"p43":5,"p44":3,"p45":4,"p46":5,"p49":4,"p50":5,"p51":5,"p52":5,"p54":5,"p55":5,"p56":5,"p60":3,"p62":4},"t":[0.46,0.53,-0.81,-0.1,0.89,-1.79,0.18,-0.3,-1.0,1.46,0.25,-0.3],"bias":-0.04},{"id":"u23","name":"Marco V.","arch":"Fine-dining foodie","lat":51.4834,"lng":-0.1182,"r":{"p1":5,"p3":5,"p4":5,"p6":5,"p9":5,"p10":5,"p12":4,"p13":5,"p16":5,"p17":4,"p22":5,"p23":5,"p24":4,"p25":5,"p27":5,"p28":4,"p31":3,"p32":5,"p33":5,"p34":4,"p37":5,"p39":5,"p41":5,"p42":5,"p45":5,"p46":5,"p47":5,"p50":5,"p52":5,"p57":5,"p60":5,"p61":5,"p62":5},"t":[-0.35,-0.19,-0.54,0.74,-0.08,0.86,0.31,0.27,0.52,-0.71,1.47,-0.7],"bias":0.16},{"id":"u24","name":"Tess H.","arch":"Culture & books","lat":51.4991,"lng":-0.1282,"r":{"p2":2,"p5":5,"p7":3,"p8":5,"p10":5,"p11":5,"p13":5,"p14":5,"p15":5,"p16":5,"p17":5,"p22":5,"p27":5,"p28":4,"p29":5,"p31":5,"p32":4,"p34":5,"p35":4,"p38":5,"p41":5,"p44":5,"p45":5,"p48":5,"p50":2,"p51":1,"p55":4,"p57":5,"p58":4,"p60":5,"p61":5},"t":[-0.28,0.5,0.65,-0.47,0.09,0.17,-1.43,1.24,0.78,0.21,1.2,-0.67],"bias":0.05},{"id":"u25","name":"Rui D.","arch":"Spice & pasta","lat":51.5255,"lng":-0.0414,"r":{"p1":5,"p3":5,"p4":5,"p5":5,"p6":5,"p8":5,"p9":5,"p11":5,"p12":5,"p13":5,"p14":5,"p15":5,"p17":5,"p19":4,"p22":2,"p23":2,"p24":5,"p25":5,"p27":4,"p30":5,"p31":5,"p38":4,"p39":5,"p46":5,"p48":5,"p50":5,"p52":5,"p58":5,"p59":5,"p61":4,"p62":5,"p63":3},"t":[0.51,1.1,1.06,-0.54,0.32,-0.36,0.65,-0.34,0.01,0.67,-0.04,0.4],"bias":-0.43},{"id":"u26","name":"Aisha S.","arch":"Night owl","lat":51.544,"lng":-0.0641,"r":{"p2":5,"p3":5,"p5":5,"p7":5,"p11":4,"p13":4,"p16":4,"p21":5,"p23":2,"p24":4,"p31":3,"p32":3,"p33":5,"p34":3,"p35":5,"p37":3,"p38":5,"p41":5,"p44":4,"p45":4,"p47":5,"p52":5,"p53":5,"p54":5,"p56":3,"p57":2,"p59":2,"p61":5,"p62":5},"t":[-0.17,-0.47,-0.94,-0.35,-0.43,0.17,0.86,0.42,-0.77,-0.54,0.02,0.71],"bias":-0.49},{"id":"u27","name":"Callum T.","arch":"Mediterranean lover","lat":51.529,"lng":-0.1023,"r":{"p5":5,"p7":4,"p10":3,"p11":5,"p15":5,"p16":5,"p17":5,"p18":4,"p22":5,"p23":5,"p25":5,"p26":5,"p27":5,"p29":5,"p30":5,"p31":5,"p32":5,"p34":5,"p35":5,"p36":5,"p39":5,"p41":5,"p42":5,"p44":5,"p45":5,"p48":5,"p49":4,"p51":5,"p56":5,"p57":5,"p59":5,"p60":5,"p61":5,"p63":5},"t":[-1.05,0.26,0.06,1.31,0.64,0.05,-0.54,-0.25,-0.26,0.93,0.57,-0.05],"bias":0.22},{"id":"u28","name":"Freya V.","arch":"Steak & cocktails","lat":51.5172,"lng":-0.1449,"r":{"p1":5,"p4":5,"p5":4,"p6":5,"p8":2,"p10":5,"p11":5,"p13":4,"p16":5,"p20":5,"p21":5,"p22":3,"p24":4,"p25":3,"p26":5,"p29":5,"p35":5,"p39":5,"p42":5,"p43":5,"p44":5,"p46":5,"p51":5,"p53":5,"p54":5,"p56":5,"p59":4,"p60":2,"p61":5,"p62":5,"p64":5},"t":[0.96,-0.66,0.42,0.18,-0.45,0.08,1.13,-0.15,-0.01,-0.34,-0.9,-0.04],"bias":-0.02},{"id":"u29","name":"Dev F.","arch":"Brunch crowd","lat":51.5888,"lng":-0.198,"r":{"p1":5,"p2":5,"p3":5,"p4":5,"p6":3,"p7":4,"p9":5,"p13":5,"p14":5,"p15":5,"p16":5,"p17":5,"p21":5,"p24":5,"p25":5,"p27":5,"p31":5,"p32":3,"p33":3,"p34":5,"p36":4,"p38":5,"p39":5,"p41":5,"p47":5,"p48":4,"p52":5,"p54":5,"p56":4,"p58":3,"p62":2,"p63":4},"t":[0.43,1.06,-0.54,-0.71,1.13,-0.5,-0.71,-0.36,0.03,0.56,-0.26,-0.39],"bias":-0.39},{"id":"u30","name":"Elif N.","arch":"Fine-dining foodie","lat":51.5876,"lng":-0.1303,"r":{"p1":2,"p5":4,"p8":5,"p9":5,"p12":5,"p15":5,"p16":4,"p17":4,"p18":5,"p19":5,"p22":5,"p23":5,"p26":4,"p27":4,"p28":4,"p30":5,"p32":5,"p36":5,"p37":4,"p39":5,"p40":5,"p42":4,"p44":5,"p45":5,"p46":4,"p49":5,"p50":4,"p52":5,"p53":4,"p55":5,"p56":5,"p58":4,"p62":5},"t":[-0.96,-0.21,-0.56,0.14,-0.29,1.64,-0.01,-0.21,-0.03,0.4,0.61,-0.49],"bias":-0.11},{"id":"u31","name":"Gabe E.","arch":"Culture & books","lat":51.4963,"lng":-0.1863,"r":{"p1":5,"p3":5,"p4":5,"p6":2,"p7":2,"p8":5,"p9":5,"p10":4,"p13":5,"p16":5,"p18":5,"p19":5,"p23":3,"p28":5,"p31":5,"p33":3,"p38":5,"p39":5,"p40":5,"p44":5,"p45":5,"p46":5,"p53":3,"p56":5,"p57":5,"p58":5,"p60":5,"p61":5,"p62":5},"t":[-0.21,0.56,0.07,0.42,-0.0,-0.46,-1.44,0.86,0.59,-0.21,1.11,0.26],"bias":0.02},{"id":"u32","name":"Harriet N.","arch":"Spice & pasta","lat":51.5437,"lng":-0.2089,"r":{"p1":5,"p2":4,"p3":5,"p4":5,"p7":5,"p9":4,"p11":5,"p12":4,"p13":5,"p14":5,"p15":5,"p16":5,"p17":5,"p21":5,"p24":5,"p27":5,"p28":5,"p34":5,"p38":5,"p39":5,"p41":5,"p45":5,"p46":5,"p48":4,"p49":4,"p51":5,"p52":5,"p53":5,"p54":5,"p56":5,"p58":5,"p60":5,"p62":5,"p64":5},"t":[0.14,1.68,1.23,-0.27,-0.58,-1.07,0.63,0.55,0.21,0.65,0.38,0.46],"bias":-0.32},{"id":"u33","name":"Isaac A.","arch":"Night owl","lat":51.5212,"lng":-0.1512,"r":{"p2":5,"p4":5,"p9":5,"p11":5,"p12":5,"p15":5,"p16":5,"p18":3,"p19":5,"p20":5,"p24":5,"p25":5,"p31":4,"p32":5,"p33":5,"p36":5,"p38":5,"p39":5,"p42":5,"p44":5,"p48":4,"p49":5,"p50":5,"p51":5,"p53":5,"p54":5,"p57":3,"p58":5,"p61":5,"p62":5,"p63":5},"t":[-0.46,0.03,0.69,-0.22,0.05,0.27,0.65,0.18,-0.45,-1.05,-0.14,1.79],"bias":0.15},{"id":"u34","name":"Juno V.","arch":"Mediterranean lover","lat":51.5732,"lng":-0.1399,"r":{"p1":5,"p4":4,"p6":5,"p8":5,"p9":5,"p11":5,"p12":5,"p15":5,"p16":5,"p17":5,"p23":4,"p24":4,"p26":5,"p27":5,"p29":5,"p34":5,"p35":4,"p37":5,"p39":5,"p41":5,"p42":5,"p44":5,"p47":5,"p51":5,"p53":5,"p54":5,"p56":5,"p58":5,"p59":5,"p62":5,"p63":5},"t":[0.02,0.44,0.33,0.68,-0.67,0.29,0.35,-0.08,0.2,0.08,-0.08,0.05],"bias":-0.06},{"id":"u35","name":"Kofi T.","arch":"Steak & cocktails","lat":51.4956,"lng":-0.1334,"r":{"p1":5,"p2":4,"p4":4,"p5":5,"p10":5,"p11":5,"p12":5,"p13":5,"p17":5,"p18":5,"p19":5,"p20":5,"p24":5,"p29":5,"p30":5,"p33":5,"p34":5,"p37":5,"p40":3,"p42":2,"p44":4,"p46":2,"p48":2,"p51":5,"p52":5,"p53":5,"p54":5,"p55":5,"p56":2,"p62":5,"p63":4},"t":[1.68,0.0,-0.58,-0.2,-0.35,-0.2,1.01,-1.02,-0.47,-0.02,-0.24,0.04],"bias":-0.29},{"id":"u36","name":"Maya M.","arch":"Brunch crowd","lat":51.5212,"lng":-0.0668,"r":{"p1":4,"p2":5,"p4":5,"p6":5,"p7":5,"p8":5,"p9":5,"p10":4,"p11":4,"p13":5,"p16":5,"p17":5,"p18":4,"p25":5,"p27":5,"p28":5,"p29":5,"p31":5,"p34":5,"p39":5,"p41":5,"p44":4,"p46":4,"p48":5,"p51":4,"p53":4,"p54":5,"p55":5,"p58":5,"p60":5,"p63":5,"p64":5},"t":[0.02,0.86,-0.31,-0.11,0.6,-0.69,0.12,0.03,-0.13,1.44,-0.27,0.66],"bias":-0.3},{"id":"u37","name":"Niall V.","arch":"Fine-dining foodie","lat":51.5713,"lng":-0.1415,"r":{"p1":4,"p7":4,"p9":5,"p11":3,"p12":5,"p18":5,"p19":5,"p20":5,"p22":5,"p24":4,"p26":4,"p29":5,"p30":5,"p33":3,"p36":2,"p37":5,"p40":5,"p42":5,"p43":3,"p45":3,"p46":4,"p48":3,"p51":3,"p53":3,"p54":4,"p55":5,"p56":5,"p59":5,"p60":5,"p62":5},"t":[-0.01,-0.3,0.4,0.39,-0.39,1.33,-0.59,-0.05,-1.1,-0.11,0.73,-0.63],"bias":-0.2},{"id":"u38","name":"Olu A.","arch":"Culture & books","lat":51.4998,"lng":-0.2,"r":{"p3":5,"p4":5,"p5":4,"p9":5,"p11":5,"p17":5,"p18":5,"p24":5,"p25":5,"p28":5,"p29":5,"p30":5,"p31":5,"p32":5,"p33":3,"p35":4,"p36":5,"p37":4,"p39":5,"p42":5,"p44":5,"p46":5,"p48":5,"p51":2,"p53":2,"p54":4,"p58":3,"p59":5,"p60":5,"p61":5,"p63":4},"t":[-0.52,0.41,-0.23,0.67,0.1,0.1,-0.45,1.43,1.8,-0.72,1.2,-0.21],"bias":-0.25},{"id":"u39","name":"Pia T.","arch":"Spice & pasta","lat":51.4733,"lng":-0.1848,"r":{"p2":5,"p4":5,"p6":5,"p8":5,"p12":5,"p13":5,"p14":5,"p16":5,"p18":5,"p23":2,"p28":5,"p29":5,"p31":5,"p32":5,"p33":4,"p34":5,"p35":5,"p37":5,"p40":5,"p41":4,"p42":5,"p44":5,"p45":5,"p48":5,"p49":3,"p52":5,"p55":5,"p56":5,"p58":5,"p60":5},"t":[0.98,0.99,2.1,0.12,0.11,-1.19,0.03,-0.1,-0.24,1.11,-1.02,0.69],"bias":0.1},{"id":"u40","name":"Quentin G.","arch":"Night owl","lat":51.5273,"lng":-0.1209,"r":{"p4":5,"p9":5,"p10":5,"p11":5,"p13":5,"p16":4,"p17":5,"p18":5,"p24":5,"p26":4,"p29":5,"p31":5,"p35":4,"p39":5,"p41":5,"p42":5,"p45":5,"p47":4,"p49":5,"p50":5,"p52":5,"p53":5,"p57":4,"p59":5,"p60":5,"p61":5,"p62":5},"t":[0.08,0.54,-0.46,0.15,0.27,-1.05,1.19,0.89,-0.97,-0.87,0.29,1.1],"bias":-0.01},{"id":"u41","name":"Rosa G.","arch":"Mediterranean lover","lat":51.5311,"lng":-0.1064,"r":{"p3":5,"p5":2,"p7":4,"p11":5,"p12":4,"p13":5,"p16":5,"p17":5,"p19":5,"p20":5,"p22":5,"p23":3,"p24":5,"p26":5,"p27":2,"p28":5,"p30":5,"p34":5,"p35":4,"p36":5,"p37":5,"p39":5,"p40":4,"p42":3,"p45":5,"p46":4,"p51":4,"p52":5,"p53":5,"p55":5,"p56":5,"p58":4,"p60":4,"p61":3,"p62":5},"t":[-0.44,1.09,0.01,0.99,-0.21,0.08,0.7,-0.14,-0.47,0.21,-0.54,0.15],"bias":-0.34},{"id":"u42","name":"Tariq J.","arch":"Steak & cocktails","lat":51.5149,"lng":-0.2156,"r":{"p1":5,"p4":5,"p5":5,"p7":5,"p11":5,"p12":5,"p17":4,"p19":5,"p22":4,"p24":5,"p25":5,"p27":3,"p28":4,"p31":4,"p33":5,"p34":5,"p35":4,"p39":3,"p40":4,"p41":3,"p45":5,"p46":4,"p49":4,"p50":5,"p53":5,"p55":4,"p58":5,"p60":5,"p61":2,"p62":5},"t":[1.41,0.28,0.1,0.12,0.16,-0.38,1.46,-1.51,-0.97,0.19,-0.75,1.23],"bias":-0.29},{"id":"u43","name":"Una F.","arch":"Brunch crowd","lat":51.4828,"lng":-0.1364,"r":{"p4":5,"p6":5,"p7":2,"p8":5,"p9":5,"p11":5,"p12":2,"p13":5,"p15":4,"p16":5,"p17":5,"p20":3,"p23":2,"p25":5,"p26":5,"p28":5,"p29":5,"p30":5,"p31":5,"p33":5,"p36":5,"p40":5,"p42":5,"p43":5,"p44":5,"p46":5,"p53":5,"p54":5,"p55":5,"p56":5,"p57":4,"p59":4,"p63":5},"t":[-0.55,0.34,-0.61,0.32,1.35,-1.21,-0.59,-0.08,-0.05,1.08,-1.13,-0.68],"bias":-0.2},{"id":"u44","name":"Vik N.","arch":"Fine-dining foodie","lat":51.4801,"lng":-0.0976,"r":{"p3":5,"p4":5,"p6":5,"p10":5,"p11":5,"p13":5,"p15":5,"p16":5,"p17":5,"p19":5,"p20":5,"p22":5,"p23":5,"p24":5,"p25":5,"p28":5,"p29":5,"p30":5,"p31":5,"p32":5,"p37":5,"p39":5,"p40":5,"p41":5,"p44":5,"p46":5,"p47":5,"p50":5,"p51":5,"p53":5,"p54":5,"p55":5,"p56":5,"p57":5,"p62":5},"t":[-0.27,1.51,-0.76,0.82,-0.2,1.3,-0.53,0.22,0.21,0.16,0.55,-0.32],"bias":0.12},{"id":"u45","name":"Willa B.","arch":"Culture & books","lat":51.5133,"lng":-0.1037,"r":{"p1":4,"p3":4,"p5":4,"p7":5,"p11":5,"p12":4,"p13":5,"p14":5,"p16":5,"p19":5,"p21":5,"p23":5,"p26":4,"p28":5,"p30":5,"p31":5,"p32":5,"p34":5,"p35":3,"p38":5,"p39":5,"p44":5,"p46":5,"p48":5,"p51":3,"p52":3,"p53":5,"p54":3,"p55":3,"p57":5,"p60":5,"p61":5,"p62":5,"p63":4},"t":[-0.22,0.58,0.52,0.56,-0.63,0.91,-0.79,1.15,1.24,-1.12,1.13,-0.49],"bias":0.0},{"id":"u46","name":"Xander D.","arch":"Spice & pasta","lat":51.5186,"lng":-0.2094,"r":{"p1":5,"p3":5,"p7":5,"p11":5,"p13":5,"p14":5,"p16":5,"p17":5,"p23":4,"p24":5,"p26":5,"p27":4,"p28":5,"p30":5,"p31":5,"p34":5,"p36":3,"p38":5,"p39":5,"p41":5,"p44":5,"p45":5,"p48":5,"p50":5,"p52":5,"p53":5,"p54":5,"p58":5,"p60":5,"p64":5},"t":[-0.22,1.9,1.09,0.01,-0.55,-1.19,-0.1,-0.38,0.46,0.74,0.14,1.25],"bias":-0.12},{"id":"u47","name":"Yara O.","arch":"Night owl","lat":51.5477,"lng":-0.1539,"r":{"p1":5,"p2":5,"p3":4,"p6":5,"p7":5,"p8":4,"p9":5,"p10":4,"p11":5,"p16":3,"p18":5,"p19":5,"p22":5,"p23":4,"p24":5,"p25":3,"p27":4,"p30":5,"p31":5,"p32":5,"p33":5,"p35":5,"p38":3,"p39":3,"p42":3,"p45":5,"p46":5,"p47":5,"p49":5,"p57":2,"p58":3,"p62":5,"p63":4,"p64":5},"t":[0.01,-0.36,-0.02,0.64,-1.69,0.02,1.97,-0.46,0.28,-1.32,-0.05,1.44],"bias":-0.15},{"id":"u48","name":"Zeb L.","arch":"Mediterranean lover","lat":51.4534,"lng":-0.1628,"r":{"p3":5,"p4":5,"p6":5,"p7":5,"p9":5,"p11":5,"p13":5,"p17":5,"p18":5,"p22":5,"p23":5,"p25":5,"p26":5,"p30":5,"p31":5,"p35":5,"p36":5,"p37":5,"p38":5,"p40":5,"p41":5,"p44":5,"p46":5,"p48":5,"p50":5,"p51":5,"p55":5,"p58":5,"p61":5,"p62":5,"p63":5},"t":[-0.44,0.27,-0.18,1.87,0.52,-0.0,0.33,0.45,-0.32,1.07,-0.08,-0.13],"bias":0.48},{"id":"u49","name":"Bea V.","arch":"Steak & cocktails","lat":51.5567,"lng":-0.2043,"r":{"p1":5,"p4":3,"p7":5,"p11":5,"p12":5,"p16":5,"p22":5,"p27":3,"p28":5,"p29":5,"p30":5,"p32":5,"p34":5,"p35":5,"p40":4,"p41":5,"p42":5,"p44":3,"p45":5,"p47":4,"p50":5,"p51":5,"p54":5,"p58":5,"p60":5,"p62":5,"p64":5},"t":[1.06,0.02,-0.13,-0.02,-0.7,0.37,0.59,-1.03,-1.21,0.52,-0.66,1.32],"bias":0.07}],"dims":["steak","italian","southasian","med","brunch","fine","bar","culture","books","musical","drama","comedy"]};
 const VENUES0 = DATA.venues.map(v => ({...v, city:'London'}));
 const users = DATA.users.map(u => ({...u, ratings:u.r}));
 const KINDS = {Eat:'Restaurants', Drink:'Bars', Culture:'Museums & galleries', Theatre:'Theatre & shows', Shop:'Shops'};
@@ -267,7 +274,9 @@ S.offers = []; S.vouchers = [];
 const BUY_IN_APP = CFG.BUY_TOKENS_IN_APP ?? !NATIVE;
 const pounds = p => '£' + ((p || 0) / 100).toLocaleString('en-GB', {minimumFractionDigits:2, maximumFractionDigits:2});
 const fmtDateTime = iso => new Date(iso).toLocaleString('en-GB', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'});
-const OFFER_TYPES = {percent_off:'% off the bill', two_for_one:'2-for-1', free_item:'Free item', fixed_off:'£ off', other:'Other'};
+const OFFER_TYPES = {percent_off:'% off the bill', two_for_one:'2-for-1', free_item:'Free item', fixed_off:'£ off', ticket:'Tickets (paid)', other:'Other'};
+const VKIND = {ticket:'Ticket', secured:'Secured', free:'Free claim'};
+const SECURE_FEE = 100;
 function cleanErr(m){
   m = String(m || 'Something went wrong. Try again.').replace(/^Error:\s*/, '');
   if (/Invalid login credentials/i.test(m)) return 'Email or password is wrong.';
@@ -305,7 +314,12 @@ function SupaApi(){
     async updatePassword(pw){ chk(await sb.auth.updateUser({password:pw})); },
     onRecovery(cb){ sb.auth.onAuthStateChange(ev => { if (ev === 'PASSWORD_RECOVERY') cb(); }); },
     async liveOffers(){ return chk(await sb.rpc('live_offers')); },
-    async claim(id){ return chk(await sb.rpc('claim_offer', {p_offer:id})); },
+    async claim(id, mode){ return chk(await sb.rpc('claim_offer', {p_offer:id, p_mode:mode || 'free'})); },
+    async payVoucher(voucherId){
+      const {data, error} = await sb.functions.invoke('create-voucher-checkout', {body:{voucher_id:voucherId, return_url:(CFG.APP_URL || location.href.split('#')[0])}});
+      if (error) { let m = error.message; try { const j = await error.context.json(); m = j.error || m; } catch(e) {} throw new Error(cleanErr(m)); }
+      return data;
+    },
     async myVouchers(){ return chk(await sb.rpc('my_vouchers')); },
     async getRatings(){ return chk(await sb.from('ratings').select('venue_id, rating, source')); },
     async saveRatings(map){
@@ -319,12 +333,12 @@ function SupaApi(){
     },
     async matchPool(){ return chk(await sb.rpc('match_pool')); },
     async balance(){ return chk(await sb.rpc('vendor_balance')); },
-    async createOffer(f){ return chk(await sb.rpc('create_offer', {p_title:f.title, p_offer_type:f.type, p_tokens:f.tokens, p_hours:f.hours, p_radius_km:f.radius, p_min_pred:f.minPred})); },
+    async createOffer(f){ return chk(await sb.rpc('create_offer', {p_title:f.title, p_offer_type:f.type, p_tokens:f.tokens, p_hours:f.hours, p_radius_km:f.radius, p_min_pred:f.minPred, p_price_pence:f.price ?? null, p_was_price_pence:f.was ?? null})); },
     async endOffer(id){ return chk(await sb.rpc('end_offer', {p_offer:id})); },
     async vendorData(){
       const [o, v, l] = await Promise.all([
         sb.from('offers').select('*').eq('vendor_id', uid).order('created_at', {ascending:false}),
-        sb.from('vouchers').select('id, offer_id, claimed_at, redeemed_at, bill_pence, party_size'),
+        sb.from('vouchers').select('id, offer_id, claimed_at, redeemed_at, bill_pence, party_size, kind, status, paid_pence'),
         sb.from('token_ledger').select('*').eq('vendor_id', uid).order('created_at', {ascending:false})
       ]);
       const offers = chk(o), ids = new Set(offers.map(x => x.id));
@@ -349,10 +363,10 @@ function SupaApi(){
 }
 
 function DemoApi(){
-  const KEY = 'tastemate.demo.v2', SET = {free:10, single:75, bulk:45, bulkMin:100, grace:15};
+  const KEY = 'tastemate.demo.v4', SET = {free:10, single:75, bulk:45, bulkMin:100, grace:15, fee:100};
   let D = null;
   try { D = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch(e) {}
-  if (!D || D.v !== 2) D = seedDemo();
+  if (!D || D.v !== 4) D = seedDemo();
   const liveNow = o => !o.cancelled_at && Date.parse(o.starts_at) <= Date.now() && Date.parse(o.expires_at) > Date.now();
   if (!D.offers.some(o => liveNow(o) && o.vendor_id !== 'demo-vendor')) seedLive(D);
   const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(D)); } catch(e) {} };
@@ -367,6 +381,7 @@ function DemoApi(){
     return {free_allowance:SET.free, free_left:Math.max(0, SET.free - fu), paid, total:Math.max(0, SET.free - fu) + paid,
       resets_at:new Date(d.getFullYear(), d.getMonth() + 1, 1).toISOString(), price_single_pence:SET.single, price_bulk_pence:SET.bulk, bulk_min_qty:SET.bulkMin};
   }
+  const guaranteed = oid => D.vouchers.filter(v => v.offer_id === oid && v.status !== 'cancelled' && (v.kind === 'secured' || v.kind === 'ticket')).length;
   const newCode = () => { const A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let c; do { c = 'TM-' + Array.from({length:6}, () => A[Math.floor(Math.random()*A.length)]).join(''); } while (D.vouchers.some(v => v.code === c)); return c; };
   const account = async () => { const a = acct(D.session); if (!a) return null; return {id:a.id, email:a.email, role:a.role, name:a.name, vendor:a.role === 'vendor' ? D.vendors[a.id] : null}; };
   const nowIso = () => new Date().toISOString();
@@ -391,27 +406,41 @@ function DemoApi(){
     async updatePassword(){},
     onRecovery(){},
     async liveOffers(){
-      return D.offers.filter(liveNow).map(o => ({id:o.id, venue_id:o.venue_id, title:o.title, offer_type:o.offer_type, tokens:o.tokens,
-        claimed:D.vouchers.filter(v => v.offer_id === o.id).length, radius_km:o.radius_km, min_pred:o.min_pred, starts_at:o.starts_at, expires_at:o.expires_at,
-        my_code:D.vouchers.find(v => v.offer_id === o.id && v.user_id === D.session)?.code || null}));
+      return D.offers.filter(liveNow).map(o => { const mv = D.vouchers.find(v => v.offer_id === o.id && v.user_id === D.session);
+        return {id:o.id, venue_id:o.venue_id, title:o.title, offer_type:o.offer_type, tokens:o.tokens, claimed:D.vouchers.filter(v => v.offer_id === o.id).length,
+          guaranteed:guaranteed(o.id), radius_km:o.radius_km, min_pred:o.min_pred, starts_at:o.starts_at, expires_at:o.expires_at, price_pence:o.price_pence ?? null, was_price_pence:o.was_price_pence ?? null,
+          my_code:mv?.code || null, my_kind:mv?.kind || null, my_status:mv?.status || null}; });
     },
-    async claim(id){
+    // Demo: paid options are paid instantly (no card is charged)
+    async claim(id, mode = 'free'){
       const a = acct(D.session);
-      if (!a) fail('Sign in to claim offers.');
+      if (!a) fail('Sign in to get offers.');
       if (a.role !== 'user') fail('Offers can only be claimed with a diner account.');
       const o = D.offers.find(x => x.id === id);
       if (!o) fail('Offer not found.');
       if (o.cancelled_at || Date.parse(o.expires_at) <= Date.now()) fail('This offer has ended.');
+      if (o.offer_type === 'ticket' && mode !== 'ticket') fail('This is a ticketed offer. Buy a ticket to get it.');
+      if (o.offer_type !== 'ticket' && mode === 'ticket') fail('This offer is not ticketed.');
+      const paid = mode === 'ticket' ? o.price_pence : mode === 'secured' ? SET.fee : null;
       const ex = D.vouchers.find(v => v.offer_id === id && v.user_id === a.id);
-      if (ex) return ex;
-      if (D.vouchers.filter(v => v.offer_id === id).length >= o.tokens) fail(`All ${o.tokens} vouchers for this offer have been claimed.`);
-      const v = {id:'v' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), offer_id:id, user_id:a.id, code:newCode(), claimed_at:nowIso(), redeemed_at:null};
+      if (ex) {
+        if (ex.kind === 'free' && mode === 'secured' && !ex.redeemed_at) {
+          if (guaranteed(id) >= o.tokens) fail(`All ${o.tokens} places have been secured. Your free claim still stands if places are left when you arrive.`);
+          Object.assign(ex, {kind:'secured', status:'active', paid_pence:paid}); persist();
+        }
+        return ex;
+      }
+      if (guaranteed(id) >= o.tokens) fail(`All ${o.tokens} places for this offer are taken.`);
+      const v = {id:'v' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), offer_id:id, user_id:a.id, code:newCode(), claimed_at:nowIso(), redeemed_at:null,
+        kind:mode, status:'active', paid_pence:paid};
       D.vouchers.push(v); persist(); return v;
     },
+    async payVoucher(){ return {demo:true}; },
     async myVouchers(){
       return D.vouchers.filter(v => v.user_id === D.session).sort((a, b) => b.claimed_at.localeCompare(a.claimed_at)).map(v => {
         const o = D.offers.find(x => x.id === v.offer_id);
-        return {code:v.code, claimed_at:v.claimed_at, redeemed_at:v.redeemed_at, offer_id:o.id, title:o.title, offer_type:o.offer_type, venue_id:o.venue_id, expires_at:o.expires_at, cancelled_at:o.cancelled_at};
+        return {id:v.id, code:v.code, claimed_at:v.claimed_at, redeemed_at:v.redeemed_at, offer_id:o.id, title:o.title, offer_type:o.offer_type, venue_id:o.venue_id, expires_at:o.expires_at,
+          cancelled_at:o.cancelled_at, kind:v.kind || 'free', status:v.status || 'active', paid_pence:v.paid_pence ?? null, price_pence:o.price_pence ?? null};
       });
     },
     async getRatings(){ return Object.entries(D.ratings[D.session] || {}).map(([venue_id, rating]) => ({venue_id, rating, source:'app'})); },
@@ -431,11 +460,13 @@ function DemoApi(){
       if (!(tokens >= 1)) fail('Offer it to at least 1 person.');
       if (!(f.hours > 0 && f.hours <= 168)) fail('An offer can run for up to 7 days.');
       if (!f.title || f.title.trim().length < 3) fail('Describe the offer in at least 3 characters.');
+      if (f.type === 'ticket' && !(f.price >= 50)) fail('Set a ticket price of at least 50p.');
       const b = balanceOf(v.id), fu = Math.min(b.free_left, tokens), pu = tokens - fu;
       if (pu > b.paid) fail(`Not enough tokens. This offer needs ${tokens} and you have ${b.total} (${b.free_left} free this month, ${b.paid} bought). Buy more tokens or offer it to fewer people.`);
       const now = Date.now();
       const o = {id:'o' + now.toString(36), vendor_id:v.id, venue_id:v.venue_id, title:f.title.trim(), offer_type:f.type, tokens, free_tokens:fu, paid_tokens:pu,
-        radius_km:f.radius, min_pred:f.minPred, starts_at:new Date(now).toISOString(), expires_at:new Date(now + f.hours*3600e3).toISOString(), cancelled_at:null, created_at:new Date(now).toISOString()};
+        radius_km:f.radius, min_pred:f.minPred, starts_at:new Date(now).toISOString(), expires_at:new Date(now + f.hours*3600e3).toISOString(), cancelled_at:null, created_at:new Date(now).toISOString(),
+        price_pence:f.type === 'ticket' ? f.price : null, was_price_pence:f.type === 'ticket' ? (f.was || null) : null};
       D.offers.push(o);
       D.ledger.push({id:D.ledger.length + 1, vendor_id:v.id, kind:'issue', paid_delta:-pu, free_used:fu, offer_id:o.id, note:`${tokens} tokens for "${o.title}"`, created_at:o.created_at});
       persist(); return o;
@@ -461,9 +492,14 @@ function DemoApi(){
       if (o.vendor_id !== v.id) fail(`This voucher is for ${venue(o.venue_id)?.name || 'another venue'}, not your venue.`);
       if (vch.redeemed_at) fail(`Already used on ${fmtDateTime(vch.redeemed_at)}.`);
       if (Date.now() > Date.parse(o.expires_at) + SET.grace*60e3) fail(`This voucher expired on ${fmtDateTime(o.expires_at)}.`);
+      if ((vch.kind || 'free') === 'free') {
+        const used = D.vouchers.filter(x => x.offer_id === o.id && x.redeemed_at).length;
+        const owed = D.vouchers.filter(x => x.offer_id === o.id && !x.redeemed_at && (x.kind === 'secured' || x.kind === 'ticket')).length;
+        if (used + owed >= o.tokens) fail(`No places left for free claims: all ${o.tokens} places are used or secured. Do not honour this voucher.`);
+      }
       Object.assign(vch, {redeemed_at:nowIso(), redeemed_by:v.id, bill_pence:bill, party_size:party});
       persist();
-      return {code:vch.code, offer_title:o.title, offer_type:o.offer_type, claimed_at:vch.claimed_at, redeemed_at:vch.redeemed_at, bill_pence:bill, party_size:party};
+      return {code:vch.code, offer_title:o.title, offer_type:o.offer_type, kind:vch.kind || 'free', paid_pence:vch.paid_pence ?? null, claimed_at:vch.claimed_at, redeemed_at:vch.redeemed_at, bill_pence:bill, party_size:party};
     },
     async checkout(qty){
       const v = D.vendors[D.session]; qty = Math.floor(qty);
@@ -479,7 +515,9 @@ function DemoApi(){
       return {users:D.accounts.filter(a => a.role === 'user').length + 50, vendors:Object.keys(D.vendors).length, vendors_pending:Object.values(D.vendors).filter(v => !v.approved).length,
         tokens_sold:buys.reduce((s, l) => s + l.paid_delta, 0), revenue_pence:buys.reduce((s, l) => s + (l.amount_pence || 0), 0), offers:D.offers.length,
         tokens_issued:D.offers.reduce((s, o) => s + o.tokens, 0), vouchers_claimed:D.vouchers.length, vouchers_redeemed:D.vouchers.filter(v => v.redeemed_at).length,
-        vendor_spend_pence:D.vouchers.reduce((s, v) => s + (v.bill_pence || 0), 0)};
+        vendor_spend_pence:D.vouchers.reduce((s, v) => s + (v.bill_pence || 0), 0),
+        secure_fees_pence:D.vouchers.filter(v => v.kind === 'secured').reduce((s, v) => s + (v.paid_pence || 0), 0),
+        ticket_sales_pence:D.vouchers.filter(v => v.kind === 'ticket').reduce((s, v) => s + (v.paid_pence || 0), 0)};
     },
     async adminVendors(){
       if (acct(D.session)?.role !== 'admin') fail('Not allowed');
@@ -505,7 +543,7 @@ function DemoApi(){
 // Demo data: accounts, businesses, 6 weeks of offer history for the demo business, and live offers
 function seedDemo(){
   const r = rng(2026), now = Date.now(), DAY = 864e5, iso = t => new Date(t).toISOString();
-  const D = {v:2, session:null, accounts:[
+  const D = {v:4, session:null, accounts:[
       {id:'demo-diner', email:'diner@demo.app', password:'tastemate', role:'user', name:'Alex'},
       {id:'demo-vendor', email:'vendor@demo.app', password:'tastemate', role:'vendor', name:'Sam (Blacklock)'},
       {id:'demo-admin', email:'admin@demo.app', password:'tastemate', role:'admin', name:'Publisher'}],
@@ -553,12 +591,14 @@ function seedDemo(){
     const claims = Math.round(o.tokens * Math.min(1, o.claimP + (r() - .5)*.2));
     for (let k = 0; k < claims; k++) {
       const claimed = o.start + r()*Math.min(40, o.dur*30)*60e3;
-      const used = r() < o.redeemP;
+      const secured = r() < .38;
+      const used = r() < (secured ? .93 : o.redeemP - .08);
       const party = o.parties[Math.floor(r()*o.parties.length)];
       const perHead = o.type === 'other' ? 18 + r()*14 : 34 + r()*22;
       D.vouchers.push({id:o.id + 'v' + k, offer_id:o.id, user_id:'sim-' + Math.floor(r()*50), code:'TM-H' + o.id.slice(1).padStart(2, '0') + String(k).padStart(3, '0').slice(-3),
         claimed_at:iso(claimed), redeemed_at:used ? iso(Math.min(exp + 10*60e3, claimed + (20 + r()*(o.dur*60 - 10))*60e3)) : null,
-        redeemed_by:used ? 'demo-vendor' : null, bill_pence:used && r() < .9 ? Math.round(party*perHead)*100 : null, party_size:used ? party : null});
+        redeemed_by:used ? 'demo-vendor' : null, bill_pence:used && r() < .9 ? Math.round(party*perHead)*100 : null, party_size:used ? party : null,
+        kind:secured ? 'secured' : 'free', status:'active', paid_pence:secured ? 100 : null});
     }
   });
   seedLive(D);
@@ -566,19 +606,21 @@ function seedDemo(){
 }
 function seedLive(D){
   const now = Date.now(), MIN = 60e3, iso = t => new Date(t).toISOString();
-  const add = (vendor, title, type, tokens, claimed, mins, radius, minPred) => {
+  const add = (vendor, title, type, tokens, claimed, mins, radius, minPred, price, was) => {
     const id = 'L' + vendor + now.toString(36);
     D.offers.push({id, vendor_id:vendor, venue_id:D.vendors[vendor].venue_id, title, offer_type:type, tokens, free_tokens:Math.min(10, tokens), paid_tokens:Math.max(0, tokens - 10),
-      radius_km:radius, min_pred:minPred, starts_at:iso(now - 20*MIN), expires_at:iso(now + mins*MIN), cancelled_at:null, created_at:iso(now - 20*MIN)});
-    for (let k = 0; k < claimed; k++) D.vouchers.push({id:id + 'c' + k, offer_id:id, user_id:'sim-' + k, code:'TM-L' + id.slice(-4).toUpperCase() + k, claimed_at:iso(now - (18 - k)*MIN), redeemed_at:null});
+      radius_km:radius, min_pred:minPred, starts_at:iso(now - 20*MIN), expires_at:iso(now + mins*MIN), cancelled_at:null, created_at:iso(now - 20*MIN), price_pence:price || null, was_price_pence:was || null});
+    for (let k = 0; k < claimed; k++) { const kind = type === 'ticket' ? 'ticket' : k % 3 === 0 ? 'secured' : 'free';
+      D.vouchers.push({id:id + 'c' + k, offer_id:id, user_id:'sim-' + k, code:'TM-L' + id.slice(-4).toUpperCase() + k, claimed_at:iso(now - (18 - k)*MIN), redeemed_at:null,
+        kind, status:'active', paid_pence:kind === 'ticket' ? price : kind === 'secured' ? 100 : null}); }
   };
   add('demo-vendor', '2-for-1 mains', 'two_for_one', 20, 7, 150, 3, 3.5);
   add('v-cahoots', '50% off the bill', 'percent_off', 10, 6, 90, 2, 4);
   add('v-delamina', 'Free dessert with any main', 'free_item', 25, 3, 240, 4, 3.8);
   add('v-saltyard', '2-for-1 tapas plates', 'two_for_one', 12, 4, 180, 5, 4);
   add('v-frameless', '50% off entry', 'percent_off', 12, 12, 120, 5, 3.5);
-  add('v-criterion', '£15 off top-price seats tonight', 'fixed_off', 16, 5, 200, 3, 3.8);
-  add('v-topsecret', '2-for-1 entry to the late show', 'two_for_one', 30, 11, 260, 2, 3.8);
+  add('v-criterion', 'Tonight: top-price stalls seats', 'ticket', 16, 5, 200, 3, 3.8, 4500, 7500);
+  add('v-topsecret', 'Late show entry', 'ticket', 30, 11, 260, 2, 3.8, 800, 1500);
 }
 const API = (CFG.SUPABASE_URL && CFG.SUPABASE_ANON_KEY && window.supabase) ? SupaApi() : DemoApi();
 
@@ -647,7 +689,7 @@ function stars(r, n = true){
   return `<span class="stars" aria-label="${r.toFixed(1)} out of 5">${'★'.repeat(full)}<span class="off">${'★'.repeat(5-full)}</span></span>${n ? ` <span class="num">${r.toFixed(1)}</span>` : ''}`;
 }
 function cellBg(r){ return `background:color-mix(in srgb,var(--accent) ${12 + (r-1)*17}%,var(--surface))`; }
-function activeOffer(vid){ return S.offers.find(o => o.vid === vid && o.claimed < o.qty && o.exp > Date.now()); }
+function activeOffer(vid){ return S.offers.find(o => o.vid === vid && o.guaranteed < o.qty && o.exp > Date.now()); }
 function eligibility(o, recMap){
   const v = venue(o.vid), d = distTo(v), mr = myRatings();
   const p = recMap?.[o.vid] ?? predictMine(o.vid, mr);
@@ -718,13 +760,15 @@ function mapSVG(pts, {selId, showYou = true} = {}){
       <text x="${g/2}" y="-6" text-anchor="middle" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">${step < 1 ? step*1000+' m' : step+' km'}</text></g>
   </svg>`;
 }
-/* ---------- Google Maps (used when an API key is configured) ---------- */
+/* ---------- Maps: Google Maps when a key is set, otherwise an interactive OpenStreetMap; a simple drawing only as a last resort ---------- */
 const GM = {}, LIVE = {}; let PENDING = [], gmPromise = null;
 const hasGoogle = () => !!CFG.GOOGLE_MAPS_API_KEY && !S.gmFailed;
+const hasOSM = () => !!CFG.OSM && !!window.L;
+const mapEngine = () => hasGoogle() ? 'google' : hasOSM() ? 'osm' : 'svg';
 function loadGoogleMaps(){
   if (!CFG.GOOGLE_MAPS_API_KEY) return Promise.reject(new Error('no key'));
   if (gmPromise) return gmPromise;
-  window.gm_authFailure = () => { S.gmFailed = true; S.toast = {err:true, msg:'Google Maps rejected the API key, so the simple map is shown instead. Check the key and its restrictions.'}; render(); };
+  window.gm_authFailure = () => { S.gmFailed = true; for (const k in GM) delete GM[k]; S.toast = {err:true, msg:'Google Maps rejected the API key, so OpenStreetMap is used instead. Check the key and its restrictions.'}; render(); };
   gmPromise = new Promise((resolve, reject) => {
     window.__tmMapsReady = resolve;
     const sc = document.createElement('script');
@@ -736,48 +780,97 @@ function loadGoogleMaps(){
   return gmPromise;
 }
 function mapSlot(id, pts, opts){
-  if (!hasGoogle()) { const svg = mapSVG(pts, opts); return opts.attr === 'cmp' ? svg.replace(/data-venue=/g, 'data-cmp=') : svg; }
+  if (mapEngine() === 'svg') { const svg = mapSVG(pts, opts); return opts.attr === 'cmp' ? svg.replace(/data-venue=/g, 'data-cmp=') : svg; }
   PENDING.push({id, pts, opts});
-  return `<div class="gmap-slot" id="slot-${id}"><div class="gmap-loading">Loading Google Maps…</div></div>`;
+  return `<div class="gmap-slot" id="slot-${id}"><div class="gmap-loading">Loading map…</div></div>`;
+}
+function pinHtml(p, sel){
+  const size = 2*(p.r || 8) + 4;
+  return `<div class="pin${sel ? ' sel' : ''}" style="width:${size}px;height:${size}px;background:${p.fill}">${p.inner != null ? p.inner : ''}${sel || p.label ? `<span class="pin-label">${esc(p.name)}</span>` : ''}</div>`;
+}
+async function ensureMap(id){
+  const engine = mapEngine();
+  if (GM[id] && GM[id].engine === engine) return GM[id];
+  const el = document.createElement('div'); el.className = 'gmap';
+  let g;
+  if (engine === 'google') {
+    await loadGoogleMaps();
+    const {Map} = await google.maps.importLibrary('maps');
+    const {AdvancedMarkerElement} = await google.maps.importLibrary('marker');
+    const map = new Map(el, {center:{lat:me().lat, lng:me().lng}, zoom:15, mapId:CFG.GOOGLE_MAP_ID || 'DEMO_MAP_ID', disableDefaultUI:true, zoomControl:true, fullscreenControl:true, gestureHandling:'greedy', clickableIcons:false});
+    g = {engine, el, map, markers:[], key:'', AME:AdvancedMarkerElement};
+    map.addListener('idle', () => onMapIdle(id));
+  } else {
+    const map = L.map(el, {zoomControl:true}).setView([me().lat, me().lng], 15);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {subdomains:'abcd', maxZoom:20, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'}).addTo(map);
+    g = {engine, el, map, layer:L.layerGroup().addTo(map), key:''};
+    map.on('moveend', () => onMapIdle(id));
+  }
+  GM[id] = g;
+  return g;
+}
+function drawMarkers(id, fit){
+  const g = GM[id]; if (!g || !g.opts) return;
+  const opts = g.opts, pts = opts.ptsFn ? opts.ptsFn() : g.pts;
+  const click = p => () => { if (opts.attr === 'cmp') S.cmpSel = p.id; else S.sel = p.id; render(); };
+  const you = me();
+  if (g.engine === 'google') {
+    g.markers.forEach(m => m.map = null); g.markers = [];
+    const y = document.createElement('div'); y.className = 'youpin'; y.title = 'You';
+    g.markers.push(new g.AME({map:g.map, position:{lat:you.lat, lng:you.lng}, content:y, title:'You', zIndex:1}));
+    pts.forEach(p => {
+      const sel = p.id === opts.selId, wrap = document.createElement('div'); wrap.innerHTML = pinHtml(p, sel);
+      const m = new g.AME({map:g.map, position:{lat:p.lat, lng:p.lng}, content:wrap.firstChild, title:p.name, zIndex:sel ? 100 : p.label ? 50 : 10});
+      m.addListener('click', click(p)); g.markers.push(m);
+    });
+  } else {
+    g.layer.clearLayers();
+    L.marker([you.lat, you.lng], {icon:L.divIcon({className:'', html:'<div class="youpin"></div>', iconSize:[22, 22], iconAnchor:[11, 11]}), zIndexOffset:500, title:'You'}).addTo(g.layer);
+    pts.forEach(p => {
+      const sel = p.id === opts.selId, size = 2*(p.r || 8) + 4;
+      L.marker([p.lat, p.lng], {icon:L.divIcon({className:'', html:pinHtml(p, sel), iconSize:[size, size], iconAnchor:[size/2, size/2]}), title:p.name, zIndexOffset:sel ? 1000 : p.label ? 200 : 0})
+        .on('click', click(p)).addTo(g.layer);
+    });
+  }
+  if (!fit) return;
+  if (opts.centerOnMe) {
+    if (g.engine === 'google') { g.map.setCenter({lat:you.lat, lng:you.lng}); g.map.setZoom(15); } else g.map.setView([you.lat, you.lng], 15);
+    return;
+  }
+  const all = pts.concat([you]);
+  if (g.engine === 'google') { const b = new google.maps.LatLngBounds(); all.forEach(p => b.extend({lat:p.lat, lng:p.lng})); g.map.fitBounds(b, 48); }
+  else g.map.fitBounds(L.latLngBounds(all.map(p => [p.lat, p.lng])), {padding:[40, 40], maxZoom:16});
 }
 async function mountMap({id, pts, opts}){
   const slot = document.getElementById('slot-' + id); if (!slot) return;
   try {
-    await loadGoogleMaps();
-    const {Map} = await google.maps.importLibrary('maps');
-    const {AdvancedMarkerElement} = await google.maps.importLibrary('marker');
-    let g = GM[id];
-    if (!g) {
-      const el = document.createElement('div'); el.className = 'gmap';
-      const map = new Map(el, {center:me(), zoom:13, mapId:CFG.GOOGLE_MAP_ID || 'DEMO_MAP_ID', disableDefaultUI:true, zoomControl:true, gestureHandling:'greedy', clickableIcons:false});
-      g = GM[id] = {el, map, markers:[], key:''};
-    }
+    const g = await ensureMap(id);
     if (!document.body.contains(slot)) return;
     slot.replaceChildren(g.el);
-    g.markers.forEach(m => m.map = null); g.markers = [];
-    const you = document.createElement('div'); you.className = 'youpin'; you.title = 'You';
-    g.markers.push(new AdvancedMarkerElement({map:g.map, position:{lat:me().lat, lng:me().lng}, content:you, title:'You', zIndex:1}));
-    const bounds = new google.maps.LatLngBounds(); bounds.extend(me());
-    pts.forEach(p => {
-      const sel = p.id === opts.selId, d = document.createElement('div'), size = 2*(p.r || 8) + 4;
-      d.className = 'pin' + (sel ? ' sel' : '');
-      d.style.cssText = `width:${size}px;height:${size}px;background:${p.fill}`;
-      d.innerHTML = (p.inner != null ? p.inner : '') + (sel || p.label ? `<span class="pin-label">${esc(p.name)}</span>` : '');
-      const m = new AdvancedMarkerElement({map:g.map, position:{lat:p.lat, lng:p.lng}, content:d, title:p.name, zIndex: sel ? 100 : 10});
-      m.addListener('click', () => { if (opts.attr === 'cmp') S.cmpSel = p.id; else S.sel = p.id; render(); });
-      g.markers.push(m); bounds.extend({lat:p.lat, lng:p.lng});
-    });
-    const key = pts.map(p => p.id).join() + '|' + S.locKey;
-    if (key !== g.key) { g.map.fitBounds(bounds, 48); g.key = key; }
+    if (g.engine === 'osm') setTimeout(() => g.map.invalidateSize(), 0);
+    g.pts = pts; g.opts = opts;
+    const key = (opts.fitKey ?? pts.map(p => p.id).join()) + '|' + S.locKey;
+    const fit = key !== g.key; g.key = key;
+    drawMarkers(id, fit);
   } catch (e) {
-    S.gmFailed = true;
+    if (mapEngine() === 'google') S.gmFailed = true;
     const svg = mapSVG(pts, opts);
     slot.outerHTML = opts.attr === 'cmp' ? svg.replace(/data-venue=/g, 'data-cmp=') : svg;
   }
 }
+const idleT = {};
+function onMapIdle(id){
+  const g = GM[id]; if (!g || !g.opts?.onIdle) return;
+  clearTimeout(idleT[id]);
+  idleT[id] = setTimeout(() => {
+    let c, ne;
+    if (g.engine === 'google') { const cc = g.map.getCenter(), b = g.map.getBounds(); if (!cc || !b) return; c = {lat:cc.lat(), lng:cc.lng()}; ne = {lat:b.getNorthEast().lat(), lng:b.getNorthEast().lng()}; }
+    else { const cc = g.map.getCenter(), n = g.map.getBounds().getNorthEast(); c = {lat:cc.lat, lng:cc.lng}; ne = {lat:n.lat, lng:n.lng}; }
+    g.opts.onIdle({...c, radius:km(c, ne)*1000});
+  }, 450);
+}
 async function fetchLiveRating(v){
   if (!hasGoogle() || !v?.pid) return;
-  const chip = document.getElementById('live-' + v.id);
   try {
     if (!LIVE[v.pid]) {
       await loadGoogleMaps();
@@ -786,9 +879,163 @@ async function fetchLiveRating(v){
       await pl.fetchFields({fields:['rating','userRatingCount']});
       LIVE[v.pid] = {g:pl.rating, gn:pl.userRatingCount};
     }
-    const L = LIVE[v.pid], c = document.getElementById('live-' + v.id);
-    if (c && L.g) c.textContent = `Google ${L.g.toFixed(1)}★ (${(L.gn||0).toLocaleString()}) · live`;
+    const Lv = LIVE[v.pid], c = document.getElementById('live-' + v.id);
+    if (c && Lv.g) c.textContent = `Google ${Lv.g.toFixed(1)}★ (${(Lv.gn||0).toLocaleString()}) · live`;
   } catch (e) { /* keep the stored figure */ }
+}
+
+/* ---------- Live places: nearby and search-as-you-type, from Google Places (with a key) or OpenStreetMap ---------- */
+const liveProvider = () => hasGoogle() ? 'google' : CFG.OSM ? 'osm' : null;
+const providerName = () => ({google:'Google Maps', osm:'OpenStreetMap'})[liveProvider()] || '';
+const DIMS = DATA.dims;
+const FEAT_RULES = [
+  [/steak|burger|grill|barbecue|bbq|american|chicken|smokehouse/, {steak:1}],
+  [/italian|pizza|pasta|trattoria/, {italian:1}],
+  [/indian|curry|sri.?lankan|pakistani|nepal|bangladesh|thai|asian|chinese|japanese|sushi|ramen|korean|vietnam|malaysian|caribbean/, {southasian:.8}],
+  [/mediterranean|greek|spanish|tapas|turkish|lebanese|middle.?eastern|israeli|moroccan|seafood|fish/, {med:1}],
+  [/brunch|breakfast|cafe|coffee|bakery|australian|diner|ice.?cream|dessert|tea/, {brunch:1}],
+  [/fine|french|tasting|michelin|steakhouse/, {fine:.8}],
+  [/bar|pub|cocktail|wine|night.?club|nightclub|biergarten|brewery|lounge/, {bar:1}],
+  [/museum|gallery|art|historic|heritage|arts.?centre/, {culture:1}],
+  [/book/, {books:1}],
+  [/musical|opera|concert|cabaret|music/, {musical:1}],
+  [/theatre|theater|drama|playhouse|performing/, {drama:.8, musical:.4}],
+  [/comedy/, {comedy:1}],
+  [/cinema/, {drama:.4, comedy:.3}],
+  [/cloth|fashion|boutique|gift|department|mall|market|shoe|jewel|antique|second.?hand|record|variety/, {books:.3, brunch:.3}]];
+function featuresFor(kind, text, price){
+  const f = Object.fromEntries(DIMS.map(d => [d, 0])), t = String(text || '').toLowerCase();
+  FEAT_RULES.forEach(([re, add]) => { if (re.test(t)) for (const k in add) f[k] = Math.max(f[k], add[k]); });
+  if (price >= 3) f.fine = Math.max(f.fine, .6);
+  if (!Object.values(f).some(x => x)) Object.assign(f, {Eat:{brunch:.4, steak:.2}, Drink:{bar:1}, Culture:{culture:1}, Theatre:{drama:.6, musical:.4}, Shop:{books:.5}}[kind] || {});
+  return DIMS.map(d => f[d]);
+}
+function hash32(s){ let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+// The 50 simulated users rate any new place too (same place, same scores every time),
+// using their taste profiles; each place's average stays at its Google rating (or 4.2 when it has none).
+function simulateFor(v){
+  if (v.simDone || !KINDS[v.kind] || !hasCoords(v) || VENUES0.some(x => x.id === v.id)) return;
+  v.simDone = true;
+  v.f ||= featuresFor(v.kind, (v.cat || '') + ' ' + (v.types || '') + ' ' + v.name, v.price);
+  const mu = v.g || 4.2, raters = [];
+  users.forEach(u => { if (!u.t) return; const r = rng(hash32(u.id + '|' + v.id)); if (r() < .42) raters.push({u, z:u.t.reduce((s, x, i) => s + x*v.f[i], 0) + (u.bias || 0) + (r() - .5)*1.1}); });
+  if (!raters.length) return;
+  const zm = raters.reduce((s, x) => s + x.z, 0) / raters.length;
+  const rate = c => raters.map(x => Math.max(1, Math.min(5, Math.round(mu + c + 1.9*(x.z - zm)))));
+  let lo = -2, hi = 2, rs = rate(0);
+  for (let i = 0; i < 30; i++) { const c = (lo + hi)/2; rs = rate(c); const m = rs.reduce((a, b) => a + b, 0)/rs.length; if (m < mu) lo = c; else hi = c; }
+  raters.forEach((x, i) => { x.u.ratings[v.id] = rs[i]; x.u.km = {}; });
+  for (const k in userNbrCache) delete userNbrCache[k];
+}
+function addPlaces(list){
+  return list.filter(p => p && p.name && hasCoords(p)).map(p => {
+    let v = S.venues.find(x => x.id === p.id || (p.pid && x.pid === p.pid) || (hasCoords(x) && norm(x.name) === norm(p.name) && km(x, p) < .08));
+    if (!v) { S.venues.push(p); v = p; }
+    else if (!v.g && p.g) { v.g = p.g; v.gn = p.gn; }
+    simulateFor(v);
+    return v;
+  });
+}
+const G_TYPES = {Eat:['restaurant', 'cafe'], Drink:['bar', 'night_club'], Culture:['museum', 'art_gallery'], Theatre:['performing_arts_theater', 'comedy_club', 'concert_hall'], Shop:['book_store', 'clothing_store', 'shopping_mall', 'gift_shop']};
+const G_FIELDS = ['id', 'displayName', 'formattedAddress', 'location', 'rating', 'userRatingCount', 'primaryType', 'primaryTypeDisplayName', 'types', 'priceLevel'];
+const PRICE = {FREE:0, INEXPENSIVE:1, MODERATE:2, EXPENSIVE:3, VERY_EXPENSIVE:4};
+function fromGoogle(pl, kindHint){
+  const types = (pl.types || []).join(' '), addr = pl.formattedAddress || '', parts = addr.split(',').map(s => s.trim());
+  let kind = kindHint || kindFromType(pl.primaryType); if (kind === 'Place') kind = kindFromType(types);
+  return {id:'g_' + pl.id, pid:pl.id, name:pl.displayName, cat:pl.primaryTypeDisplayName || String(pl.primaryType || 'Place').replace(/_/g, ' '), kind,
+    area:parts.length > 2 ? parts[parts.length - 2] : (parts[1] || ''), addr, lat:pl.location?.lat(), lng:pl.location?.lng(), g:pl.rating || null, gn:pl.userRatingCount || 0,
+    price:PRICE[pl.priceLevel] ?? (typeof pl.priceLevel === 'number' ? pl.priceLevel : null), types, live:true, src:'google'};
+}
+async function gNearby(c, kinds, radius){
+  await loadGoogleMaps();
+  const lib = await google.maps.importLibrary('places'), out = [];
+  for (const k of kinds) for (const types of [G_TYPES[k], [G_TYPES[k][0]]]) {
+    try {
+      const {places} = await lib.Place.searchNearby({fields:G_FIELDS, locationRestriction:{center:{lat:c.lat, lng:c.lng}, radius:Math.max(100, Math.min(50000, radius))},
+        includedTypes:types, maxResultCount:20, rankPreference:lib.SearchNearbyRankPreference?.DISTANCE});
+      out.push(...(places || []).map(p => fromGoogle(p, k))); break;
+    } catch (e) { /* try the simpler type list */ }
+  }
+  return out;
+}
+async function gSearch(q, c){
+  await loadGoogleMaps();
+  const {Place} = await google.maps.importLibrary('places');
+  const {places} = await Place.searchByText({textQuery:q, fields:G_FIELDS, locationBias:{center:{lat:c.lat, lng:c.lng}, radius:20000}, maxResultCount:12});
+  return (places || []).map(p => fromGoogle(p));
+}
+const OSM_SEL = {Eat:['nwr["amenity"~"^(restaurant|cafe|fast_food|ice_cream)$"]'], Drink:['nwr["amenity"~"^(bar|pub|nightclub|biergarten)$"]'],
+  Culture:['nwr["tourism"~"^(museum|gallery)$"]', 'nwr["amenity"="arts_centre"]'], Theatre:['nwr["amenity"~"^(theatre|cinema|events_venue|concert_hall)$"]'],
+  Shop:['nwr["shop"~"^(books|clothes|gift|department_store|mall|shoes|jewelry|art|music|antiques|boutique|second_hand|fashion|variety_store)$"]']};
+function osmKind(t){
+  if (/^(restaurant|cafe|fast_food|ice_cream|food_court)$/.test(t.amenity || '')) return 'Eat';
+  if (/^(bar|pub|nightclub|biergarten)$/.test(t.amenity || '')) return 'Drink';
+  if (/^(museum|gallery)$/.test(t.tourism || '') || t.amenity === 'arts_centre') return 'Culture';
+  if (/^(theatre|cinema|events_venue|concert_hall)$/.test(t.amenity || '')) return 'Theatre';
+  if (t.shop) return 'Shop';
+  return 'Place';
+}
+const cap1 = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+function fromOsm(id, t, lat, lng){
+  const kind = osmKind(t);
+  const what = t.cuisine ? t.cuisine.split(';')[0].replace(/_/g, ' ') : String(t.amenity || t.tourism || t.shop || '').replace(/_/g, ' ');
+  const street = [t['addr:housenumber'], t['addr:street']].filter(Boolean).join(' ');
+  return {id:'o_' + id, name:t.name, cat:cap1(what) || KINDS[kind] || 'Place', kind, area:t['addr:suburb'] || t['addr:city'] || '',
+    addr:[street, t['addr:city'], t['addr:postcode']].filter(Boolean).join(', '), lat, lng, g:null, gn:0,
+    types:[t.cuisine, t.amenity, t.tourism, t.shop].filter(Boolean).join(' '), live:true, src:'osm'};
+}
+async function osmNearby(c, kinds, radius){
+  const r = Math.round(Math.max(100, Math.min(3000, radius)));
+  const parts = kinds.flatMap(k => OSM_SEL[k].map(s => `${s}["name"](around:${r},${c.lat.toFixed(5)},${c.lng.toFixed(5)});`)).join('');
+  const res = await fetch('https://overpass-api.de/api/interpreter', {method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body:'data=' + encodeURIComponent(`[out:json][timeout:20];(${parts});out center tags 150;`)});
+  if (!res.ok) throw new Error('OpenStreetMap is busy. Try again in a moment.');
+  const j = await res.json();
+  return (j.elements || []).map(e => fromOsm(e.type[0] + e.id, e.tags || {}, e.lat ?? e.center?.lat, e.lon ?? e.center?.lon)).filter(p => KINDS[p.kind]);
+}
+async function osmSearch(q, c){
+  const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&lat=${c.lat}&lon=${c.lng}&limit=20&lang=en`);
+  if (!res.ok) throw new Error('Search is unavailable right now.');
+  const j = await res.json();
+  return (j.features || []).map(f => {
+    const p = f.properties || {};
+    const t = {[p.osm_key]:p.osm_value, name:p.name, 'addr:street':p.street, 'addr:housenumber':p.housenumber, 'addr:city':p.city || p.county, 'addr:postcode':p.postcode};
+    return fromOsm(String(p.osm_type || 'n').toLowerCase() + p.osm_id, t, f.geometry?.coordinates?.[1], f.geometry?.coordinates?.[0]);
+  }).filter(p => p.name && KINDS[p.kind]);
+}
+const nearbyCache = {};
+function fetchNearby(center, kind = 'all', radius = 1500){
+  const prov = liveProvider(); if (!prov) return Promise.resolve([]);
+  const kinds = kind === 'all' ? KIND_ORDER : [kind];
+  const key = [prov, kind, center.lat.toFixed(3), center.lng.toFixed(3), Math.round(radius/300)].join('|');
+  if (!nearbyCache[key]) nearbyCache[key] = (prov === 'google' ? gNearby(center, kinds, radius) : osmNearby(center, kinds, radius))
+    .then(list => addPlaces(list)).catch(e => { delete nearbyCache[key]; throw e; });
+  return nearbyCache[key];
+}
+// Load nearby places once per area/category, then re-render the screen that asked for them
+function loadNearby(center, kind, radius, then){
+  const key = [liveProvider(), kind, center.lat.toFixed(3), center.lng.toFixed(3)].join('|');
+  S.nearbyState ??= {};
+  if (!liveProvider() || S.nearbyState[key]) return;
+  S.nearbyState[key] = 'loading';
+  fetchNearby(center, kind, radius).then(() => { S.nearbyState[key] = 'done'; then && then(); })
+    .catch(() => { S.nearbyState[key] = 'error'; then && then(); });
+}
+const nearbyStatus = (kind) => (S.nearbyState || {})[[liveProvider(), kind, me().lat.toFixed(3), me().lng.toFixed(3)].join('|')];
+let searchT = null, searchSeq = 0;
+function liveSearch(q){
+  clearTimeout(searchT);
+  if (!liveProvider() || q.trim().length < 3) { S.liveIds = null; S.searching = false; return; }
+  S.searching = true;
+  const seq = ++searchSeq;
+  searchT = setTimeout(async () => {
+    try {
+      const list = liveProvider() === 'google' ? await gSearch(q, me()) : await osmSearch(q, me());
+      if (seq !== searchSeq) return;
+      S.liveIds = addPlaces(list).map(v => v.id); S.searchErr = null;
+    } catch (e) { if (seq === searchSeq) { S.liveIds = []; S.searchErr = cleanErr(e.message); } }
+    if (seq === searchSeq) { S.searching = false; const box = $('#searchResults'); if (box) box.innerHTML = searchResultsHtml(); }
+  }, 450);
 }
 
 function mapPoints(filterFn){
@@ -1037,7 +1284,8 @@ const LOVE = 3.5;
 function recommendations(){
   const mr = myRatings(), nbk = kindNeighbours(mr);
   const recs = S.venues.filter(v => mr[v.id] == null && KINDS[v.kind]).map(v => ({v, p:predict(v.id, nbk[v.kind], myBase(v.kind, mr), v.kind)})).filter(x => x.p);
-  recs.forEach(x => { x.offer = activeOffer(x.v.id); x.d = distTo(x.v); });
+  // Only offers you're close enough to use move a place to the top
+  recs.forEach(x => { x.d = distTo(x.v); const o = activeOffer(x.v.id); x.offer = o && x.d != null && x.d <= o.radius ? o : null; });
   recs.sort((a,b) => (!!b.offer - !!a.offer) || ((a.d ?? 1e9) - (b.d ?? 1e9)) || b.p.val - a.p.val);
   return {mr, nbk, recs};
 }
@@ -1085,36 +1333,48 @@ function venueDetail(v){
       ${p ? `<span class="chip">For you ${p.val.toFixed(1)}★</span>` : ''}${v.g ? `<span class="chip" id="live-${v.id}">Google ${v.g.toFixed(1)}★ (${v.gn.toLocaleString()})</span>` : ''}</div>
     ${v.addr ? `<p class="small muted">${esc(v.addr)}</p>` : ''}
     ${p ? `<p class="small muted">${p.count} of your top 10 ${esc(KINDS[v.kind].toLowerCase())} matches rated it: ${p.raters.slice(0,4).map(x => `${esc(x.u.name)} ${x.r}★`).join(', ')}${p.count > 4 ? '…' : ''}</p>` : ''}
-    ${o ? `<div class="offerbox"><b>${esc(o.deal)}</b><span class="timer" data-exp="${o.exp}"></span></div>` : ''}
+    <div><p class="eyebrow">Your rating</p><div class="starinput" role="group" aria-label="Rate ${esc(v.name)}">${[1,2,3,4,5].map(n => `<button class="${(S.mine[v.id]?.manual ?? 0) >= n ? 'on' : ''}" data-rate="${n}" data-vid="${v.id}" aria-label="${n} star${n>1?'s':''}">★</button>`).join('')}</div></div>
+    ${o ? `<div class="offerbox"><span class="offerdeal"><span class="chip offer">Live offer</span><b>${esc(o.deal)}</b></span><span class="timer" data-exp="${o.exp}"></span></div><div><button class="btn primary" data-act="goto-offer" data-oid="${o.id}">Get offer</button></div>` : ''}
+    ${v.src && v.src !== 'google' && !v.g ? `<p class="small muted">From OpenStreetMap. No public rating yet.</p>` : ''}
     <div class="linklist">${linkButtons(v)}</div>
   </div>`;
 }
 
-function viewMap(){
+function mainMapPts(){
   const {mr, recs} = recommendations();
   const topIds = new Set(recs.filter(x => x.p.val >= 4).sort((a,b) => b.p.val - a.p.val).slice(0,8).map(x => x.v.id));
-  const {list, far, noneNear} = mapPoints();
-  const pts = list.map(v => {
+  const kind = S.mapKind || 'all';
+  const center = GM.main?.opts ? me() : me();
+  return S.venues.filter(v => hasCoords(v) && (kind === 'all' || v.kind === kind) && (KINDS[v.kind] || mr[v.id] != null) && km(center, v) <= 40).map(v => {
     const o = activeOffer(v.id);
     const fill = o ? 'var(--offer)' : topIds.has(v.id) ? 'var(--star)' : mr[v.id] != null ? 'var(--accent)' : 'var(--muted)';
-    return {...v, fill, r: topIds.has(v.id) || o ? 9 : 7, label: topIds.has(v.id) || !!o};
+    return {...v, fill, r:topIds.has(v.id) || o ? 9 : 7, label:topIds.has(v.id) || !!o};
   });
+}
+function viewMap(){
+  const {recs} = recommendations();
+  const kind = S.mapKind || 'all';
+  const pts = mainMapPts();
   const sel = venue(S.sel);
-  const loved = recs.filter(x => x.p.val >= LOVE);
+  const loved = recs.filter(x => x.p.val >= LOVE && (kind === 'all' || x.v.kind === kind));
   const route = routeLink(loved.slice(0,5).map(x=>x.v));
+  const engine = mapEngine();
   return `<div class="stack">
-    <div class="head"><div><p class="eyebrow">${pts.length} places ${S.mapAll || noneNear ? 'everywhere' : 'within 30 km'}</p><h2>Everything on one map</h2></div>
-      <div class="row">${far && !noneNear ? `<button class="btn" data-act="maptoggle">${S.mapAll ? 'Show only nearby' : `Include ${far} far away`}</button>` : ''}
-      ${route ? `<a class="btn primary" href="${route}" target="_blank" rel="noopener">Open top picks in Google Maps</a>` : ''}</div></div>
-    ${noneNear ? `<p class="note">Nothing in the network is near ${esc(me().label)} yet, so the map shows every place. Switch location at the top to see London.</p>` : ''}
+    <div class="head"><div><p class="eyebrow">${engine === 'svg' ? `${pts.length} places` : `Live from ${providerName()} · drag and zoom to explore`}</p><h2>Places around you</h2></div>
+      ${route ? `<a class="btn primary" href="${route}" target="_blank" rel="noopener">Open top picks in Google Maps</a>` : ''}</div>
+    ${kindChips(kind, 'map-kind')}
     <div class="mapgrid">
-      <div>${pts.length ? mapSlot('main', pts, {selId:S.sel, attr:'venue'}) : '<p class="muted">No places with a location yet.</p>'}
-        <div class="legend"><span><i style="background:var(--ink);border-radius:2px;transform:rotate(45deg)"></i>You</span><span><i style="background:var(--offer)"></i>Live offer</span><span><i style="background:var(--star)"></i>Top pick for you</span><span><i style="background:var(--accent)"></i>You rated</span><span><i style="background:var(--muted)"></i>Other places</span></div>
+      <div>${mapSlot('main', pts, {selId:S.sel, attr:'venue', centerOnMe:true, fitKey:'main', ptsFn:mainMapPts,
+          onIdle:view => { if (view.radius > 6000) { const st = $('#mapStatus'); if (st) st.textContent = 'Zoom in to load more places.'; return; }
+            const st = $('#mapStatus'); if (st) st.textContent = 'Loading places…';
+            fetchNearby(view, S.mapKind || 'all', view.radius).then(() => { drawMarkers('main', false); const s2 = $('#mapStatus'); if (s2) s2.textContent = `${mainMapPts().length} places shown`; })
+              .catch(e => { const s2 = $('#mapStatus'); if (s2) s2.textContent = cleanErr(e.message); }); }})}
+        <div class="legend"><span><i style="background:#1a73e8"></i>You</span><span><i style="background:var(--offer)"></i>Live offer</span><span><i style="background:var(--star)"></i>Top pick for you</span><span><i style="background:var(--accent)"></i>You rated</span><span><i style="background:var(--muted)"></i>Other places</span><span id="mapStatus" class="num"></span></div>
       </div>
-      <aside class="panel">${sel ? venueDetail(sel) : `<div class="detail"><h3>Tap a pin</h3><p class="muted small">See the place's details, then open directions or its page on Google Maps, Tripadvisor or Yelp.</p>
-        <div class="linklist">${loved.slice(0,5).filter(x=>hasCoords(x.v)).map(x => `<button class="btn" data-venue="${x.v.id}" style="justify-content:space-between"><span>${x.offer ? '<span class="chip offer">Offer</span> ' : ''}${esc(x.v.name)}</span><span class="num">${fmtKm(x.d)}</span></button>`).join('')}</div></div>`}</aside>
+      <aside class="panel">${sel ? venueDetail(sel) : `<div class="detail"><h3>Tap a pin</h3><p class="muted small">Rate it, see what your matches thought, get directions, or open it in Google Maps, Tripadvisor or Yelp.</p>
+        <div class="linklist">${loved.slice(0,6).filter(x=>hasCoords(x.v)).map(x => `<button class="btn" data-venue="${x.v.id}" style="justify-content:space-between"><span>${x.offer ? '<span class="chip offer">Offer</span> ' : ''}${esc(x.v.name)}</span><span class="num">${fmtKm(x.d)}</span></button>`).join('')}</div></div>`}</aside>
     </div>
-    <p class="small muted">${hasGoogle() ? 'Tap a pin for details. ' : ''}The Google Maps button plots your top picks as walking stops, because Google Maps can only open several places at once as a route.</p>
+    ${engine === 'osm' ? `<p class="small muted">Showing OpenStreetMap places. Add a Google Maps key to use Google's places, ratings and map.</p>` : ''}
   </div>`;
 }
 
@@ -1179,14 +1439,18 @@ function rateRow(v){
 }
 function searchResultsHtml(){
   const q = (S.rateQ || '').trim().toLowerCase();
-  if (q.length < 2) return '';
+  if (q.length < 2) return liveProvider() ? `<p class="small muted">Type a name, a street or a kind of place (e.g. “sushi”). Results come live from ${providerName()}.</p>` : '';
   const inKind = v => S.kind === 'all' || v.kind === S.kind;
-  const hits = S.venues.filter(v => inKind(v) && (v.name + ' ' + v.cat + ' ' + (v.area || '') + ' ' + (KINDS[v.kind] || '')).toLowerCase().includes(q)).slice(0, 15);
-  const g = (S.gResults || []).filter(v => !hits.some(h => h.pid && h.pid === v.pid));
+  const live = (S.liveIds || []).map(venue).filter(v => v && inKind(v));
+  const ids = new Set(live.map(v => v.id));
+  const local = S.venues.filter(v => !ids.has(v.id) && inKind(v) && (v.name + ' ' + v.cat + ' ' + (v.area || '') + ' ' + (KINDS[v.kind] || '')).toLowerCase().includes(q))
+    .sort((a, b) => (distTo(a) ?? 1e9) - (distTo(b) ?? 1e9)).slice(0, 12);
+  const all = live.concat(local);
   return `<div class="stack">
-    ${hits.length ? `<div class="ratelist">${hits.map(rateRow).join('')}</div>` : `<p class="muted small">No Tastemate places match “${esc(S.rateQ)}”.</p>`}
-    ${hasGoogle() ? `<div class="row"><button class="btn" data-act="gsearch">Search Google Maps for “${esc(S.rateQ)}”</button>${S.gBusy ? '<span class="small muted">Searching…</span>' : ''}</div>` : ''}
-    ${g.length ? `<p class="eyebrow">From Google Maps</p><div class="ratelist">${g.map(rateRow).join('')}</div><p class="small muted">Places added from Google Maps are saved on this device.</p>` : ''}
+    ${S.searching ? `<p class="small muted">Searching ${providerName()}…</p>` : ''}
+    ${S.searchErr ? `<p class="small" style="color:var(--bad)">${esc(S.searchErr)}</p>` : ''}
+    ${all.length ? `<div class="ratelist">${all.map(rateRow).join('')}</div>` : S.searching ? '' : `<p class="muted small">No places match “${esc(S.rateQ)}”${S.kind === 'all' ? '' : ' in ' + esc(KINDS[S.kind].toLowerCase())}.</p>`}
+    ${live.length ? `<p class="small muted">Results from ${providerName()}. Places you rate are saved on this device.</p>` : ''}
   </div>`;
 }
 function viewRate(){
@@ -1206,12 +1470,14 @@ function viewRate(){
     </section>
     ${kindChips(S.kind, 'kind')}
     <section class="panel stack">
-      <form id="placeSearch" class="row" role="search"><input id="rateSearch" type="search" placeholder="Search for any place to rate" aria-label="Search for a place" value="${esc(S.rateQ || '')}" style="flex:1 1 220px"><button class="btn primary" type="submit">Search</button></form>
+      <form id="placeSearch" class="row" role="search"><input id="rateSearch" type="search" autocomplete="off" placeholder="${liveProvider() ? 'Search any restaurant, bar, museum, theatre or shop' : 'Search for a place to rate'}" aria-label="Search for a place" value="${esc(S.rateQ || '')}" style="flex:1 1 220px"><button class="btn primary" type="submit">Search</button></form>
       <div id="searchResults">${searchResultsHtml()}</div>
     </section>
     <section class="stack">
-      <div class="head"><div><p class="eyebrow">Within 500 m of ${esc(me().label)}</p><h2>Near you</h2></div><span class="small muted num">${near.length}</span></div>
-      ${near.length ? `<div class="ratelist">${near.map(rateRow).join('')}</div>` : `<p class="note">Nothing${S.kind === 'all' ? '' : ' in ' + esc(KINDS[S.kind].toLowerCase())} left to rate within 500 m. Search above for places further away.</p>`}
+      <div class="head"><div><p class="eyebrow">Within 500 m of ${esc(me().label)}${liveProvider() ? ' · from ' + providerName() : ''}</p><h2>Near you</h2></div><span class="small muted num">${near.length}</span></div>
+      ${nearbyStatus(S.kind) === 'loading' ? `<p class="small muted">Finding places near you…</p>` : ''}
+      ${nearbyStatus(S.kind) === 'error' ? `<p class="small" style="color:var(--bad)">Couldn't load nearby places. Check your connection and try again.</p>` : ''}
+      ${near.length ? `<div class="ratelist">${near.map(rateRow).join('')}</div>` : nearbyStatus(S.kind) === 'loading' ? '' : `<p class="note">Nothing${S.kind === 'all' ? '' : ' in ' + esc(KINDS[S.kind].toLowerCase())} left to rate within 500 m. Search above for places further away.</p>`}
     </section>
     ${rated.length ? `<section class="stack"><div class="head"><h2>Your ratings</h2><span class="small muted num">${rated.length}</span></div><div class="ratelist">${rated.map(rateRow).join('')}</div></section>` : ''}
   </div>`;
@@ -1222,44 +1488,54 @@ const kindFromType = t => {
   if (/bar|pub|night_club|wine|cocktail|brewery/.test(t)) return 'Drink';
   if (/museum|gallery|art|historical|monument/.test(t)) return 'Culture';
   if (/store|shop|market|book/.test(t)) return 'Shop';
-  if (/restaurant|food|cafe|bakery|meal|diner|brunch|coffee/.test(t)) return 'Eat';
+  if (/restaurant|food|cafe|bakery|meal|diner|brunch|coffee|steak_house|pizza|sushi/.test(t)) return 'Eat';
   return 'Place';
 };
-async function googleSearch(q){
-  await loadGoogleMaps();
-  const {Place} = await google.maps.importLibrary('places');
-  const {places} = await Place.searchByText({textQuery:q, fields:['id', 'displayName', 'formattedAddress', 'location', 'rating', 'userRatingCount', 'primaryType', 'primaryTypeDisplayName'],
-    locationBias:{center:{lat:me().lat, lng:me().lng}, radius:5000}, maxResultCount:8});
-  return (places || []).map(pl => {
-    const existing = S.venues.find(v => v.pid === pl.id);
-    if (existing) return existing;
-    const addr = pl.formattedAddress || '';
-    return {id:'g_' + pl.id, pid:pl.id, name:pl.displayName, cat:pl.primaryTypeDisplayName || 'Place', kind:kindFromType(pl.primaryType), area:addr.split(',').slice(-2, -1)[0]?.trim() || '', addr,
-      lat:pl.location?.lat(), lng:pl.location?.lng(), g:pl.rating || null, gn:pl.userRatingCount || 0, imported:true, fromGoogle:true};
-  });
-}
 
 /* ---------- Offers and vouchers (diners) ---------- */
-const normOffer = r => ({id:r.id, vid:r.venue_id, deal:r.title, type:r.offer_type, qty:r.tokens, claimed:r.claimed, exp:Date.parse(r.expires_at), radius:+r.radius_km, minPred:+r.min_pred, myCode:r.my_code});
+const normOffer = r => ({id:r.id, vid:r.venue_id, deal:r.title, type:r.offer_type, qty:r.tokens, claimed:r.claimed, guaranteed:r.guaranteed ?? r.claimed, exp:Date.parse(r.expires_at), radius:+r.radius_km, minPred:+r.min_pred,
+  price:r.price_pence, was:r.was_price_pence, myCode:r.my_code, myKind:r.my_kind, myStatus:r.my_status});
 function qrBlock(code, px = 190){
   let svg = '';
   if (window.qrcode) { try { const q = qrcode(0, 'M'); q.addData(code); q.make(); svg = q.createSvgTag({cellSize:4, margin:3, scalable:true}); } catch(e) {} }
   return `<div class="qrwrap">${svg ? `<div class="qr" style="width:${px}px">${svg}</div>` : ''}<div class="voucher" aria-label="Voucher code">${esc(code)}</div></div>`;
 }
+function voucherChip(kind, paid){
+  return kind === 'ticket' ? `<span class="chip accent">Ticket${paid ? ' · ' + pounds(paid) + ' paid' : ''}</span>`
+    : kind === 'secured' ? `<span class="chip accent">Secured · place guaranteed</span>`
+    : `<span class="chip warn">Free claim · not guaranteed</span>`;
+}
+function getChooser(o, placesLeft){
+  const pay = API.demo ? ' (demo: no card charged)' : '';
+  if (o.type === 'ticket') return `<div class="chooser">
+    <div class="choice"><div><b>Ticket ${pounds(o.price)}</b>${o.was ? ` <s class="muted">${pounds(o.was)}</s>` : ''}<p class="small muted">Your seat is guaranteed. Show the QR code at the door.</p></div>
+      <button class="btn primary" data-act="claim" data-oid="${o.id}" data-mode="ticket" ${placesLeft ? '' : 'disabled'}>Pay ${pounds(o.price)}${pay}</button></div>
+    <button class="linkbtn small" data-act="get-close">Not now</button></div>`;
+  return `<div class="chooser">
+    <div class="choice"><div><b>Secure it · ${pounds(SECURE_FEE)}</b><p class="small muted">Your place is guaranteed. The venue must honour it.</p></div>
+      <button class="btn primary" data-act="claim" data-oid="${o.id}" data-mode="secured" ${placesLeft ? '' : 'disabled'}>Pay ${pounds(SECURE_FEE)}${pay}</button></div>
+    <div class="choice"><div><b>Claim free</b><p class="small muted">Not guaranteed: only honoured if places are left when you arrive. ${o.guaranteed} of ${o.qty} places are already secured.</p></div>
+      <button class="btn" data-act="claim" data-oid="${o.id}" data-mode="free" ${placesLeft ? '' : 'disabled'}>Claim free</button></div>
+    <button class="linkbtn small" data-act="get-close">Not now</button></div>`;
+}
 function offerCard(o, el, forYou){
-  const v = venue(o.vid), left = o.qty - o.claimed, live = left > 0 && o.exp > Date.now(), code = o.myCode;
-  const role = S.acct?.role;
+  const v = venue(o.vid), placesLeft = Math.max(0, o.qty - o.guaranteed), live = o.exp > Date.now();
+  const role = S.acct?.role, isTicket = o.type === 'ticket';
+  const myV = (S.vouchers || []).find(x => x.code === o.myCode);
   let action = '';
-  if (code) action = `${qrBlock(code)}<p class="small muted">Show this to staff. They scan it to record your visit.</p>`;
-  else if (forYou && live && !S.acct) action = `<button class="btn primary" data-act="to-auth">Sign in to claim</button>`;
-  else if (forYou && live && role === 'user') action = `<button class="btn primary" data-act="claim" data-oid="${o.id}">Claim voucher</button>`;
-  return `<article class="offer ${live || code ? 'live' : ''}">
+  if (o.myCode && o.myStatus === 'active') action = `${voucherChip(o.myKind, myV?.paid_pence)}${qrBlock(o.myCode)}<p class="small muted">Show this to staff. They scan it to record your visit.</p>
+      ${o.myKind === 'free' && placesLeft ? `<button class="btn" data-act="claim" data-oid="${o.id}" data-mode="secured">Upgrade: secure my place for ${pounds(SECURE_FEE)}</button>` : ''}`;
+  else if (o.myCode && o.myStatus === 'pending') action = `<p class="note small">Payment not finished. Your place is held for a few minutes.</p><button class="btn primary" data-act="pay" data-vid="${myV?.id || ''}">Finish payment</button>`;
+  else if (!live || !forYou) action = '';
+  else if (!S.acct) action = `<button class="btn primary" data-act="to-auth">Sign in to get this offer</button>`;
+  else if (role === 'user') action = S.getOpen === o.id ? getChooser(o, placesLeft) : `<button class="btn primary big" data-act="get-offer" data-oid="${o.id}" ${placesLeft || !isTicket ? '' : 'disabled'}>Get offer${isTicket ? ' · ' + pounds(o.price) : ''}</button>`;
+  return `<article class="offer ${live || o.myCode ? 'live' : ''}" id="offer-${o.id}">
     <div class="head"><div><h3>${esc(v.name)}</h3><p class="small muted">${esc(v.cat)}${el.d != null ? ' · ' + fmtKm(el.d) : ''}</p></div>
       <span class="timer" data-exp="${o.exp}"></span></div>
-    <div class="row"><span class="chip">${OFFER_TYPES[o.type] || 'Offer'}</span>${API.demo ? '<span class="chip warn">Demo</span>' : ''}</div>
+    <div class="row"><span class="chip">${OFFER_TYPES[o.type] || 'Offer'}</span>${isTicket ? `<span class="chip accent">${pounds(o.price)}${o.was ? ` <s>${pounds(o.was)}</s>` : ''}</span>` : ''}${API.demo ? '<span class="chip warn">Demo</span>' : ''}</div>
     <div class="deal">${esc(o.deal)}</div>
-    <div><div class="row" style="justify-content:space-between;font-size:.85rem"><span>${left > 0 ? `<b class="num">${left}</b> of ${o.qty} vouchers left` : '<b>All claimed</b>'}</span><span class="muted">within ${o.radius} km</span></div>
-      <div class="meter" style="margin-top:4px"><i style="width:${Math.min(100, o.claimed/o.qty*100)}%"></i></div></div>
+    <div><div class="row" style="justify-content:space-between;font-size:.85rem"><span>${placesLeft > 0 ? `<b class="num">${placesLeft}</b> of ${o.qty} ${isTicket ? 'tickets' : 'places'} left` : `<b>${isTicket ? 'Sold out' : 'All places secured'}</b>`}</span><span class="muted">within ${o.radius} km</span></div>
+      <div class="meter" style="margin-top:4px"><i style="width:${Math.min(100, o.guaranteed/o.qty*100)}%"></i></div></div>
     ${forYou ? `<p class="small muted">Sent to you because ${mr_reason(o, el)}</p>` : `<p class="small muted">${!el.near ? `You're outside the ${o.radius} km radius.` : `For people predicted to rate it ${o.minPred}★ or more.`}</p>`}
     ${action}
     ${linkButtons(v, true)}
@@ -1273,18 +1549,19 @@ function mr_reason(o, el){
 function viewOffers(){
   const {recs} = recommendations(); const recMap = Object.fromEntries(recs.map(x => [x.v.id, x.p]));
   const rows = S.offers.filter(o => venue(o.vid)).map(o => ({o, el:eligibility(o, recMap)}));
-  const live = x => x.o.claimed < x.o.qty && x.o.exp > Date.now();
-  const mine = rows.filter(x => x.o.myCode || (x.el.ok && live(x))), rest = rows.filter(x => !mine.includes(x));
+  const live = x => x.o.exp > Date.now();
+  const mine = rows.filter(x => x.o.myCode || S.getOpen === x.o.id || (x.el.ok && live(x))), rest = rows.filter(x => !mine.includes(x));
   return `<div class="stack">
     <div class="head"><div><p class="eyebrow">Only sent to people nearby whose taste suggests they'll enjoy the place</p><h2>Live offers for you</h2></div></div>
-    ${!S.acct ? `<p class="note">Create a free account to claim vouchers. Venues scan your code when you visit.</p>` : ''}
+    ${!S.acct ? `<p class="note">Create a free account to get offers. Venues scan your code when you visit.</p>` : ''}
+    <p class="small muted">Tickets are paid in advance. For other offers, pay ${pounds(SECURE_FEE)} to guarantee your place, or claim free and take the chance that places run out.</p>
     ${mine.length ? `<div class="grid">${mine.map(x => offerCard(x.o, x.el, true)).join('')}</div>` : `<p class="note">No offers are targeted at you right now${me().label.includes('London') ? '. Rate more places to get better-matched offers' : ` near ${esc(me().label)}. Switch to London at the top to see offers there`}.</p>`}
     ${rest.length ? `<h2 style="margin-top:8px">Other offers</h2><div class="grid">${rest.map(x => offerCard(x.o, x.el, false)).join('')}</div>` : ''}
   </div>`;
 }
 function viewVouchers(){
   const list = S.vouchers || [];
-  const status = v => v.redeemed_at ? 'used' : (v.cancelled_at || Date.parse(v.expires_at) <= Date.now()) ? 'expired' : 'ready';
+  const status = v => v.redeemed_at ? 'used' : (v.cancelled_at || Date.parse(v.expires_at) <= Date.now()) ? 'expired' : v.status === 'pending' ? 'pending' : 'ready';
   return `<div class="stack">
     <div class="head"><div><p class="eyebrow">Show the code at the venue. Staff scan it to record your visit.</p><h2>My vouchers</h2></div></div>
     ${list.length ? `<div class="grid">${list.map(v => { const st = status(v), ve = venue(v.venue_id);
@@ -1292,7 +1569,9 @@ function viewVouchers(){
         <div class="head"><div><h3>${esc(ve?.name || 'Venue')}</h3><p class="small muted">Claimed ${fmtDateTime(v.claimed_at)}</p></div>
           ${st === 'ready' ? `<span class="timer" data-exp="${Date.parse(v.expires_at)}"></span>` : st === 'used' ? `<span class="chip good">Used ${fmtDateTime(v.redeemed_at)}</span>` : `<span class="chip">Expired</span>`}</div>
         <div class="deal">${esc(v.title)}</div>
-        ${st === 'ready' ? qrBlock(v.code) : `<p class="num muted">${esc(v.code)}</p>`}
+        <div>${voucherChip(v.kind, v.paid_pence)}</div>
+        ${st === 'pending' ? `<p class="note small">Payment not finished.</p><div><button class="btn primary" data-act="pay" data-vid="${v.id}">Finish payment</button></div>`
+          : st === 'ready' ? qrBlock(v.code) : `<p class="num muted">${esc(v.code)}</p>`}
         ${ve && st === 'ready' ? linkButtons(ve, true) : ''}
       </article>`; }).join('')}</div>`
       : `<p class="note">No vouchers yet. Claim one from Live offers.</p><div><button class="btn primary" data-tab="offers">See live offers</button></div>`}
@@ -1354,7 +1633,9 @@ function computeStats(d, days){
   const since = days ? Date.now() - days*864e5 : 0;
   const offers = d.offers.filter(o => Date.parse(o.created_at) >= since);
   const ids = new Set(offers.map(o => o.id));
-  const vs = d.vouchers.filter(v => ids.has(v.offer_id)), red = vs.filter(v => v.redeemed_at);
+  const vs = d.vouchers.filter(v => ids.has(v.offer_id) && (v.status || 'active') === 'active'), red = vs.filter(v => v.redeemed_at);
+  const byKind = {ticket:{claimed:0, redeemed:0, paid:0}, secured:{claimed:0, redeemed:0, paid:0}, free:{claimed:0, redeemed:0, paid:0}};
+  vs.forEach(v => { const k = byKind[v.kind || 'free']; k.claimed++; if (v.redeemed_at) k.redeemed++; k.paid += v.paid_pence || 0; });
   const billed = red.filter(v => v.bill_pence != null), parties = red.filter(v => v.party_size);
   const buys = d.ledger.filter(l => l.kind === 'purchase' && l.amount_pence);
   const boughtQty = buys.reduce((s, l) => s + l.paid_delta, 0);
@@ -1372,7 +1653,7 @@ function computeStats(d, days){
   const waits = red.map(v => (Date.parse(v.redeemed_at) - Date.parse(v.claimed_at)) / 60000).filter(x => x >= 0).sort((a, b) => a - b);
   const q = p => waits.length ? waits[Math.min(waits.length - 1, Math.floor(p*waits.length))] : null;
   const busiest = byHour.reduce((b, h, i) => h.n > b.n ? {n:h.n, i} : b, {n:0, i:-1});
-  return {offers, issued, claimed:vs.length, redeemed:red.length, revenue, avgBill:billed.length ? revenue/billed.length : null,
+  return {byKind, offers, issued, claimed:vs.length, redeemed:red.length, revenue, avgBill:billed.length ? revenue/billed.length : null,
     avgParty:parties.length ? parties.reduce((s, v) => s + v.party_size, 0)/parties.length : null, paidUsed, freeUsed, cost, avgUnit,
     byHour, byDow, byType, perOffer, waitMed:q(.5), waitP75:q(.75), busiest};
 }
@@ -1407,10 +1688,11 @@ function viewVHome(){
   </div>`;
 }
 function liveOfferRow(o){
-  const vs = S.vdata.vouchers.filter(x => x.offer_id === o.id), red = vs.filter(x => x.redeemed_at).length;
-  return `<div class="liverow"><div style="flex:1 1 220px"><b>${esc(o.title)}</b><div class="small muted">${OFFER_TYPES[o.offer_type]} · ${o.tokens} people · within ${o.radius_km} km · <span class="timer" data-exp="${Date.parse(o.expires_at)}"></span></div>
-      <div class="meter" style="margin-top:6px"><i style="width:${vs.length/o.tokens*100}%"></i></div>
-      <div class="small" style="margin-top:4px"><b class="num">${vs.length}</b> claimed · <b class="num">${red}</b> visited · <span class="num">${o.tokens - vs.length}</span> unclaimed</div></div>
+  const vs = S.vdata.vouchers.filter(x => x.offer_id === o.id && (x.status || 'active') === 'active'), red = vs.filter(x => x.redeemed_at).length;
+  const g = vs.filter(x => x.kind === 'secured' || x.kind === 'ticket').length, fr = vs.length - g;
+  return `<div class="liverow"><div style="flex:1 1 220px"><b>${esc(o.title)}</b><div class="small muted">${OFFER_TYPES[o.offer_type]}${o.price_pence ? ' · ' + pounds(o.price_pence) : ''} · ${o.tokens} places · within ${o.radius_km} km · <span class="timer" data-exp="${Date.parse(o.expires_at)}"></span></div>
+      <div class="meter" style="margin-top:6px"><i style="width:${g/o.tokens*100}%"></i></div>
+      <div class="small" style="margin-top:4px"><b class="num">${g}</b> ${o.offer_type === 'ticket' ? 'tickets sold' : 'secured'} · <b class="num">${fr}</b> free claims · <b class="num">${red}</b> visited · <span class="num">${Math.max(0, o.tokens - g)}</span> places left</div></div>
     <button class="btn danger" data-act="end-offer" data-oid="${o.id}">${S.endArm === o.id ? 'Tap again to end (tokens are not returned)' : 'End early'}</button></div>`;
 }
 
@@ -1424,7 +1706,7 @@ function viewVScan(){
     ${pendingNote()}
     <section class="panel stack">
       <div><p class="eyebrow">Each scan is recorded centrally and counts towards your stats</p><h2>Scan a customer's voucher</h2></div>
-      ${r ? `<div class="toast ${r.ok ? '' : 'err'}" role="status">${r.ok ? `<b>Visit recorded.</b> ${esc(r.data.offer_title)} · <span class="num">${esc(r.data.code)}</span>${r.data.bill_pence != null ? ' · bill ' + pounds(r.data.bill_pence) : ''}${r.data.party_size ? ' · ' + r.data.party_size + ' people' : ''}` : esc(r.msg)}</div>` : ''}
+      ${r ? `<div class="toast ${r.ok ? '' : 'err'}" role="status">${r.ok ? `<b>Visit recorded.</b> ${esc(r.data.offer_title)} · <span class="num">${esc(r.data.code)}</span>${r.data.bill_pence != null ? ' · bill ' + pounds(r.data.bill_pence) : ''}${r.data.party_size ? ' · ' + r.data.party_size + ' people' : ''} · ${VKIND[r.data.kind] || 'Voucher'}${r.data.paid_pence ? ' (' + pounds(r.data.paid_pence) + ' paid)' : ''}` : esc(r.msg)}</div>` : ''}
       <div id="scanBox" class="scanbox" hidden><video id="scanVideo" playsinline muted></video><div class="scanframe"></div><p class="scanhint">Point at the QR code</p></div>
       ${canScan ? `<div class="row"><button class="btn primary big" data-act="scan-start" id="scanStart">Scan with camera</button><button class="btn" data-act="scan-stop" id="scanStop" hidden>Stop camera</button></div>`
         : `<p class="small muted">Camera scanning works in the Tastemate app and in Chrome or Safari. Type the code instead.</p>`}
@@ -1486,7 +1768,7 @@ function reachFor(vid, radius, minPred){
   });
   return {rated, predicted, nearby, total: rated + predicted};
 }
-const OFFER_DEFAULTS = {percent_off:'50% off the bill', two_for_one:'2-for-1 mains', free_item:'Free dessert with any main', fixed_off:'£10 off for two', other:''};
+const OFFER_DEFAULTS = {percent_off:'50% off the bill', two_for_one:'2-for-1 mains', free_item:'Free dessert with any main', fixed_off:'£10 off for two', ticket:'Tonight: best available seats', other:''};
 function viewVOffers(){
   const wait = needVendorData(); if (wait) return wait;
   const d = S.vdata;
@@ -1497,6 +1779,8 @@ function viewVOffers(){
       <form class="venueform" id="offerForm">
         <label for="f-type">Type of offer<select id="f-type">${Object.entries(OFFER_TYPES).map(([k, l]) => `<option value="${k}">${l}</option>`).join('')}</select></label>
         <label for="f-title">What customers see<input id="f-title" maxlength="80" value="${esc(OFFER_DEFAULTS.percent_off)}" required></label>
+        <div id="priceFields" class="pricefields" hidden style="grid-column:1/-1"><label for="f-price">Ticket price, £<input id="f-price" type="number" min="0.5" step="0.5" inputmode="decimal" value="45"></label>
+          <label for="f-was">Usual price, £ (optional)<input id="f-was" type="number" min="0.5" step="0.5" inputmode="decimal" value="75"></label></div>
         <label for="f-qty">First how many people<input id="f-qty" type="number" min="1" max="5000" value="20"></label>
         <label for="f-hours">Valid for (hours)<input id="f-hours" type="number" min=".5" max="168" step=".5" value="2"></label>
         <label for="f-radius">Send to people within (km)<input id="f-radius" type="number" min=".5" max="50" step=".5" value="3"></label>
@@ -1551,6 +1835,11 @@ function viewVStats(){
       ${tile('Token cost', pounds(st.cost), st.avgUnit ? `bought tokens at ${Math.round(st.avgUnit)}p avg; free ones cost £0` : 'all free tokens')}
       ${tile('Spend per £1 of tokens', roi != null ? pounds(roi*100).replace('.00', '') : '–', st.redeemed ? `cost per visit ${pounds(st.cost / st.redeemed)}` : '')}
     </div>
+    <section class="panel stack"><h3>How customers got the offer</h3>
+      <div class="tablewrap"><table><thead><tr><th>Type</th><th class="c">Claimed</th><th class="c">Turned up</th><th class="c">Turn-up rate</th><th class="c">Paid by customers</th></tr></thead><tbody>
+        ${[['ticket', 'Tickets'], ['secured', `Secured (${pounds(SECURE_FEE)})`], ['free', 'Free claims (not guaranteed)']].filter(([k]) => st.byKind[k].claimed).map(([k, l]) => `<tr><td><b>${l}</b></td><td class="c num">${st.byKind[k].claimed}</td><td class="c num">${st.byKind[k].redeemed}</td><td class="c num"><b>${pct(st.byKind[k].redeemed, st.byKind[k].claimed)}</b></td><td class="c num">${k === 'ticket' ? pounds(st.byKind[k].paid) : k === 'secured' ? pounds(st.byKind[k].paid) + ' <span class="muted small">(fee)</span>' : '–'}</td></tr>`).join('')}
+      </tbody></table></div>
+      <p class="small muted">Ticket money is paid to you. Securing fees go to Tastemate and guarantee the place for the customer.</p></section>
     <section class="panel stack"><div class="head"><h3>Visits by time of day</h3>${st.busiest.i >= 0 ? `<span class="small muted">Busiest: ${hrs[st.busiest.i]}:00–${hrs[(st.busiest.i + 1) % 24]}:00</span>` : ''}</div>
       ${bars(st.byHour, hrs, (d, i) => `${hrs[i]}:00 · ${d.n} visit${d.n === 1 ? '' : 's'} · ${pounds(d.rev)}`, 3, 'Visits by hour')}</section>
     <section class="panel stack"><h3>Visits by day of week</h3>
@@ -1619,6 +1908,8 @@ function viewAOverview(){
       ${tile('Vouchers claimed', o.vouchers_claimed, pct(o.vouchers_claimed, o.tokens_issued) + ' of tokens')}
       ${tile('Visits recorded', o.vouchers_redeemed, pct(o.vouchers_redeemed, o.vouchers_claimed) + ' of claims')}
       ${tile('Spend at venues', pounds(o.vendor_spend_pence), 'from bills entered at scan')}
+      ${tile('Securing fees', pounds(o.secure_fees_pence || 0), `${pounds(SECURE_FEE)} per secured offer`)}
+      ${tile('Ticket sales', pounds(o.ticket_sales_pence || 0), 'owed to venues')}
     </div>
     ${o.vendors_pending ? `<div><button class="btn primary" data-tab="a-vendors">Review ${o.vendors_pending} business${o.vendors_pending === 1 ? '' : 'es'}</button></div>` : ''}
     <p class="small muted">Payouts, refunds and receipts are in your Stripe dashboard.</p>
@@ -1714,6 +2005,8 @@ function render(){
   if (S.toast && S.tab !== 'reviews' && S.tab !== 'auth') $('#view').insertAdjacentHTML('afterbegin', `<div class="toast ${S.toast.err ? 'err' : ''}" role="status" style="margin-bottom:14px">${S.toast.msg}</div>`);
   PENDING.forEach(mountMap);
   if (S.tab === 'map' && S.sel) fetchLiveRating(venue(S.sel));
+  if (S.tab === 'rate') loadNearby(me(), S.kind, 700, () => { if (S.tab === 'rate') { const y = window.scrollY; render(); window.scrollTo({top:y}); } });
+  if (S.tab === 'discover') loadNearby(me(), 'all', 1500, () => { if (S.tab === 'discover') render(); });
   $('#locSel').value = S.locKey;
   if (S.tab === 'v-offers') updateOfferForm();
   if (S.tab === 'v-tokens') updateBuyPrice();
@@ -1742,7 +2035,7 @@ document.addEventListener('click', async e => {
   if (t.dataset.tab) { go(t.dataset.tab); return; }
   if (t.dataset.rate) {
     const vid = t.dataset.vid, n = +t.dataset.rate;
-    if (!venue(vid)) { const g = (S.gResults || []).find(v => v.id === vid); if (g) S.venues.push(g); }
+    const rv = venue(vid); if (rv && rv.live) rv.imported = true;
     S.mine[vid] ??= {};
     if (S.mine[vid].manual === n) delete S.mine[vid].manual; else S.mine[vid].manual = n;
     if (!Object.keys(S.mine[vid]).length) delete S.mine[vid];
@@ -1776,12 +2069,8 @@ document.addEventListener('click', async e => {
   if (act === 'rec-kind') { S.recKind = t.dataset.kind; render(); return; }
   if (act === 'match-kind') { S.matchKind = t.dataset.kind; S.cmpSel = null; render(); return; }
   if (act === 'rate-kind') { S.kind = t.dataset.kind; go('rate'); return; }
-  if (act === 'gsearch') {
-    const q = (S.rateQ || '').trim(); if (!q) return;
-    S.gBusy = true; $('#searchResults').innerHTML = searchResultsHtml();
-    try { S.gResults = await googleSearch(q); } catch(err) { S.gResults = []; S.toast = {err:true, msg:'Google Maps search is unavailable right now. Try again later.'}; }
-    S.gBusy = false; render(); return;
-  }
+  if (act === 'map-kind') { S.mapKind = t.dataset.kind; render(); const g = GM.main; if (g && g.opts?.onIdle) onMapIdle('main'); return; }
+  if (act === 'goto-offer') { S.getOpen = t.dataset.oid; go('offers'); return; }
   if (act === 'example') { EXAMPLE_PROFILE.forEach(([n,r]) => { const id = byName(n); if (id) (S.mine[id] ??= {}).example = r; }); S.toast = null; save(); render(); return; }
   if (act === 'maptoggle') { S.mapAll = !S.mapAll; render(); }
   if (act === 'to-auth') { S.authMode = 'signin'; S.authErr = S.authMsg = null; go('auth'); }
@@ -1789,9 +2078,24 @@ document.addEventListener('click', async e => {
   if (act === 'auth-cancel') { go(tabsFor()[0][0]); }
   if (act === 'demo-login') busy(t, async () => afterSignIn(await API.signIn(t.dataset.email, 'tastemate')));
   if (act === 'signout') busy(t, async () => { await API.signOut(); S.acct = null; S.mine = {}; S.vouchers = []; S.vdata = S.bal = S.admin = null; POOL = users; save(); await refreshAll(); go('rate'); });
+  if (act === 'get-offer') { S.getOpen = t.dataset.oid; render(); document.getElementById('offer-' + t.dataset.oid)?.scrollIntoView({block:'center'}); return; }
+  if (act === 'get-close') { S.getOpen = null; render(); return; }
   if (act === 'claim') busy(t, async () => {
-    const v = await API.claim(t.dataset.oid);
-    S.toast = {msg:`Voucher claimed: <b class="num">${esc(v.code)}</b>. Show the QR code at the venue. It's also saved in My vouchers.`};
+    const mode = t.dataset.mode || 'free';
+    const v = await API.claim(t.dataset.oid, mode);
+    if (v.status === 'pending') {
+      const res = await API.payVoucher(v.id);
+      if (res?.url) { window.location.href = res.url; return; }
+    }
+    S.getOpen = null;
+    S.toast = {msg: mode === 'ticket' ? `Ticket bought: <b class="num">${esc(v.code)}</b>. Show the QR code at the door. It's also in My vouchers.${API.demo ? ' Demo: no card was charged.' : ''}`
+      : mode === 'secured' ? `Place secured: <b class="num">${esc(v.code)}</b>. The venue must honour it. It's also in My vouchers.${API.demo ? ' Demo: no card was charged.' : ''}`
+      : `Claimed free: <b class="num">${esc(v.code)}</b>. Not guaranteed: it's honoured only if places are left when you arrive.`};
+    await refreshAll(); render();
+  });
+  if (act === 'pay') busy(t, async () => {
+    const res = await API.payVoucher(t.dataset.vid);
+    if (res?.url) { window.location.href = res.url; return; }
     await refreshAll(); render();
   });
   if (act === 'fill-code') { $('#r-code').value = t.dataset.code; $('#r-bill').focus(); }
@@ -1811,15 +2115,23 @@ document.addEventListener('click', async e => {
   if (act === 'approve') busy(t, async () => { await API.adminSetVendor(t.dataset.id, t.dataset.on === '1'); await refreshAll(); render(); });
   if (act === 'grant') busy(t, async () => { await API.adminGrant(t.dataset.id, 50); S.toast = {msg:'Added 50 tokens.'}; await refreshAll(); render(); });
 });
-if (NATIVE && navigator.geolocation) $('#gpsBtn').hidden = false;
-$('#gpsBtn').addEventListener('click', () => {
-  const btn = $('#gpsBtn'); btn.textContent = 'Finding you…';
+const canLocate = () => !!navigator.geolocation && (NATIVE || !!CFG.BUILD);
+if (canLocate()) $('#gpsBtn').hidden = false;
+function useMyLocation(auto){
+  const btn = $('#gpsBtn'); if (!auto) btn.textContent = 'Finding you…';
   navigator.geolocation.getCurrentPosition(pos => {
     LOCS.gps = {label:'My location', lat:pos.coords.latitude, lng:pos.coords.longitude};
     if (!$('#locSel option[value="gps"]')) $('#locSel').insertAdjacentHTML('afterbegin', '<option value="gps">My location</option>');
-    S.locKey = 'gps'; S.sel = null; btn.textContent = 'Update my location'; render();
-  }, () => { btn.textContent = 'Use my location'; S.toast = {err:true, msg:'Location is off for Tastemate. Allow it in your phone settings, or pick an area from the list.'}; render(); }, {enableHighAccuracy:false, timeout:12000, maximumAge:300000});
-});
+    S.locKey = 'gps'; S.sel = null; btn.textContent = 'Update my location';
+    afterLocation();
+  }, () => { btn.textContent = 'Use my location'; if (!auto) { S.toast = {err:true, msg:'Location is off for Tastemate. Allow it in your phone settings, or pick an area from the list.'}; render(); } }, {enableHighAccuracy:true, timeout:12000, maximumAge:120000});
+}
+// When the location changes: load what's around, then redraw
+function afterLocation(){
+  render();
+  loadNearby(me(), 'all', 1500, () => render());
+}
+$('#gpsBtn').addEventListener('click', () => useMyLocation(false));
 // In the Android app, open outside links (Google Maps, Tripadvisor, Yelp, Stripe) in the phone's own apps
 document.addEventListener('click', e => {
   if (!NATIVE) return;
@@ -1831,9 +2143,9 @@ document.addEventListener('keydown', e => {
 });
 document.addEventListener('change', async e => {
   const t = e.target;
-  if (t.id === 'locSel') { S.locKey = t.value; S.sel = null; save(); render(); return; }
+  if (t.id === 'locSel') { S.locKey = t.value; S.sel = null; save(); afterLocation(); return; }
   if (t.name === 'auth-role') { S.signupRole = t.value; const keep = {email:$('#auth-email')?.value, pw:$('#auth-password')?.value, name:$('#auth-name')?.value}; render(); if ($('#auth-email')) $('#auth-email').value = keep.email || ''; if ($('#auth-password')) $('#auth-password').value = keep.pw || ''; if ($('#auth-name')) $('#auth-name').value = keep.name || ''; return; }
-  if (t.id === 'f-type') { const title = $('#f-title'); if (!title.dataset.edited) title.value = OFFER_DEFAULTS[t.value]; }
+  if (t.id === 'f-type') { const title = $('#f-title'); if (!title.dataset.edited) title.value = OFFER_DEFAULTS[t.value]; $('#priceFields').hidden = t.value !== 'ticket'; }
   if (t.matches('input[type=file][data-source]') && t.files.length) {
     const src = t.dataset.source; let all = [];
     try {
@@ -1845,7 +2157,7 @@ document.addEventListener('change', async e => {
   if (t.closest('#offerForm')) updateOfferForm();
 });
 document.addEventListener('input', e => {
-  if (e.target.id === 'rateSearch') { S.rateQ = e.target.value; S.gResults = null; const box = $('#searchResults'); if (box) box.innerHTML = searchResultsHtml(); }
+  if (e.target.id === 'rateSearch') { S.rateQ = e.target.value; S.liveIds = null; liveSearch(S.rateQ); const box = $('#searchResults'); if (box) box.innerHTML = searchResultsHtml(); }
   if (e.target.id === 'f-title') e.target.dataset.edited = '1';
   if (e.target.closest('#offerForm')) updateOfferForm();
   if (e.target.id === 'buy-qty') updateBuyPrice();
@@ -1853,7 +2165,7 @@ document.addEventListener('input', e => {
 document.addEventListener('submit', e => {
   const f = e.target; e.preventDefault();
   const btn = f.querySelector('[type=submit]');
-  if (f.id === 'placeSearch') { S.rateQ = $('#rateSearch').value; const box = $('#searchResults'); if (box) box.innerHTML = searchResultsHtml(); if (hasGoogle() && S.rateQ.trim().length > 1) $('[data-act="gsearch"]')?.click(); return; }
+  if (f.id === 'placeSearch') { S.rateQ = $('#rateSearch').value; liveSearch(S.rateQ); const box = $('#searchResults'); if (box) box.innerHTML = searchResultsHtml(); return; }
   if (f.id === 'authForm') busy(btn, async () => {
     const m = f.dataset.mode, email = $('#auth-email')?.value.trim(), pw = $('#auth-password')?.value;
     S.authErr = S.authMsg = null;
@@ -1883,7 +2195,9 @@ document.addEventListener('submit', e => {
     if (!S.scanResult.ok) $('#r-code').value = code;
   });
   if (f.id === 'offerForm') busy(btn, async () => {
-    const o = await API.createOffer({title:$('#f-title').value, type:$('#f-type').value, tokens:+$('#f-qty').value, hours:+$('#f-hours').value, radius:+$('#f-radius').value, minPred:+$('#f-min').value});
+    const type = $('#f-type').value, toP = x => x === '' || x == null ? null : Math.round(parseFloat(x)*100);
+    const o = await API.createOffer({title:$('#f-title').value, type, tokens:+$('#f-qty').value, hours:+$('#f-hours').value, radius:+$('#f-radius').value, minPred:+$('#f-min').value,
+      price:type === 'ticket' ? toP($('#f-price').value) : null, was:type === 'ticket' ? toP($('#f-was').value) : null});
     await refreshAll();
     S.tab = 'v-home'; S.toast = {msg:`“${esc(o.title)}” is live for the first ${o.tokens} people who match. ${o.free_tokens} free and ${o.paid_tokens} bought tokens used.`}; render(); window.scrollTo({top:0});
   });
@@ -1903,12 +2217,19 @@ S.booting = true; render();
   API.onRecovery(() => { S.authMode = 'recovery'; S.tab = 'auth'; render(); });
   if (location.hash === '#tokens-paid') { S.tab = 'v-tokens'; S.toast = {msg:'Payment received. Your tokens will appear in a few seconds.'}; setTimeout(async () => { await refreshAll(); render(); }, 4000); }
   if (location.hash === '#account') { S.tab = S.acct ? 'account' : 'auth'; S.authMsg = S.acct ? null : 'Sign in to manage or delete your account.'; }
+  if (location.hash === '#voucher-paid') { S.tab = 'vouchers'; S.toast = {msg:'Payment received. Your voucher is ready below.'}; setTimeout(async () => { await refreshAll(); render(); }, 3000); }
+  if (location.hash === '#voucher-cancelled') { S.tab = 'offers'; S.toast = {err:true, msg:'Payment cancelled. No money was taken, and the place you were holding is released after a few minutes.'}; }
+  if (/#voucher-/.test(location.hash)) history.replaceState(null, '', location.pathname + location.search);
   if (location.hash === '#tokens-cancelled') { S.tab = 'v-tokens'; S.toast = {err:true, msg:'Payment cancelled. No money was taken.'}; }
   if (/#tokens-/.test(location.hash)) history.replaceState(null, '', location.pathname + location.search);
   if (S.acct?.role === 'user') await pullRatings().catch(() => {});
   await refreshAll();
+  S.venues.forEach(v => { if (v.imported) { v.simDone = false; simulateFor(v); } });
   S.booting = false; render();
+  if (NATIVE && canLocate()) useMyLocation(true); else loadNearby(me(), 'all', 1500, () => render());
 })();
+// Coming back to the app after paying in the browser: refresh vouchers and balances
+document.addEventListener('visibilitychange', async () => { if (!document.hidden && S.acct && !S.booting) { await refreshAll(); if (!['auth','v-offers','v-tokens','v-scan','reviews'].includes(S.tab)) render(); } });
 setInterval(async () => { if (!document.hidden && !scanStream && !S.booting && !['auth','v-offers','v-tokens','v-scan','reviews'].includes(S.tab) && !document.activeElement?.matches('input,textarea,select')) { await refreshAll(); render(); } }, 60000);
 })();
 </script>

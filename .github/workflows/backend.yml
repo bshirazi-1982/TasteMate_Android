@@ -41,4 +41,5 @@ jobs:
         run: |
           supabase functions deploy create-checkout --project-ref "$PROJECT_REF"
           supabase functions deploy delete-account --project-ref "$PROJECT_REF"
+          supabase functions deploy create-voucher-checkout --project-ref "$PROJECT_REF"
           supabase functions deploy stripe-webhook --project-ref "$PROJECT_REF" --no-verify-jwt

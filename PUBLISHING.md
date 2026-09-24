@@ -116,6 +116,18 @@ Try everything first: the app has a **demo mode** that works with no setup. Open
 
 ---
 
+## Diner payments: tickets and £1 securing
+
+Diners pay by card through the same Stripe account: ticket prices for shows, and a £1 fee to guarantee other offers. The webhook you set up in part B already handles these payments, so there's nothing more to configure.
+
+- **Securing fees (£1)** are your revenue.
+- **Ticket money belongs to the venue.** In the beta it lands in your Stripe account, and you pay venues yourself. Before selling real tickets, switch to **Stripe Connect** so each theatre receives its share automatically and you keep a commission. Also agree terms with venues covering refunds and cancelled shows.
+- Tickets and bookings for real-world events and services don't need Google Play's own billing, so card payments inside the Android app are allowed. Check the current rules before launch.
+
+## Maps and live places
+
+Without a Google Maps key, the app uses OpenStreetMap: an interactive CARTO map, nearby places from the Overpass API, and search from Photon. They're free public services with fair-use limits, which suits testing. Once you add the `MAPS_API_KEY` secret and rebuild, the app switches to Google's map, nearby places, live ratings and search automatically. For this, turn on **Maps JavaScript API** and **Places API (New)** for the key.
+
 ## Before a public launch: decisions and checks
 
 1. **Google Play payment rules (most important).** Google normally requires its own billing (and fee) for digital items bought inside an Android app. Tastemate avoids in-app buying: businesses buy tokens only on the website, and the Android app just tells them to buy tokens on the web. Tokens are a business advertising service used for real-world visits, which may be exempt. However, Google's rules on both buying digital items and pointing users to outside payment are strict and change often. **Confirm with Google Play's Payments policy, or a specialist, before production.** Alternatives are removing the web mention from the Android app or adding Google Play Billing.
