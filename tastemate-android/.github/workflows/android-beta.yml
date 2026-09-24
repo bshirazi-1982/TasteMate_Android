@@ -1,0 +1,67 @@
+name: Build Android beta
+
+# Run it from the Actions tab ("Run workflow"), or push a tag like v0.1.2
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Install
+        run: npm ci
+
+      - name: Build the app screens and copy them into Android
+        env:
+          TASTEMATE_TARGET: android
+          TASTEMATE_MAPS_KEY: ${{ secrets.MAPS_API_KEY }}
+          TASTEMATE_MAP_ID: ${{ secrets.MAP_ID }}
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+          APP_URL: ${{ vars.APP_URL }}
+        run: |
+          npm run build:web
+          npx cap sync android
+
+      - name: Restore the upload key
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ]; then echo "::error::Add the KEYSTORE_BASE64 secret (see PUBLISHING.md)"; exit 1; fi
+          echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/upload.jks"
+
+      - name: Build signed app bundle (.aab) and test APK
+        working-directory: android
+        env:
+          TASTEMATE_KEYSTORE_FILE: ${{ runner.temp }}/upload.jks
+          TASTEMATE_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          TASTEMATE_KEY_ALIAS: upload
+          VERSION_CODE: ${{ github.run_number }}
+          VERSION_NAME: 0.1.${{ github.run_number }}-beta
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon bundleRelease assembleRelease
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tastemate-beta-${{ github.run_number }}
+          path: |
+            android/app/build/outputs/bundle/release/*.aab
+            android/app/build/outputs/apk/release/*.apk
+          retention-days: 30

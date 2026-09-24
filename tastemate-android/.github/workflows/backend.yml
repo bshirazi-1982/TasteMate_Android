@@ -1,0 +1,44 @@
+name: Set up backend
+
+# Creates the database tables, security rules and payment functions in your Supabase project.
+# Safe to run again: it only applies changes that haven't been applied yet.
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+      PROJECT_REF: ${{ vars.SUPABASE_PROJECT_REF }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Check settings
+        run: |
+          for v in SUPABASE_ACCESS_TOKEN SUPABASE_DB_PASSWORD PROJECT_REF; do
+            if [ -z "${!v}" ]; then echo "::error::Missing $v - see PUBLISHING.md, part A"; exit 1; fi
+          done
+      - name: Link project
+        run: supabase link --project-ref "$PROJECT_REF" --password "$SUPABASE_DB_PASSWORD"
+      - name: Create or update database
+        run: supabase db push --password "$SUPABASE_DB_PASSWORD"
+      - name: Payment and account settings
+        env:
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
+          APP_URL: ${{ vars.APP_URL }}
+        run: |
+          args=""
+          [ -n "$STRIPE_SECRET_KEY" ] && args="$args STRIPE_SECRET_KEY=$STRIPE_SECRET_KEY"
+          [ -n "$STRIPE_WEBHOOK_SECRET" ] && args="$args STRIPE_WEBHOOK_SECRET=$STRIPE_WEBHOOK_SECRET"
+          [ -n "$APP_URL" ] && args="$args APP_URL=$APP_URL"
+          if [ -n "$args" ]; then supabase secrets set --project-ref "$PROJECT_REF" $args; fi
+      - name: Deploy functions
+        run: |
+          supabase functions deploy create-checkout --project-ref "$PROJECT_REF"
+          supabase functions deploy delete-account --project-ref "$PROJECT_REF"
+          supabase functions deploy stripe-webhook --project-ref "$PROJECT_REF" --no-verify-jwt

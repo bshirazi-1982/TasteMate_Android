@@ -1,0 +1,11 @@
+{
+  "appId": "com.tastemate.app",
+  "appName": "Tastemate",
+  "webDir": "www",
+  "android": {
+    "allowMixedContent": false
+  },
+  "plugins": {
+    "SystemBars": { "insetsHandling": "css", "style": "DEFAULT" }
+  }
+}

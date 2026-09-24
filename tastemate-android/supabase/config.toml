@@ -1,0 +1,12 @@
+# Supabase project settings used by the deploy workflow
+project_id = "tastemate"
+
+[functions.create-checkout]
+verify_jwt = true
+
+[functions.stripe-webhook]
+# Stripe can't send a Supabase login, so this function checks Stripe's signature instead
+verify_jwt = false
+
+[functions.delete-account]
+verify_jwt = true

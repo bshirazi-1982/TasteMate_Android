@@ -1,0 +1,1914 @@
+<title>Tastemate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --bg:#F7F3FB; --surface:#FFFFFF; --surface-2:#EFE8F6; --ink:#1F1430; --muted:#645776; --line:#E0D6EA;
+  --accent:#5B21B6; --accent-ink:#FFFFFF; --offer:#D7263D; --offer-ink:#FFFFFF; --star:#F2B705; --sun:#FFD23F;
+  --good:#2A8455; --warn:#A15C00; --bad:#B3261E;
+  --display:"Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#130C1D; --surface:#1D1429; --surface-2:#291D38; --ink:#F2ECF8; --muted:#AA9CBC; --line:#3A2C4C;
+    --accent:#B99BFF; --accent-ink:#1A0B33; --offer:#FF5C6E; --offer-ink:#2A0409; --star:#FFCC33; --sun:#FFD23F;
+    --good:#5CC98A; --warn:#F2B35A; --bad:#FF7A70;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#130C1D; --surface:#1D1429; --surface-2:#291D38; --ink:#F2ECF8; --muted:#AA9CBC; --line:#3A2C4C;
+  --accent:#B99BFF; --accent-ink:#1A0B33; --offer:#FF5C6E; --offer-ink:#2A0409; --star:#FFCC33; --sun:#FFD23F;
+  --good:#5CC98A; --warn:#F2B35A; --bad:#FF7A70;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--body);margin:0}
+.app{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:calc(18px + var(--safe-area-inset-top, 0px)) calc(48px + var(--safe-area-inset-bottom, 0px))}
+.gmap-slot{width:100%;height:min(62vh,540px);min-height:320px;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--surface-2);display:grid}
+.gmap-slot > .gmap{width:100%;height:100%}
+.gmap-loading{place-self:center;color:var(--muted);font-size:.9rem}
+.pin{display:grid;place-items:center;border-radius:50%;border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);font:600 11px var(--mono);color:#fff;position:relative;cursor:pointer}
+.pin.sel{outline:3px solid var(--ink);outline-offset:2px}
+.pin-label{position:absolute;left:calc(100% + 6px);top:50%;transform:translateY(-50%);white-space:nowrap;background:var(--surface);color:var(--ink);font:700 12px var(--body);padding:3px 8px;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.youpin{width:16px;height:16px;background:#1a73e8;border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 6px rgba(26,115,232,.25)}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:1.7rem;font-weight:800;letter-spacing:-.01em}
+h2{font-size:1.3rem;font-weight:600}
+h3{font-size:1.02rem;font-weight:600;font-family:var(--body)}
+p{margin:0}
+a{color:var(--accent)}
+.muted{color:var(--muted)}
+.small{font-size:.84rem}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+.top{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#5B21B6 0%,#5B21B6 55%,#D7263D 100%);display:grid;place-items:center;flex:none}
+.logo svg{width:26px;height:26px}
+.brand p{color:var(--muted);font-size:.9rem}
+.loc{display:flex;gap:8px;align-items:center;font-size:.88rem;color:var(--muted)}
+select,input,textarea{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 10px}
+textarea{width:100%;min-height:110px;resize:vertical}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.tabs{display:flex;gap:4px;overflow-x:auto;margin-block:18px 20px;border-bottom:1px solid var(--line);scrollbar-width:none}
+.tabs button{flex:none;background:none;border:0;border-bottom:3px solid transparent;padding:10px 12px;font:600 .94rem var(--body);color:var(--muted);cursor:pointer}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tabs .badge{display:inline-block;margin-left:6px;background:var(--offer);color:var(--offer-ink);border-radius:999px;font-size:.7rem;padding:0 7px}
+
+.stack{display:grid;gap:18px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+.head{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.btn{display:inline-flex;align-items:center;gap:6px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:7px 12px;font:600 .88rem var(--body);cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.danger{color:var(--bad)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:4px;border-radius:999px;background:var(--surface-2);padding:2px 9px;font-size:.78rem;font-weight:600;color:var(--ink);white-space:nowrap}
+.chip.good{background:color-mix(in srgb,var(--good) 18%,var(--surface));color:var(--good)}
+.chip.warn{background:color-mix(in srgb,var(--sun) 45%,var(--surface));color:var(--ink)}
+.chip.offer{background:var(--offer);color:var(--offer-ink)}
+.chip.accent{background:color-mix(in srgb,var(--accent) 16%,var(--surface));color:var(--accent)}
+.stars{color:var(--star);letter-spacing:1px;white-space:nowrap;text-shadow:0 0 1px color-mix(in srgb,var(--ink) 35%,transparent)}
+.stars .off{color:var(--line)}
+
+.summary{display:flex;flex-wrap:wrap;gap:10px 28px}
+.summary div b{display:block;font:800 1.6rem var(--display)}
+.summary div span{color:var(--muted);font-size:.84rem}
+
+.sources{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.source{border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:10px;align-content:start;background:var(--surface)}
+.source .status{font-size:.85rem}
+.source details{font-size:.86rem;color:var(--muted)}
+.source summary{cursor:pointer;color:var(--ink);font-weight:600}
+.source ol{padding-left:18px;margin:8px 0 0;display:grid;gap:4px}
+.filebtn{position:relative;overflow:hidden}
+.filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.note{border-left:3px solid var(--accent);padding:8px 12px;background:var(--surface-2);border-radius:0 8px 8px 0;font-size:.9rem}
+.toast{border-radius:10px;padding:10px 14px;font-size:.92rem;background:color-mix(in srgb,var(--accent) 9%,var(--surface));border:1px solid color-mix(in srgb,var(--accent) 35%,var(--surface))}
+.toast.err{background:color-mix(in srgb,var(--bad) 12%,var(--surface));border-color:color-mix(in srgb,var(--bad) 40%,var(--surface))}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;background:var(--surface-2);position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.c,th.c{text-align:center}
+.cell{display:inline-grid;place-items:center;width:30px;height:26px;border-radius:6px;font-family:var(--mono);font-size:.84rem}
+.cell.none{color:var(--line)}
+.matrix td:first-child{min-width:170px}
+.matrix th.u{min-width:62px;text-align:center}
+
+.rec{display:grid;gap:10px;align-content:start;border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--surface)}
+.rec .score{font:800 1.5rem var(--display);color:var(--accent)}
+.rec .why{font-size:.85rem;color:var(--muted)}
+.offerbox{border:1.5px solid var(--offer);background:color-mix(in srgb,var(--offer) 7%,var(--surface));border-radius:10px;padding:8px 10px;font-size:.88rem;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.offerdeal{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.rec.hasoffer{border-color:var(--offer);box-shadow:0 0 0 1px var(--offer)}
+.rec .dist{font:800 1.25rem var(--display);color:var(--accent)}
+.kindprog{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}
+.kindprog div{border:1px solid var(--line);border-radius:10px;padding:8px 10px;display:grid;gap:2px}
+.kindprog div.ok{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 7%,var(--surface))}
+.kindprog b{font:800 1.3rem var(--display)}
+
+.seg button{white-space:nowrap}
+
+.mapgrid{display:grid;gap:16px;grid-template-columns:minmax(0,1fr) 300px}
+@media (max-width:860px){.mapgrid{grid-template-columns:1fr}}
+.map{width:100%;height:auto;display:block;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)}
+.map g[data-venue]{cursor:pointer}
+.map g[data-venue]:focus{outline:none}
+.map g[data-venue]:focus circle.dot{stroke:var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.82rem;color:var(--muted);margin-top:10px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.detail{display:grid;gap:12px;align-content:start}
+.linklist{display:grid;gap:8px}
+
+.users{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.user{border:1px solid var(--line);border-radius:10px;padding:10px;display:grid;gap:6px}
+.bar{height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent)}
+
+.ratelist{display:grid;gap:8px}
+.raterow{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--surface)}
+.starinput{display:flex;gap:2px}
+.starinput button{background:none;border:0;font-size:1.35rem;line-height:1;color:var(--line);cursor:pointer;padding:2px}
+.starinput button.on{color:var(--star);text-shadow:0 0 1px color-mix(in srgb,var(--ink) 40%,transparent)}
+
+.offer{border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:10px;background:var(--surface)}
+.offer.live{border-color:var(--offer);box-shadow:0 0 0 1px var(--offer)}
+.offer .deal{font:800 1.25rem var(--display)}
+.timer{font-family:var(--mono);color:var(--offer);font-weight:500}
+.voucher{font-family:var(--mono);font-size:1.1rem;letter-spacing:.08em;background:var(--surface-2);border-radius:8px;padding:8px 12px;text-align:center}
+.meter{height:8px;border-radius:4px;background:var(--surface-2);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--offer)}
+
+form.venueform{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+form.venueform label{display:grid;gap:4px;font-size:.85rem;font-weight:600}
+.reach{border-radius:12px;padding:14px;background:var(--surface-2)}
+.reach b.big{font:800 2rem var(--display);color:var(--accent)}
+footer{margin-top:28px;color:var(--muted);font-size:.8rem}
+.topright{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
+#acct{gap:8px}
+.btn.big{padding:11px 18px;font-size:.98rem}
+.linkbtn{background:none;border:0;padding:0;color:var(--accent);font:inherit;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.seg{display:inline-flex;background:var(--surface-2);border-radius:10px;padding:3px;gap:2px;flex-wrap:nowrap;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.seg button{border:0;background:none;padding:7px 12px;border-radius:8px;font:600 .86rem var(--body);color:var(--muted);cursor:pointer}
+.seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.authwrap{max-width:520px;margin:0 auto}
+.field{display:grid;gap:5px;font-size:.88rem;font-weight:600}
+.field input,.field select{font-weight:400;padding:10px 12px}
+.roles{border:0;padding:0;margin:0;display:grid;gap:10px;grid-template-columns:1fr 1fr}
+@media (max-width:480px){.roles{grid-template-columns:1fr}}
+.roles legend{margin-bottom:8px}
+.rolecard{display:grid;gap:4px;border:1.5px solid var(--line);border-radius:12px;padding:12px;cursor:pointer}
+.rolecard.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--surface))}
+.rolecard input{position:absolute;opacity:0;pointer-events:none}
+.rolecard:focus-within{outline:2px solid var(--accent);outline-offset:2px}
+.tiles{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:4px;align-content:start}
+.tile .tl{font-size:.78rem;color:var(--muted);font-weight:600}
+.tile b{font:800 1.6rem var(--display);font-variant-numeric:tabular-nums}
+.liverow{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding-top:12px}
+.liverow:first-of-type{border-top:0;padding-top:0}
+.costline{font-size:.92rem}
+.qrwrap{display:grid;justify-items:center;gap:8px}
+.qr{background:#fff;padding:8px;border-radius:10px;max-width:100%}
+.qr svg{display:block;width:100%;height:auto}
+.qr svg rect[fill="white"],.qr svg rect[fill="#ffffff"]{fill:#fff}
+.scanbox{position:relative;border-radius:14px;overflow:hidden;background:#000;max-width:420px;aspect-ratio:1/1;width:100%}
+.scanbox video{width:100%;height:100%;object-fit:cover;display:block}
+.scanframe{position:absolute;inset:18%;border:3px solid #fff;border-radius:16px;box-shadow:0 0 0 999px rgba(0,0,0,.35)}
+.scanhint{position:absolute;left:0;right:0;bottom:10px;text-align:center;color:#fff;font-weight:600;font-size:.9rem}
+.barchart{overflow:hidden}
+.vbars{display:grid;gap:3px;height:170px;align-items:stretch;border-bottom:1px solid var(--line)}
+.vbar{position:relative;display:grid;grid-template-rows:1fr 18px;outline:none}
+.vbar .col{display:flex;align-items:flex-end}
+.vbar .col i{display:block;width:100%;background:var(--accent);border-radius:4px 4px 0 0}
+.vbar:hover .col i,.vbar:focus .col i{background:color-mix(in srgb,var(--accent) 75%,var(--ink))}
+.vbar span{font-size:.68rem;color:var(--muted);text-align:center;line-height:18px;white-space:nowrap}
+.vbar[data-tip]:hover::after,.vbar[data-tip]:focus::after{content:attr(data-tip);position:absolute;bottom:calc(100% - 10px);left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:5px 9px;border-radius:6px;font-size:.76rem;white-space:nowrap;z-index:5;pointer-events:none}
+.vbar:first-child[data-tip]:hover::after,.vbar:first-child[data-tip]:focus::after{left:0;transform:none}
+.vbar:last-child[data-tip]:hover::after,.vbar:last-child[data-tip]:focus::after{left:auto;right:0;transform:none}
+.barchart{overflow:visible}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="color:#FFD23F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="10" r="4.5"/><circle cx="16" cy="10" r="4.5"/><path d="M12 16.5v4M9 20.5h6"/></svg></div>
+      <div><h1>Tastemate</h1><p>Places picked by people who rate like you</p></div>
+    </div>
+    <div class="topright"><div class="loc"><button class="btn" id="gpsBtn" hidden>Use my location</button><label for="locSel">You are near</label>
+      <select id="locSel">
+        <option value="london">Soho, London</option>
+        <option value="bermuda">Hamilton, Bermuda</option>
+        <option value="nyc">Midtown, New York</option>
+      </select>
+    </div><div id="acct" class="row"></div></div>
+  </header>
+  <nav class="tabs" id="tabs" role="tablist"></nav>
+  <main id="view"></main>
+  <footer id="foot"></footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@2.0.4/dist/qrcode.js"></script>
+<script>
+(() => {
+const CFG = window.TASTEMATE_CONFIG || {};
+const NATIVE = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function rng(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+
+/* ---------- Sample network ---------- */
+const LOCS = {
+  london:{label:'Soho, London', lat:51.5136, lng:-0.1335},
+  bermuda:{label:'Hamilton, Bermuda', lat:32.2949, lng:-64.7814},
+  nyc:{label:'Midtown, New York', lat:40.7549, lng:-73.9840}
+};
+const DATA = {"venues":[{"id":"p1","name":"Blacklock Soho","cat":"Steakhouse","kind":"Eat","area":"Soho","addr":"24 Great Windmill St, London W1D 7LG","lat":51.51178,"lng":-0.1347,"g":4.7,"gn":5250,"price":2,"pid":"ChIJOTAQhtMEdkgR9ZmC_mZR0UM","f":[1,0,0,0,0,0,0,0,0,0,0,0]},{"id":"p2","name":"The Soho Social","cat":"Restaurant & bar","kind":"Eat","area":"Soho","addr":"9 Berwick St, London W1F 0PJ","lat":51.51325,"lng":-0.13454,"g":4.7,"gn":938,"price":2,"pid":"ChIJhVBIm2AFdkgRe9fUbPJSvdc","f":[0,0,0,0,0.5,0,0.6,0,0,0,0,0]},{"id":"p3","name":"Milk Beach Soho","cat":"Australian brunch","kind":"Eat","area":"Soho","addr":"14 Greek St, James Court, London W1D 4AL","lat":51.51424,"lng":-0.13077,"g":4.7,"gn":1679,"price":2,"pid":"ChIJR96P1aQFdkgRVCU0FCf6358","f":[0,0,0,0,1,0,0.2,0,0,0,0,0]},{"id":"p4","name":"Scarlett Green","cat":"Brunch & cocktails","kind":"Eat","area":"Soho","addr":"4 Noel St, London W1F 8GB","lat":51.51531,"lng":-0.1358,"g":4.8,"gn":11911,"price":2,"pid":"ChIJl8b8USsbdkgRwY4c6Yh7udU","f":[0,0,0,0,0.9,0,0.5,0,0,0,0,0]},{"id":"p5","name":"Dirty Bones Soho","cat":"Burgers & brunch","kind":"Eat","area":"Soho","addr":"14 Denman St, London W1D 7HN","lat":51.51083,"lng":-0.13531,"g":4.5,"gn":3528,"price":2,"pid":"ChIJwYSoC9QEdkgR1DbvuJwey8o","f":[0.5,0,0,0,0.7,0,0,0,0,0,0,0]},{"id":"p6","name":"Nessa Soho","cat":"Brasserie & cocktails","kind":"Drink","area":"Soho","addr":"86 Brewer St, London W1F 9UB","lat":51.51073,"lng":-0.13722,"g":4.5,"gn":1098,"price":null,"pid":"ChIJr5F6YRwFdkgRNR-MS9GLn8s","f":[0,0,0,0,0.5,0,0.7,0,0,0,0,0]},{"id":"p7","name":"The Devonshire","cat":"Pub & grill","kind":"Drink","area":"Soho","addr":"The Devonshire, 17 Denman St, London W1D 7HW","lat":51.51063,"lng":-0.13534,"g":4.5,"gn":3272,"price":null,"pid":"ChIJsc95TQcFdkgRDgDjFkIJCz8","f":[0.6,0,0,0,0,0,0.6,0,0,0,0,0]},{"id":"p8","name":"Harry's Covent Garden","cat":"Italian","kind":"Eat","area":"Covent Garden","addr":"11-12 Russell St, London WC2B 5HZ","lat":51.51219,"lng":-0.12179,"g":4.5,"gn":1352,"price":3,"pid":"ChIJvYQ6oMsEdkgRG9zlwh2N_-U","f":[0,1,0,0,0,0.2,0,0,0,0,0,0]},{"id":"p9","name":"Brother Marcus Covent Garden","cat":"Mediterranean brunch","kind":"Eat","area":"Covent Garden","addr":"23 Slingsby Pl, London WC2E 9AB","lat":51.5128,"lng":-0.12636,"g":4.9,"gn":6217,"price":2,"pid":"ChIJp9exgRcFdkgRpjsnrbLsyto","f":[0,0,0,0.7,0.8,0,0,0,0,0,0,0]},{"id":"p10","name":"Blacklock Covent Garden","cat":"Steakhouse","kind":"Eat","area":"Covent Garden","addr":"16a Bedford St, London WC2E 9HE","lat":51.51066,"lng":-0.12471,"g":4.7,"gn":2828,"price":2,"pid":"ChIJyeTsrLoFdkgRdsewS8ne0fQ","f":[1,0,0,0,0,0,0,0,0,0,0,0]},{"id":"p11","name":"Ave Mario","cat":"Italian","kind":"Eat","area":"Covent Garden","addr":"15 Henrietta St, London WC2E 8QG","lat":51.51086,"lng":-0.12397,"g":4.8,"gn":30272,"price":2,"pid":"ChIJoaTWHMsFdkgREy3QGecEo6c","f":[0,1,0,0,0,0,0.2,0,0,0,0,0]},{"id":"p12","name":"Flat Iron Covent Garden","cat":"Steakhouse","kind":"Eat","area":"Covent Garden","addr":"17-18 Henrietta St, London WC2E 8QH","lat":51.51079,"lng":-0.12407,"g":4.6,"gn":11127,"price":2,"pid":"ChIJ7a_rDcwEdkgRdiGLXlk7s-g","f":[1,0,0,0,0,0,0,0,0,0,0,0]},{"id":"p13","name":"Gloria","cat":"Italian trattoria","kind":"Eat","area":"Shoreditch","addr":"54-56 Great Eastern St, London EC2A 3QR","lat":51.52512,"lng":-0.08138,"g":4.8,"gn":24718,"price":3,"pid":"ChIJj99O4ScddkgRNnDfPFxdplY","f":[0,1,0,0,0,0,0.2,0,0,0,0,0]},{"id":"p14","name":"Kricket Shoreditch","cat":"Indian","kind":"Eat","area":"Shoreditch","addr":"35-42 Charlotte Rd, London EC2A 3PB","lat":51.52525,"lng":-0.08095,"g":4.9,"gn":2088,"price":2,"pid":"ChIJAQxeaAAddkgRkKAT-b-BK14","f":[0,0,1,0,0,0,0,0,0,0,0,0]},{"id":"p15","name":"Hoppers Shoreditch","cat":"Sri Lankan","kind":"Eat","area":"Shoreditch","addr":"Tea Building, 56 Shoreditch High St, London E1 6JJ","lat":51.52372,"lng":-0.07648,"g":4.9,"gn":1022,"price":2,"pid":"ChIJJViZx8UddkgRz7PTUq6ZXRw","f":[0,0,1,0,0,0,0,0,0,0,0,0]},{"id":"p16","name":"Dishoom Shoreditch","cat":"Indian","kind":"Eat","area":"Shoreditch","addr":"7 Boundary St, London E2 7JE","lat":51.5245,"lng":-0.0766,"g":4.8,"gn":48105,"price":2,"pid":"ChIJxYs1ArocdkgR-G13PLmofec","f":[0,0,1,0,0.3,0,0,0,0,0,0,0]},{"id":"p17","name":"Padella Shoreditch","cat":"Fresh pasta","kind":"Eat","area":"Shoreditch","addr":"Padella, Shoreditch, 1 Phipp St, London EC2A 4PS","lat":51.52338,"lng":-0.08177,"g":4.7,"gn":4459,"price":2,"pid":"ChIJmdTnioQddkgRkUPct-OykWI","f":[0,1,0,0,0,0,0,0,0,0,0,0]},{"id":"p18","name":"Blacklock Shoreditch","cat":"Steakhouse","kind":"Eat","area":"Shoreditch","addr":"28-30 Rivington St, London EC2A 3DZ","lat":51.52602,"lng":-0.08196,"g":4.7,"gn":3327,"price":2,"pid":"ChIJ44hFhjgddkgRdPaKatX_eGY","f":[1,0,0,0,0,0,0,0,0,0,0,0]},{"id":"p19","name":"Pavyllon London","cat":"French fine dining","kind":"Eat","area":"Mayfair","addr":"Hamilton Pl, London W1J 7DR","lat":51.50417,"lng":-0.14995,"g":4.7,"gn":700,"price":4,"pid":"ChIJBfOjfiUFdkgRvsanD9nfpA0","f":[0,0,0,0,0,1,0,0,0,0,0,0]},{"id":"p20","name":"Ormer Mayfair","cat":"Fine dining, seafood","kind":"Eat","area":"Mayfair","addr":"Flemings Mayfair, 7-12 Half Moon St, 7-12 Half Moon St, London W1J 7BH","lat":51.50645,"lng":-0.14514,"g":4.8,"gn":531,"price":4,"pid":"ChIJQxoh3SgFdkgRqFi4kGLn29c","f":[0,0,0,0,0,1,0,0,0,0,0,0]},{"id":"p21","name":"Noble Rot Mayfair","cat":"Wine bar & restaurant","kind":"Eat","area":"Mayfair","addr":"5 Trebeck St, Shepherd Market, London W1J 7LT","lat":51.50652,"lng":-0.1472,"g":4.7,"gn":402,"price":4,"pid":"ChIJAzNI_8sFdkgRbRvnLqAvUJY","f":[0,0,0,0,0,0.6,0.5,0,0,0,0,0]},{"id":"p22","name":"HIDE","cat":"Fine dining","kind":"Eat","area":"Piccadilly","addr":"85 Piccadilly, London W1J 7NB","lat":51.50619,"lng":-0.14444,"g":4.5,"gn":4641,"price":4,"pid":"ChIJn1DE_XsFdkgR6NyYk4IWd64","f":[0.2,0,0,0,0,1,0,0,0,0,0,0]},{"id":"p23","name":"Bacchanalia","cat":"Mediterranean","kind":"Eat","area":"Mayfair","addr":"1-3 Mount St, London W1K 3NB","lat":51.51057,"lng":-0.14773,"g":4.1,"gn":4774,"price":4,"pid":"ChIJf53OwjQFdkgR_FlcHpcOo2g","f":[0,0,0,0.6,0,0.7,0,0,0,0,0,0]},{"id":"p24","name":"Carlotta","cat":"Italian","kind":"Eat","area":"Marylebone","addr":"77-78 Marylebone High St, London W1U 5JX","lat":51.52097,"lng":-0.15213,"g":4.8,"gn":15967,"price":4,"pid":"ChIJefT-hWIbdkgRAGGu1AuI0qg","f":[0,1,0,0,0,0,0.3,0,0,0,0,0]},{"id":"p25","name":"108 Brasserie","cat":"Brasserie","kind":"Eat","area":"Marylebone","addr":"108 Marylebone Ln, London W1U 2QE","lat":51.51795,"lng":-0.15061,"g":4.6,"gn":2532,"price":null,"pid":"ChIJIckEWtIadkgR0jqFi7ItZbA","f":[0,0,0,0,0.6,0.2,0,0,0,0,0,0]},{"id":"p26","name":"Delamina Marylebone","cat":"Eastern Mediterranean","kind":"Eat","area":"Marylebone","addr":"56-58 Marylebone Ln, London W1U 2NX","lat":51.51638,"lng":-0.15009,"g":4.4,"gn":1419,"price":2,"pid":"ChIJfZ_N4NIadkgRS-9ZCmodXHw","f":[0,0,0,1,0,0,0,0,0,0,0,0]},{"id":"p27","name":"The Ivy Cafe Marylebone","cat":"British brasserie","kind":"Eat","area":"Marylebone","addr":"96 Marylebone Ln, London W1U 2QA","lat":51.5175,"lng":-0.15061,"g":4.5,"gn":3823,"price":3,"pid":"ChIJecXp99IadkgRnWOHbk1a1Ec","f":[0,0,0,0,0.8,0,0,0,0,0,0,0]},{"id":"p28","name":"Lina Stores Marylebone","cat":"Pasta & deli","kind":"Eat","area":"Marylebone","addr":"13-15 Marylebone Ln, London W1U 2NE","lat":51.51626,"lng":-0.1502,"g":4.6,"gn":3502,"price":2,"pid":"ChIJDzt8MxQbdkgREAU6tIAGDbM","f":[0,1,0,0,0,0,0,0,0,0,0,0]},{"id":"p29","name":"Brother Marcus Borough","cat":"Mediterranean brunch","kind":"Eat","area":"Borough","addr":"1 Dirty Ln, London SE1 9PA","lat":51.50564,"lng":-0.09223,"g":4.8,"gn":6842,"price":2,"pid":"ChIJST09sxMDdkgROwVZQizAacI","f":[0,0,0,0.7,0.8,0,0,0,0,0,0,0]},{"id":"p30","name":"Salt Yard Borough","cat":"Tapas","kind":"Eat","area":"Borough","addr":"New Hibernia House, Winchester Walk, London SE1 9AG","lat":51.50623,"lng":-0.09079,"g":4.8,"gn":3521,"price":2,"pid":"ChIJY6uVgmoDdkgR5axDgVfG9_Q","f":[0,0,0,1,0,0,0.3,0,0,0,0,0]},{"id":"p31","name":"Padella Borough Market","cat":"Fresh pasta","kind":"Eat","area":"Borough","addr":"6 Southwark St, London SE1 1TQ","lat":51.50517,"lng":-0.08992,"g":4.7,"gn":12762,"price":2,"pid":"ChIJdZ6paFcDdkgRpPUHPngIeq8","f":[0,1,0,0,0,0,0,0,0,0,0,0]},{"id":"p32","name":"OMA","cat":"Greek","kind":"Eat","area":"Borough","addr":"2-4 Bedale St, London SE1 9AL","lat":51.50535,"lng":-0.09002,"g":4.7,"gn":2552,"price":4,"pid":"ChIJ4co2k5kDdkgROKjVBk6wD8k","f":[0,0,0,1,0,0.4,0,0,0,0,0,0]},{"id":"p33","name":"Elliot's Borough Market","cat":"Wine bar & grill","kind":"Drink","area":"Borough","addr":"12 Stoney St, London SE1 9AD","lat":51.50567,"lng":-0.0916,"g":4.4,"gn":975,"price":2,"pid":"ChIJA6RcmFcDdkgRhKbA3VHeY5U","f":[0,0,0,0.3,0,0,0.6,0,0,0,0,0]},{"id":"p34","name":"Osteria Napoletana","cat":"Neapolitan pizza","kind":"Eat","area":"Notting Hill","addr":"186 Kensington Park Rd, ES W11 2ES","lat":51.51543,"lng":-0.20548,"g":4.7,"gn":3040,"price":2,"pid":"ChIJNWlwNBgRdkgRj-WJmjibnCw","f":[0,1,0,0,0,0,0,0,0,0,0,0]},{"id":"p35","name":"Gold","cat":"Modern European","kind":"Eat","area":"Notting Hill","addr":"95-97 Portobello Rd, London W11 2QB","lat":51.51298,"lng":-0.20264,"g":4.5,"gn":2549,"price":3,"pid":"ChIJlbCxxa4PdkgR18AHB07QwLA","f":[0,0,0,0,0,0.3,0.5,0,0,0,0,0]},{"id":"p36","name":"Granger and Co. Notting Hill","cat":"Australian brunch","kind":"Eat","area":"Notting Hill","addr":"175 Westbourne Grove, London W11 2SB","lat":51.5146,"lng":-0.19775,"g":4.4,"gn":3569,"price":2,"pid":"ChIJK44GY_0PdkgRZqwjZA3l7-w","f":[0,0,0,0,1,0,0,0,0,0,0,0]},{"id":"p37","name":"Frame Notting Hill","cat":"Tapas","kind":"Eat","area":"Notting Hill","addr":"39 Hereford Rd, London W2 4AB","lat":51.51486,"lng":-0.19395,"g":4.8,"gn":474,"price":2,"pid":"ChIJMzkn7zoRdkgRbRuR09X_t8Q","f":[0,0,0,1,0,0,0.3,0,0,0,0,0]},{"id":"p38","name":"The National Gallery","cat":"Art museum","kind":"Culture","area":"Trafalgar Square","addr":"Trafalgar Square, London WC2N 5DN","lat":51.50893,"lng":-0.1283,"g":4.8,"gn":63454,"price":null,"pid":"ChIJeclqF84EdkgRtKAjTmWFr0I","f":[0,0,0,0,0,0,0,1,0,0,0,0]},{"id":"p39","name":"Victoria and Albert Museum","cat":"Design museum","kind":"Culture","area":"South Kensington","addr":"Cromwell Rd, London SW7 2RL","lat":51.49664,"lng":-0.17218,"g":4.8,"gn":68568,"price":null,"pid":"ChIJw1d-sUMFdkgRH2XN_U0Jt54","f":[0,0,0,0,0,0,0,1,0,0,0,0]},{"id":"p40","name":"The British Museum","cat":"Museum","kind":"Culture","area":"Bloomsbury","addr":"Great Russell St, London WC1B 3DG","lat":51.51941,"lng":-0.12696,"g":4.5,"gn":3118,"price":null,"pid":"ChIJB9OTMDIbdkgRp0JWbQGZsS8","f":[0,0,0,0,0,0,0,1,0,0,0,0]},{"id":"p41","name":"The Wallace Collection","cat":"Art collection","kind":"Culture","area":"Marylebone","addr":"Hertford House, Manchester Square, London W1U 3BN","lat":51.51732,"lng":-0.15309,"g":4.8,"gn":10973,"price":null,"pid":"ChIJczuZfc0adkgRc8X-u3ZiHcE","f":[0,0,0,0,0,0,0,1,0,0,0,0]},{"id":"p42","name":"Tate Modern","cat":"Modern art","kind":"Culture","area":"Bankside","addr":"Bankside, London SE1 9TG","lat":51.5076,"lng":-0.09936,"g":4.5,"gn":83840,"price":null,"pid":"ChIJlRl2MakEdkgR55tr4CNv_B8","f":[0,0,0,0,0,0,0,1,0,0,0,0]},{"id":"p43","name":"Frameless","cat":"Immersive art","kind":"Culture","area":"Marble Arch","addr":"6 Marble Arch, London W1H 7AP","lat":51.51368,"lng":-0.16036,"g":4.6,"gn":5444,"price":null,"pid":"ChIJId2oNroFdkgReafXXIrGnkY","f":[0,0,0,0,0,0,0.2,0.7,0,0,0,0]},{"id":"p44","name":"Foyles","cat":"Bookshop","kind":"Shop","area":"Charing Cross Road","addr":"107 Charing Cross Rd, London WC2H 0EB","lat":51.51431,"lng":-0.1299,"g":4.7,"gn":13643,"price":null,"pid":"ChIJ5574rdIEdkgRA9294QpXDhw","f":[0,0,0,0,0,0,0,0,1,0,0,0]},{"id":"p45","name":"Daunt Books Marylebone","cat":"Bookshop","kind":"Shop","area":"Marylebone","addr":"84 Marylebone High St, London W1U 4QW","lat":51.5204,"lng":-0.15199,"g":4.8,"gn":7143,"price":null,"pid":"ChIJTQJH99EadkgRgli4gpxCkOY","f":[0,0,0,0,0,0,0,0,1,0,0,0]},{"id":"p46","name":"Waterstones Piccadilly","cat":"Bookshop","kind":"Shop","area":"Piccadilly","addr":"203-206 Piccadilly, London W1J 9HD","lat":51.50912,"lng":-0.13605,"g":4.7,"gn":13780,"price":null,"pid":"ChIJHXK0sdYEdkgRcrN_uxt5bOM","f":[0,0,0,0,0,0,0,0,1,0,0,0]},{"id":"p47","name":"Word on the Water","cat":"Canal-boat bookshop","kind":"Shop","area":"King's Cross","addr":"Regent's Canal Towpath, London N1C 4LW","lat":51.53541,"lng":-0.12348,"g":4.8,"gn":1568,"price":null,"pid":"ChIJ16mQBD4bdkgRQ8z5iJUz9fo","f":[0,0,0,0,0,0,0,0.3,0.8,0,0,0]},{"id":"p48","name":"The Notting Hill Bookshop","cat":"Bookshop","kind":"Shop","area":"Notting Hill","addr":"13 Blenheim Cres, London W11 2EE","lat":51.51567,"lng":-0.20552,"g":4.5,"gn":4247,"price":null,"pid":"ChIJ6y6Z4x0QdkgRMlPKETeKZKs","f":[0,0,0,0,0,0,0,0,1,0,0,0]},{"id":"p49","name":"STEREO Covent Garden","cat":"Cocktails & live music","kind":"Drink","area":"Covent Garden","addr":"35 The Piazza, London WC2E 8BE","lat":51.51166,"lng":-0.12213,"g":4.1,"gn":854,"price":2,"pid":"ChIJMwnuyW4FdkgRVdwzLW-kJRw","f":[0,0,0,0,0,0,1,0,0,0,0,0]},{"id":"p50","name":"Cahoots Underground","cat":"Cocktail bar","kind":"Drink","area":"Carnaby","addr":"13 Kingly Ct, Carnaby, London W1B 5PW","lat":51.51248,"lng":-0.13855,"g":4.6,"gn":5342,"price":2,"pid":"ChIJ-2mrB9UEdkgReKgh9HDC-7s","f":[0,0,0,0,0,0,1,0,0,0,0,0]},{"id":"p51","name":"Amazing Grace London Bridge","cat":"Karaoke cocktail bar","kind":"Drink","area":"London Bridge","addr":"9a St Thomas St, London SE1 9RY","lat":51.505,"lng":-0.08844,"g":4.4,"gn":1705,"price":2,"pid":"ChIJLQhK3sUDdkgRjdb6JaFRLAo","f":[0,0,0,0,0,0,1,0,0,0,0,0]},{"id":"p52","name":"The Little Violet Door","cat":"Cocktail bar","kind":"Drink","area":"Carnaby","addr":"9 Kingly St, Carnaby, London W1B 5PH","lat":51.51244,"lng":-0.13899,"g":4.8,"gn":2265,"price":2,"pid":"ChIJ936KxucFdkgRV_Wlcb-EVL8","f":[0,0,0,0,0,0,1,0,0,0,0,0]},{"id":"p53","name":"Nightjar","cat":"Speakeasy jazz bar","kind":"Drink","area":"Old Street","addr":"129 City Rd, London EC1V 1JB","lat":51.52652,"lng":-0.08774,"g":4.6,"gn":2809,"price":2,"pid":"ChIJO5NM4aUcdkgR-XrNmE-75f8","f":[0,0,0,0,0,0,1,0.2,0,0,0,0]},{"id":"p54","name":"Piccadilly Theatre","cat":"West End musical","kind":"Theatre","area":"Piccadilly","addr":"16 Denman St, London W1D 7DY","lat":51.51095,"lng":-0.13558,"g":4.7,"gn":8944,"price":null,"pid":"ChIJZ98vDNQEdkgRJE51ZgjyTaE","f":[0,0,0,0,0,0,0,0,0,1,0,0]},{"id":"p55","name":"Theatre Royal Drury Lane","cat":"West End musical","kind":"Theatre","area":"Covent Garden","addr":"Catherine St, London WC2B 5JF","lat":51.51285,"lng":-0.12037,"g":4.8,"gn":11822,"price":null,"pid":"ChIJj91E_coEdkgRlUibJh13Jws","f":[0,0,0,0,0,0,0,0,0,1,0,0]},{"id":"p56","name":"Gillian Lynne Theatre","cat":"West End show","kind":"Theatre","area":"Covent Garden","addr":"166 Drury Ln, London WC2B 5PW","lat":51.51532,"lng":-0.12258,"g":4.7,"gn":7524,"price":null,"pid":"ChIJ7eA75soEdkgRZXtgpYnGHYI","f":[0,0,0,0,0,0,0,0,0,0.7,0.4,0]},{"id":"p57","name":"Palace Theatre","cat":"West End play","kind":"Theatre","area":"Soho","addr":"113 Shaftesbury Ave, London W1D 5AY","lat":51.51319,"lng":-0.12945,"g":4.6,"gn":10746,"price":null,"pid":"ChIJYxVJmtIEdkgRSFNK6hLhPvQ","f":[0,0,0,0,0,0,0,0,0,0.5,0.6,0]},{"id":"p58","name":"The Criterion Theatre","cat":"Comedy musical","kind":"Theatre","area":"Piccadilly","addr":"218-223 Piccadilly, London W1J 9HR","lat":51.50973,"lng":-0.13427,"g":4.6,"gn":3818,"price":null,"pid":"ChIJJSck4NMEdkgR-oXVKxbGNbw","f":[0,0,0,0,0,0,0,0,0,0.6,0,0.6]},{"id":"p59","name":"@sohoplace","cat":"New theatre","kind":"Theatre","area":"Soho","addr":"4 Soho Pl, Charing Cross Rd, London W1D 3BG","lat":51.51571,"lng":-0.13061,"g":4.7,"gn":1153,"price":null,"pid":"ChIJazKQ6Z0bdkgRTkmUhLKe2kM","f":[0,0,0,0,0,0,0,0,0,0,1,0]},{"id":"p60","name":"The Old Vic","cat":"Drama theatre","kind":"Theatre","area":"Waterloo","addr":"103 The Cut, London SE1 8NB","lat":51.50206,"lng":-0.10931,"g":4.7,"gn":4930,"price":null,"pid":"ChIJZU00SboEdkgRl0iY1cDec9k","f":[0,0,0,0,0,0,0,0,0,0,1,0]},{"id":"p61","name":"National Theatre","cat":"Drama theatre","kind":"Theatre","area":"South Bank","addr":"London SE1 9PX","lat":51.50722,"lng":-0.11437,"g":4.7,"gn":10091,"price":null,"pid":"ChIJdYvbqaMEdkgRDdOt_IfsYRc","f":[0,0,0,0,0,0,0,0.2,0,0,1,0]},{"id":"p62","name":"The Top Secret Comedy Club","cat":"Stand-up comedy","kind":"Theatre","area":"Covent Garden","addr":"170a Drury Ln, London WC2B 5PD","lat":51.51539,"lng":-0.12309,"g":4.9,"gn":19641,"price":null,"pid":"ChIJ6zivZswEdkgR8Vd0G2Df5KE","f":[0,0,0,0,0,0,0.2,0,0,0,0,1]},{"id":"p63","name":"The London Cabaret Club","cat":"Dinner cabaret","kind":"Theatre","area":"Bloomsbury","addr":"The Bloomsbury Ballroom, Bloomsbury Square, London WC1B 4DA","lat":51.51888,"lng":-0.12187,"g":4.3,"gn":812,"price":null,"pid":"ChIJkzlMivEPdkgRgn5iDCYesp8","f":[0,0,0,0,0,0.4,0,0,0,0.6,0,0.2]},{"id":"p64","name":"Getaway Comedy, Soho","cat":"Stand-up comedy","kind":"Theatre","area":"Soho","addr":"Zebrano, 18 Greek St, London W1D 4DS","lat":51.51406,"lng":-0.13036,"g":4.8,"gn":252,"price":null,"pid":"ChIJAQCUKtIEdkgRLmGJ_deAP08","f":[0,0,0,0,0,0,0.3,0,0,0,0,1]}],"users":[{"id":"u0","name":"Amara A.","arch":"Steak & cocktails","lat":51.4971,"lng":-0.1177,"r":{"p1":5,"p3":5,"p4":5,"p5":5,"p7":5,"p8":5,"p10":5,"p12":5,"p13":4,"p14":3,"p18":5,"p21":5,"p23":5,"p24":4,"p25":4,"p31":4,"p33":5,"p34":3,"p36":5,"p40":4,"p41":2,"p42":4,"p44":4,"p45":5,"p48":2,"p49":4,"p51":5,"p52":5,"p54":3,"p55":5,"p56":4,"p57":5,"p62":5,"p64":5}},{"id":"u1","name":"Theo B.","arch":"Brunch crowd","lat":51.4364,"lng":-0.1603,"r":{"p1":5,"p2":5,"p3":5,"p6":5,"p8":4,"p9":5,"p12":5,"p13":5,"p15":5,"p16":5,"p17":4,"p24":5,"p26":4,"p28":5,"p31":5,"p32":4,"p34":5,"p36":5,"p38":5,"p43":5,"p44":5,"p47":5,"p49":3,"p50":5,"p51":5,"p53":5,"p55":5,"p56":5,"p57":5,"p61":5}},{"id":"u2","name":"Priya D.","arch":"Fine-dining foodie","lat":51.5376,"lng":-0.1056,"r":{"p4":4,"p6":4,"p9":5,"p14":5,"p16":5,"p17":5,"p20":5,"p23":4,"p24":5,"p27":5,"p28":5,"p30":5,"p32":3,"p37":4,"p38":5,"p39":5,"p46":5,"p48":5,"p51":3,"p53":4,"p54":5,"p58":5,"p60":5,"p61":5,"p63":5}},{"id":"u3","name":"Jonah L.","arch":"Culture & books","lat":51.516,"lng":-0.1173,"r":{"p1":5,"p2":3,"p3":4,"p6":5,"p7":4,"p8":4,"p9":5,"p11":5,"p12":5,"p13":4,"p14":5,"p17":3,"p18":5,"p21":2,"p23":4,"p24":5,"p25":3,"p26":2,"p30":4,"p31":3,"p32":5,"p33":5,"p34":4,"p39":5,"p40":5,"p42":5,"p46":5,"p48":5,"p57":5,"p58":4,"p59":5,"p60":5,"p61":5}},{"id":"u4","name":"Mei T.","arch":"Spice & pasta","lat":51.5029,"lng":-0.0896,"r":{"p3":5,"p5":5,"p9":5,"p11":4,"p12":3,"p13":5,"p14":5,"p15":5,"p16":5,"p17":5,"p18":4,"p19":3,"p23":5,"p24":5,"p27":5,"p28":5,"p31":5,"p32":5,"p33":4,"p34":5,"p35":3,"p39":5,"p40":3,"p42":4,"p44":5,"p45":5,"p50":5,"p52":5,"p53":4,"p55":5,"p61":5,"p62":5,"p63":3}},{"id":"u5","name":"Sofia S.","arch":"Night owl","lat":51.5736,"lng":-0.1479,"r":{"p2":5,"p3":5,"p4":5,"p6":5,"p7":5,"p11":5,"p13":5,"p14":5,"p16":5,"p17":5,"p20":5,"p21":5,"p23":5,"p32":5,"p35":5,"p37":5,"p38":5,"p41":5,"p43":5,"p44":5,"p45":4,"p49":5,"p50":5,"p51":5,"p54":5,"p56":5,"p58":5,"p59":5,"p62":5,"p64":5}},{"id":"u6","name":"Kwame S.","arch":"Mediterranean lover","lat":51.4794,"lng":-0.1011,"r":{"p2":5,"p3":5,"p6":5,"p10":5,"p14":5,"p15":5,"p17":5,"p19":5,"p20":5,"p21":5,"p22":5,"p24":5,"p25":4,"p27":5,"p28":5,"p29":5,"p31":5,"p32":5,"p34":5,"p37":5,"p38":5,"p39":5,"p42":5,"p45":5,"p46":5,"p47":4,"p50":5,"p52":5,"p53":5,"p55":5,"p56":5,"p58":5,"p59":5,"p63":5,"p64":2}},{"id":"u7","name":"Lena K.","arch":"Steak & cocktails","lat":51.5725,"lng":-0.0935,"r":{"p2":5,"p3":5,"p4":5,"p5":5,"p6":5,"p7":5,"p10":5,"p11":5,"p12":5,"p13":5,"p14":5,"p18":5,"p19":5,"p20":4,"p24":5,"p26":4,"p27":5,"p28":5,"p30":5,"p32":5,"p35":5,"p36":5,"p41":5,"p42":5,"p43":4,"p45":5,"p47":5,"p48":5,"p49":4,"p51":5,"p53":5,"p54":4,"p56":3,"p60":3,"p62":5,"p64":5}},{"id":"u8","name":"Omar G.","arch":"Brunch crowd","lat":51.4933,"lng":-0.1416,"r":{"p2":5,"p3":5,"p4":5,"p7":5,"p9":5,"p10":5,"p11":5,"p13":5,"p15":5,"p18":5,"p19":3,"p21":5,"p26":5,"p28":5,"p29":5,"p35":4,"p36":5,"p37":5,"p38":5,"p41":5,"p42":5,"p44":4,"p47":5,"p49":5,"p50":5,"p51":5,"p54":5,"p55":5,"p56":5,"p57":5,"p58":5,"p60":5,"p64":5}},{"id":"u9","name":"Hana C.","arch":"Fine-dining foodie","lat":51.5223,"lng":-0.1448,"r":{"p7":5,"p8":4,"p9":5,"p11":3,"p12":4,"p13":4,"p16":4,"p17":5,"p19":5,"p21":5,"p22":5,"p23":5,"p26":5,"p27":4,"p28":3,"p29":5,"p32":5,"p34":4,"p35":4,"p36":1,"p39":5,"p43":5,"p47":5,"p48":4,"p51":4,"p52":3,"p54":5,"p56":5,"p57":5,"p60":5,"p63":5}},{"id":"u10","name":"Diego O.","arch":"Culture & books","lat":51.5467,"lng":-0.1967,"r":{"p3":4,"p6":2,"p7":2,"p8":4,"p9":5,"p10":5,"p11":5,"p12":5,"p13":4,"p14":5,"p15":5,"p19":4,"p20":5,"p21":4,"p23":5,"p24":5,"p25":5,"p26":3,"p27":5,"p28":4,"p30":4,"p34":5,"p36":4,"p38":5,"p41":5,"p42":5,"p45":5,"p47":5,"p48":5,"p50":3,"p51":3,"p57":5,"p59":5,"p60":5,"p61":5,"p63":5,"p64":4}},{"id":"u11","name":"Chloe T.","arch":"Spice & pasta","lat":51.6234,"lng":-0.0705,"r":{"p3":5,"p4":5,"p11":5,"p12":3,"p14":5,"p15":5,"p16":5,"p17":5,"p24":5,"p25":4,"p26":3,"p27":5,"p28":5,"p29":5,"p31":5,"p33":5,"p34":5,"p38":5,"p39":4,"p42":2,"p43":5,"p44":5,"p46":5,"p49":4,"p50":4,"p52":5,"p56":5,"p57":5,"p58":5,"p60":5,"p62":5}},{"id":"u12","name":"Ravi P.","arch":"Night owl","lat":51.5602,"lng":-0.1064,"r":{"p2":5,"p3":5,"p4":5,"p6":5,"p9":5,"p12":5,"p13":4,"p14":5,"p17":2,"p18":5,"p19":5,"p20":5,"p22":3,"p23":5,"p24":4,"p27":4,"p28":3,"p31":5,"p32":5,"p34":3,"p35":5,"p38":5,"p41":5,"p42":5,"p44":5,"p45":5,"p50":5,"p51":5,"p58":4,"p60":5,"p62":5,"p63":4,"p64":5}},{"id":"u13","name":"Ines W.","arch":"Mediterranean lover","lat":51.5051,"lng":-0.1626,"r":{"p3":5,"p7":5,"p8":5,"p13":5,"p14":4,"p16":5,"p17":5,"p20":5,"p25":5,"p26":4,"p28":5,"p30":5,"p34":5,"p36":5,"p37":5,"p38":4,"p39":5,"p40":5,"p44":5,"p45":5,"p50":5,"p51":5,"p52":5,"p53":5,"p55":5,"p56":5,"p58":5,"p59":5,"p60":5}},{"id":"u14","name":"Felix N.","arch":"Steak & cocktails","lat":51.5467,"lng":-0.1637,"r":{"p2":5,"p8":5,"p10":5,"p11":5,"p12":5,"p13":5,"p16":5,"p18":5,"p20":5,"p22":5,"p26":5,"p27":5,"p28":5,"p29":5,"p30":5,"p32":5,"p36":5,"p38":5,"p40":4,"p42":5,"p44":5,"p45":5,"p46":5,"p50":5,"p51":5,"p52":5,"p53":5,"p55":4,"p56":5,"p57":5,"p60":5,"p63":4,"p64":5}},{"id":"u15","name":"Yuki T.","arch":"Brunch crowd","lat":51.4473,"lng":-0.2253,"r":{"p4":5,"p7":5,"p8":5,"p11":4,"p12":5,"p13":5,"p15":5,"p20":5,"p22":4,"p24":5,"p25":5,"p26":5,"p27":5,"p31":5,"p32":5,"p34":5,"p39":4,"p40":5,"p47":5,"p48":5,"p49":5,"p50":5,"p51":5,"p54":5,"p57":5,"p58":5,"p60":4,"p62":5,"p63":5}},{"id":"u16","name":"Zara L.","arch":"Fine-dining foodie","lat":51.5558,"lng":-0.168,"r":{"p2":5,"p3":4,"p6":3,"p7":5,"p12":5,"p13":5,"p16":5,"p24":5,"p26":5,"p28":5,"p29":3,"p32":5,"p33":5,"p34":5,"p35":5,"p36":3,"p37":5,"p39":5,"p41":5,"p42":5,"p45":5,"p46":5,"p52":5,"p53":4,"p54":5,"p55":5,"p56":5,"p59":5,"p62":5,"p63":5}},{"id":"u17","name":"Luca D.","arch":"Culture & books","lat":51.5583,"lng":-0.1559,"r":{"p1":4,"p3":5,"p4":4,"p8":4,"p9":4,"p10":5,"p14":5,"p16":5,"p19":5,"p21":5,"p22":5,"p24":5,"p27":5,"p28":4,"p29":3,"p30":3,"p31":5,"p34":5,"p37":5,"p38":5,"p42":5,"p43":5,"p46":5,"p48":5,"p49":2,"p50":2,"p51":4,"p52":4,"p57":5,"p59":5,"p60":5,"p61":5,"p63":1}},{"id":"u18","name":"Nadia D.","arch":"Spice & pasta","lat":51.5456,"lng":-0.0479,"r":{"p3":3,"p4":5,"p7":5,"p8":5,"p12":5,"p13":5,"p16":5,"p17":5,"p21":5,"p23":4,"p27":4,"p29":5,"p30":5,"p31":5,"p32":5,"p33":4,"p38":5,"p41":5,"p46":5,"p47":5,"p48":5,"p49":2,"p52":4,"p57":5,"p59":4,"p62":5,"p63":4}},{"id":"u19","name":"Sam H.","arch":"Night owl","lat":51.5402,"lng":-0.0646,"r":{"p2":5,"p4":5,"p7":5,"p8":5,"p10":4,"p11":5,"p13":5,"p15":5,"p17":5,"p18":3,"p23":5,"p28":3,"p30":5,"p31":5,"p32":5,"p36":5,"p38":4,"p39":5,"p42":5,"p44":5,"p45":5,"p47":5,"p52":5,"p53":5,"p54":3,"p55":5,"p58":5,"p62":5,"p63":4,"p64":5}},{"id":"u20","name":"Ada C.","arch":"Mediterranean lover","lat":51.51,"lng":-0.1713,"r":{"p2":5,"p4":5,"p7":5,"p9":5,"p10":5,"p11":5,"p13":5,"p14":5,"p22":4,"p24":5,"p26":5,"p29":5,"p31":5,"p34":5,"p35":5,"p36":5,"p37":5,"p38":5,"p39":5,"p42":3,"p43":4,"p44":5,"p45":5,"p49":3,"p50":5,"p51":5,"p53":5,"p54":5,"p55":5,"p56":5,"p57":5,"p58":5,"p63":4}},{"id":"u21","name":"Ben D.","arch":"Steak & cocktails","lat":51.5307,"lng":-0.1492,"r":{"p1":5,"p2":5,"p3":4,"p5":5,"p6":4,"p7":5,"p8":3,"p9":5,"p13":5,"p16":5,"p19":4,"p24":5,"p29":5,"p31":5,"p35":5,"p37":5,"p38":5,"p39":5,"p40":5,"p41":5,"p44":5,"p47":4,"p49":5,"p50":5,"p52":5,"p54":5,"p55":5,"p57":5,"p58":4,"p59":5,"p61":5}},{"id":"u22","name":"Leila D.","arch":"Brunch crowd","lat":51.4901,"lng":-0.1522,"r":{"p1":5,"p2":5,"p4":5,"p7":5,"p11":5,"p12":5,"p16":5,"p18":5,"p24":5,"p25":5,"p26":5,"p27":5,"p30":5,"p31":5,"p36":5,"p37":5,"p40":5,"p41":5,"p42":4,"p43":5,"p44":3,"p45":4,"p46":5,"p49":4,"p50":5,"p51":5,"p52":5,"p54":5,"p55":5,"p56":5,"p60":3,"p62":4}},{"id":"u23","name":"Marco V.","arch":"Fine-dining foodie","lat":51.4834,"lng":-0.1182,"r":{"p1":5,"p3":5,"p4":5,"p6":5,"p9":5,"p10":5,"p12":4,"p13":5,"p16":5,"p17":4,"p22":5,"p23":5,"p24":4,"p25":5,"p27":5,"p28":4,"p31":3,"p32":5,"p33":5,"p34":4,"p37":5,"p39":5,"p41":5,"p42":5,"p45":5,"p46":5,"p47":5,"p50":5,"p52":5,"p57":5,"p60":5,"p61":5,"p62":5}},{"id":"u24","name":"Tess H.","arch":"Culture & books","lat":51.4991,"lng":-0.1282,"r":{"p2":2,"p5":5,"p7":3,"p8":5,"p10":5,"p11":5,"p13":5,"p14":5,"p15":5,"p16":5,"p17":5,"p22":5,"p27":5,"p28":4,"p29":5,"p31":5,"p32":4,"p34":5,"p35":4,"p38":5,"p41":5,"p44":5,"p45":5,"p48":5,"p50":2,"p51":1,"p55":4,"p57":5,"p58":4,"p60":5,"p61":5}},{"id":"u25","name":"Rui D.","arch":"Spice & pasta","lat":51.5255,"lng":-0.0414,"r":{"p1":5,"p3":5,"p4":5,"p5":5,"p6":5,"p8":5,"p9":5,"p11":5,"p12":5,"p13":5,"p14":5,"p15":5,"p17":5,"p19":4,"p22":2,"p23":2,"p24":5,"p25":5,"p27":4,"p30":5,"p31":5,"p38":4,"p39":5,"p46":5,"p48":5,"p50":5,"p52":5,"p58":5,"p59":5,"p61":4,"p62":5,"p63":3}},{"id":"u26","name":"Aisha S.","arch":"Night owl","lat":51.544,"lng":-0.0641,"r":{"p2":5,"p3":5,"p5":5,"p7":5,"p11":4,"p13":4,"p16":4,"p21":5,"p23":2,"p24":4,"p31":3,"p32":3,"p33":5,"p34":3,"p35":5,"p37":3,"p38":5,"p41":5,"p44":4,"p45":4,"p47":5,"p52":5,"p53":5,"p54":5,"p56":3,"p57":2,"p59":2,"p61":5,"p62":5}},{"id":"u27","name":"Callum T.","arch":"Mediterranean lover","lat":51.529,"lng":-0.1023,"r":{"p5":5,"p7":4,"p10":3,"p11":5,"p15":5,"p16":5,"p17":5,"p18":4,"p22":5,"p23":5,"p25":5,"p26":5,"p27":5,"p29":5,"p30":5,"p31":5,"p32":5,"p34":5,"p35":5,"p36":5,"p39":5,"p41":5,"p42":5,"p44":5,"p45":5,"p48":5,"p49":4,"p51":5,"p56":5,"p57":5,"p59":5,"p60":5,"p61":5,"p63":5}},{"id":"u28","name":"Freya V.","arch":"Steak & cocktails","lat":51.5172,"lng":-0.1449,"r":{"p1":5,"p4":5,"p5":4,"p6":5,"p8":2,"p10":5,"p11":5,"p13":4,"p16":5,"p20":5,"p21":5,"p22":3,"p24":4,"p25":3,"p26":5,"p29":5,"p35":5,"p39":5,"p42":5,"p43":5,"p44":5,"p46":5,"p51":5,"p53":5,"p54":5,"p56":5,"p59":4,"p60":2,"p61":5,"p62":5,"p64":5}},{"id":"u29","name":"Dev F.","arch":"Brunch crowd","lat":51.5888,"lng":-0.198,"r":{"p1":5,"p2":5,"p3":5,"p4":5,"p6":3,"p7":4,"p9":5,"p13":5,"p14":5,"p15":5,"p16":5,"p17":5,"p21":5,"p24":5,"p25":5,"p27":5,"p31":5,"p32":3,"p33":3,"p34":5,"p36":4,"p38":5,"p39":5,"p41":5,"p47":5,"p48":4,"p52":5,"p54":5,"p56":4,"p58":3,"p62":2,"p63":4}},{"id":"u30","name":"Elif N.","arch":"Fine-dining foodie","lat":51.5876,"lng":-0.1303,"r":{"p1":2,"p5":4,"p8":5,"p9":5,"p12":5,"p15":5,"p16":4,"p17":4,"p18":5,"p19":5,"p22":5,"p23":5,"p26":4,"p27":4,"p28":4,"p30":5,"p32":5,"p36":5,"p37":4,"p39":5,"p40":5,"p42":4,"p44":5,"p45":5,"p46":4,"p49":5,"p50":4,"p52":5,"p53":4,"p55":5,"p56":5,"p58":4,"p62":5}},{"id":"u31","name":"Gabe E.","arch":"Culture & books","lat":51.4963,"lng":-0.1863,"r":{"p1":5,"p3":5,"p4":5,"p6":2,"p7":2,"p8":5,"p9":5,"p10":4,"p13":5,"p16":5,"p18":5,"p19":5,"p23":3,"p28":5,"p31":5,"p33":3,"p38":5,"p39":5,"p40":5,"p44":5,"p45":5,"p46":5,"p53":3,"p56":5,"p57":5,"p58":5,"p60":5,"p61":5,"p62":5}},{"id":"u32","name":"Harriet N.","arch":"Spice & pasta","lat":51.5437,"lng":-0.2089,"r":{"p1":5,"p2":4,"p3":5,"p4":5,"p7":5,"p9":4,"p11":5,"p12":4,"p13":5,"p14":5,"p15":5,"p16":5,"p17":5,"p21":5,"p24":5,"p27":5,"p28":5,"p34":5,"p38":5,"p39":5,"p41":5,"p45":5,"p46":5,"p48":4,"p49":4,"p51":5,"p52":5,"p53":5,"p54":5,"p56":5,"p58":5,"p60":5,"p62":5,"p64":5}},{"id":"u33","name":"Isaac A.","arch":"Night owl","lat":51.5212,"lng":-0.1512,"r":{"p2":5,"p4":5,"p9":5,"p11":5,"p12":5,"p15":5,"p16":5,"p18":3,"p19":5,"p20":5,"p24":5,"p25":5,"p31":4,"p32":5,"p33":5,"p36":5,"p38":5,"p39":5,"p42":5,"p44":5,"p48":4,"p49":5,"p50":5,"p51":5,"p53":5,"p54":5,"p57":3,"p58":5,"p61":5,"p62":5,"p63":5}},{"id":"u34","name":"Juno V.","arch":"Mediterranean lover","lat":51.5732,"lng":-0.1399,"r":{"p1":5,"p4":4,"p6":5,"p8":5,"p9":5,"p11":5,"p12":5,"p15":5,"p16":5,"p17":5,"p23":4,"p24":4,"p26":5,"p27":5,"p29":5,"p34":5,"p35":4,"p37":5,"p39":5,"p41":5,"p42":5,"p44":5,"p47":5,"p51":5,"p53":5,"p54":5,"p56":5,"p58":5,"p59":5,"p62":5,"p63":5}},{"id":"u35","name":"Kofi T.","arch":"Steak & cocktails","lat":51.4956,"lng":-0.1334,"r":{"p1":5,"p2":4,"p4":4,"p5":5,"p10":5,"p11":5,"p12":5,"p13":5,"p17":5,"p18":5,"p19":5,"p20":5,"p24":5,"p29":5,"p30":5,"p33":5,"p34":5,"p37":5,"p40":3,"p42":2,"p44":4,"p46":2,"p48":2,"p51":5,"p52":5,"p53":5,"p54":5,"p55":5,"p56":2,"p62":5,"p63":4}},{"id":"u36","name":"Maya M.","arch":"Brunch crowd","lat":51.5212,"lng":-0.0668,"r":{"p1":4,"p2":5,"p4":5,"p6":5,"p7":5,"p8":5,"p9":5,"p10":4,"p11":4,"p13":5,"p16":5,"p17":5,"p18":4,"p25":5,"p27":5,"p28":5,"p29":5,"p31":5,"p34":5,"p39":5,"p41":5,"p44":4,"p46":4,"p48":5,"p51":4,"p53":4,"p54":5,"p55":5,"p58":5,"p60":5,"p63":5,"p64":5}},{"id":"u37","name":"Niall V.","arch":"Fine-dining foodie","lat":51.5713,"lng":-0.1415,"r":{"p1":4,"p7":4,"p9":5,"p11":3,"p12":5,"p18":5,"p19":5,"p20":5,"p22":5,"p24":4,"p26":4,"p29":5,"p30":5,"p33":3,"p36":2,"p37":5,"p40":5,"p42":5,"p43":3,"p45":3,"p46":4,"p48":3,"p51":3,"p53":3,"p54":4,"p55":5,"p56":5,"p59":5,"p60":5,"p62":5}},{"id":"u38","name":"Olu A.","arch":"Culture & books","lat":51.4998,"lng":-0.2,"r":{"p3":5,"p4":5,"p5":4,"p9":5,"p11":5,"p17":5,"p18":5,"p24":5,"p25":5,"p28":5,"p29":5,"p30":5,"p31":5,"p32":5,"p33":3,"p35":4,"p36":5,"p37":4,"p39":5,"p42":5,"p44":5,"p46":5,"p48":5,"p51":2,"p53":2,"p54":4,"p58":3,"p59":5,"p60":5,"p61":5,"p63":4}},{"id":"u39","name":"Pia T.","arch":"Spice & pasta","lat":51.4733,"lng":-0.1848,"r":{"p2":5,"p4":5,"p6":5,"p8":5,"p12":5,"p13":5,"p14":5,"p16":5,"p18":5,"p23":2,"p28":5,"p29":5,"p31":5,"p32":5,"p33":4,"p34":5,"p35":5,"p37":5,"p40":5,"p41":4,"p42":5,"p44":5,"p45":5,"p48":5,"p49":3,"p52":5,"p55":5,"p56":5,"p58":5,"p60":5}},{"id":"u40","name":"Quentin G.","arch":"Night owl","lat":51.5273,"lng":-0.1209,"r":{"p4":5,"p9":5,"p10":5,"p11":5,"p13":5,"p16":4,"p17":5,"p18":5,"p24":5,"p26":4,"p29":5,"p31":5,"p35":4,"p39":5,"p41":5,"p42":5,"p45":5,"p47":4,"p49":5,"p50":5,"p52":5,"p53":5,"p57":4,"p59":5,"p60":5,"p61":5,"p62":5}},{"id":"u41","name":"Rosa G.","arch":"Mediterranean lover","lat":51.5311,"lng":-0.1064,"r":{"p3":5,"p5":2,"p7":4,"p11":5,"p12":4,"p13":5,"p16":5,"p17":5,"p19":5,"p20":5,"p22":5,"p23":3,"p24":5,"p26":5,"p27":2,"p28":5,"p30":5,"p34":5,"p35":4,"p36":5,"p37":5,"p39":5,"p40":4,"p42":3,"p45":5,"p46":4,"p51":4,"p52":5,"p53":5,"p55":5,"p56":5,"p58":4,"p60":4,"p61":3,"p62":5}},{"id":"u42","name":"Tariq J.","arch":"Steak & cocktails","lat":51.5149,"lng":-0.2156,"r":{"p1":5,"p4":5,"p5":5,"p7":5,"p11":5,"p12":5,"p17":4,"p19":5,"p22":4,"p24":5,"p25":5,"p27":3,"p28":4,"p31":4,"p33":5,"p34":5,"p35":4,"p39":3,"p40":4,"p41":3,"p45":5,"p46":4,"p49":4,"p50":5,"p53":5,"p55":4,"p58":5,"p60":5,"p61":2,"p62":5}},{"id":"u43","name":"Una F.","arch":"Brunch crowd","lat":51.4828,"lng":-0.1364,"r":{"p4":5,"p6":5,"p7":2,"p8":5,"p9":5,"p11":5,"p12":2,"p13":5,"p15":4,"p16":5,"p17":5,"p20":3,"p23":2,"p25":5,"p26":5,"p28":5,"p29":5,"p30":5,"p31":5,"p33":5,"p36":5,"p40":5,"p42":5,"p43":5,"p44":5,"p46":5,"p53":5,"p54":5,"p55":5,"p56":5,"p57":4,"p59":4,"p63":5}},{"id":"u44","name":"Vik N.","arch":"Fine-dining foodie","lat":51.4801,"lng":-0.0976,"r":{"p3":5,"p4":5,"p6":5,"p10":5,"p11":5,"p13":5,"p15":5,"p16":5,"p17":5,"p19":5,"p20":5,"p22":5,"p23":5,"p24":5,"p25":5,"p28":5,"p29":5,"p30":5,"p31":5,"p32":5,"p37":5,"p39":5,"p40":5,"p41":5,"p44":5,"p46":5,"p47":5,"p50":5,"p51":5,"p53":5,"p54":5,"p55":5,"p56":5,"p57":5,"p62":5}},{"id":"u45","name":"Willa B.","arch":"Culture & books","lat":51.5133,"lng":-0.1037,"r":{"p1":4,"p3":4,"p5":4,"p7":5,"p11":5,"p12":4,"p13":5,"p14":5,"p16":5,"p19":5,"p21":5,"p23":5,"p26":4,"p28":5,"p30":5,"p31":5,"p32":5,"p34":5,"p35":3,"p38":5,"p39":5,"p44":5,"p46":5,"p48":5,"p51":3,"p52":3,"p53":5,"p54":3,"p55":3,"p57":5,"p60":5,"p61":5,"p62":5,"p63":4}},{"id":"u46","name":"Xander D.","arch":"Spice & pasta","lat":51.5186,"lng":-0.2094,"r":{"p1":5,"p3":5,"p7":5,"p11":5,"p13":5,"p14":5,"p16":5,"p17":5,"p23":4,"p24":5,"p26":5,"p27":4,"p28":5,"p30":5,"p31":5,"p34":5,"p36":3,"p38":5,"p39":5,"p41":5,"p44":5,"p45":5,"p48":5,"p50":5,"p52":5,"p53":5,"p54":5,"p58":5,"p60":5,"p64":5}},{"id":"u47","name":"Yara O.","arch":"Night owl","lat":51.5477,"lng":-0.1539,"r":{"p1":5,"p2":5,"p3":4,"p6":5,"p7":5,"p8":4,"p9":5,"p10":4,"p11":5,"p16":3,"p18":5,"p19":5,"p22":5,"p23":4,"p24":5,"p25":3,"p27":4,"p30":5,"p31":5,"p32":5,"p33":5,"p35":5,"p38":3,"p39":3,"p42":3,"p45":5,"p46":5,"p47":5,"p49":5,"p57":2,"p58":3,"p62":5,"p63":4,"p64":5}},{"id":"u48","name":"Zeb L.","arch":"Mediterranean lover","lat":51.4534,"lng":-0.1628,"r":{"p3":5,"p4":5,"p6":5,"p7":5,"p9":5,"p11":5,"p13":5,"p17":5,"p18":5,"p22":5,"p23":5,"p25":5,"p26":5,"p30":5,"p31":5,"p35":5,"p36":5,"p37":5,"p38":5,"p40":5,"p41":5,"p44":5,"p46":5,"p48":5,"p50":5,"p51":5,"p55":5,"p58":5,"p61":5,"p62":5,"p63":5}},{"id":"u49","name":"Bea V.","arch":"Steak & cocktails","lat":51.5567,"lng":-0.2043,"r":{"p1":5,"p4":3,"p7":5,"p11":5,"p12":5,"p16":5,"p22":5,"p27":3,"p28":5,"p29":5,"p30":5,"p32":5,"p34":5,"p35":5,"p40":4,"p41":5,"p42":5,"p44":3,"p45":5,"p47":4,"p50":5,"p51":5,"p54":5,"p58":5,"p60":5,"p62":5,"p64":5}}]};
+const VENUES0 = DATA.venues.map(v => ({...v, city:'London'}));
+const users = DATA.users.map(u => ({...u, ratings:u.r}));
+const KINDS = {Eat:'Restaurants', Drink:'Bars', Culture:'Museums & galleries', Theatre:'Theatre & shows', Shop:'Shops'};
+const KIND_ORDER = ['Eat', 'Drink', 'Culture', 'Theatre', 'Shop'];
+
+/* ---------- State ---------- */
+const LS = 'tastemate.v3';
+const byName = n => VENUES0.find(v => v.name === n)?.id;
+const EXAMPLE_PROFILE = [['Blacklock Soho',5],['Flat Iron Covent Garden',5],['Dishoom Shoreditch',4],['Pavyllon London',4],['Granger and Co. Notting Hill',2],['Brother Marcus Covent Garden',3],['Padella Borough Market',4],['Cahoots Underground',5],['The Little Violet Door',4],['Nightjar',5],['Tate Modern',3],['The National Gallery',4],['Daunt Books Marylebone',2],['Foyles',4],['The Top Secret Comedy Club',5],['The Criterion Theatre',4],['National Theatre',2]];
+const S = {tab:'rate', kind:'all', locKey:'london', venues:VENUES0.slice(), mine:{}, log:[], sel:null, cmpSel:null, mapAll:false, toast:null, claims:{}, resetArm:false};
+try {
+  const saved = JSON.parse(localStorage.getItem(LS) || 'null');
+  if (saved) {
+    if (saved.mine) S.mine = saved.mine;
+    if (saved.extra) S.venues = S.venues.concat(saved.extra);
+    if (saved.log) S.log = saved.log;
+    if (saved.locKey && LOCS[saved.locKey]) S.locKey = saved.locKey;
+    if (saved.tab) S.tab = saved.tab;
+  }
+} catch(e) {}
+function save(){ try { localStorage.setItem(LS, JSON.stringify({mine:S.mine, extra:S.venues.filter(v=>v.imported), log:S.log, locKey:S.locKey === 'gps' ? 'london' : S.locKey, tab:S.tab})); } catch(e) {} scheduleSync(); }
+const me = () => LOCS[S.locKey];
+const venue = id => S.venues.find(v => v.id === id);
+
+S.offers = []; S.vouchers = [];
+
+/* ---------- Backend: Supabase when configured, otherwise a demo that runs on this device ---------- */
+const BUY_IN_APP = CFG.BUY_TOKENS_IN_APP ?? !NATIVE;
+const pounds = p => '£' + ((p || 0) / 100).toLocaleString('en-GB', {minimumFractionDigits:2, maximumFractionDigits:2});
+const fmtDateTime = iso => new Date(iso).toLocaleString('en-GB', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'});
+const OFFER_TYPES = {percent_off:'% off the bill', two_for_one:'2-for-1', free_item:'Free item', fixed_off:'£ off', other:'Other'};
+function cleanErr(m){
+  m = String(m || 'Something went wrong. Try again.').replace(/^Error:\s*/, '');
+  if (/Invalid login credentials/i.test(m)) return 'Email or password is wrong.';
+  if (/already registered|already been registered/i.test(m)) return 'An account with this email already exists. Sign in instead.';
+  if (/Email not confirmed/i.test(m)) return 'Confirm your email first. Open the link in the email from Tastemate, then sign in.';
+  if (/Password should be at least/i.test(m)) return 'Use a password of at least 8 characters.';
+  if (/Failed to fetch|NetworkError|Load failed/i.test(m)) return 'No connection. Check your internet and try again.';
+  return m;
+}
+
+function SupaApi(){
+  const sb = window.supabase.createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY, {auth:{persistSession:true, autoRefreshToken:true, detectSessionInUrl:true}});
+  const chk = ({data, error}) => { if (error) throw new Error(cleanErr(error.message)); return data; };
+  let uid = null;
+  async function account(){
+    const {data:{session}} = await sb.auth.getSession();
+    if (!session) { uid = null; return null; }
+    uid = session.user.id;
+    const prof = chk(await sb.from('profiles').select('*').eq('id', uid).maybeSingle());
+    if (!prof) return null;
+    const vendor = prof.role === 'vendor' ? chk(await sb.from('vendors').select('*').eq('id', uid).maybeSingle()) : null;
+    return {id:uid, email:session.user.email, role:prof.role, name:prof.display_name, vendor};
+  }
+  return {
+    demo:false, account,
+    async signUp(f){
+      const {data, error} = await sb.auth.signUp({email:f.email, password:f.password, options:{emailRedirectTo:CFG.APP_URL || undefined,
+        data:{role:f.role, display_name:f.name, business_name:f.business, venue_id:f.venue}}});
+      if (error) throw new Error(cleanErr(error.message));
+      return data.session ? account() : {confirm:true};
+    },
+    async signIn(email, password){ chk(await sb.auth.signInWithPassword({email:email.trim(), password})); return account(); },
+    async signOut(){ await sb.auth.signOut(); uid = null; },
+    async resetPassword(email){ chk(await sb.auth.resetPasswordForEmail(email.trim(), {redirectTo:CFG.APP_URL || undefined})); },
+    async updatePassword(pw){ chk(await sb.auth.updateUser({password:pw})); },
+    onRecovery(cb){ sb.auth.onAuthStateChange(ev => { if (ev === 'PASSWORD_RECOVERY') cb(); }); },
+    async liveOffers(){ return chk(await sb.rpc('live_offers')); },
+    async claim(id){ return chk(await sb.rpc('claim_offer', {p_offer:id})); },
+    async myVouchers(){ return chk(await sb.rpc('my_vouchers')); },
+    async getRatings(){ return chk(await sb.from('ratings').select('venue_id, rating, source')); },
+    async saveRatings(map){
+      if (!uid) return;
+      const rows = Object.entries(map).map(([venue_id, r]) => ({user_id:uid, venue_id, rating:Math.round(r*2)/2, source:'app', updated_at:new Date().toISOString()}));
+      if (rows.length) chk(await sb.from('ratings').upsert(rows));
+      let q = sb.from('ratings').delete().eq('user_id', uid);
+      const keep = Object.keys(map);
+      if (keep.length) q = q.not('venue_id', 'in', `(${keep.map(k => `"${k}"`).join(',')})`);
+      chk(await q);
+    },
+    async matchPool(){ return chk(await sb.rpc('match_pool')); },
+    async balance(){ return chk(await sb.rpc('vendor_balance')); },
+    async createOffer(f){ return chk(await sb.rpc('create_offer', {p_title:f.title, p_offer_type:f.type, p_tokens:f.tokens, p_hours:f.hours, p_radius_km:f.radius, p_min_pred:f.minPred})); },
+    async endOffer(id){ return chk(await sb.rpc('end_offer', {p_offer:id})); },
+    async vendorData(){
+      const [o, v, l] = await Promise.all([
+        sb.from('offers').select('*').eq('vendor_id', uid).order('created_at', {ascending:false}),
+        sb.from('vouchers').select('id, offer_id, claimed_at, redeemed_at, bill_pence, party_size'),
+        sb.from('token_ledger').select('*').eq('vendor_id', uid).order('created_at', {ascending:false})
+      ]);
+      const offers = chk(o), ids = new Set(offers.map(x => x.id));
+      return {offers, vouchers:chk(v).filter(x => ids.has(x.offer_id)), ledger:chk(l)};
+    },
+    async redeem(code, bill, party){ return chk(await sb.rpc('redeem_voucher', {p_code:code, p_bill_pence:bill, p_party_size:party})); },
+    async checkout(qty){
+      const {data, error} = await sb.functions.invoke('create-checkout', {body:{qty, return_url:location.href.split('#')[0]}});
+      if (error) { let m = error.message; try { const j = await error.context.json(); m = j.error || m; } catch(e) {} throw new Error(cleanErr(m)); }
+      return data;
+    },
+    async deleteAccount(){
+      const {error} = await sb.functions.invoke('delete-account', {body:{}});
+      if (error) { let m = error.message; try { const j = await error.context.json(); m = j.error || m; } catch(e) {} throw new Error(cleanErr(m)); }
+      await sb.auth.signOut(); uid = null;
+    },
+    async adminOverview(){ return chk(await sb.rpc('admin_overview')); },
+    async adminVendors(){ return chk(await sb.rpc('admin_vendors')); },
+    async adminSetVendor(id, approved){ return chk(await sb.rpc('admin_set_vendor', {p_vendor:id, p_approved:approved})); },
+    async adminGrant(id, qty){ return chk(await sb.rpc('admin_grant_tokens', {p_vendor:id, p_qty:qty, p_note:'Granted by publisher'})); }
+  };
+}
+
+function DemoApi(){
+  const KEY = 'tastemate.demo.v2', SET = {free:10, single:75, bulk:45, bulkMin:100, grace:15};
+  let D = null;
+  try { D = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch(e) {}
+  if (!D || D.v !== 2) D = seedDemo();
+  const liveNow = o => !o.cancelled_at && Date.parse(o.starts_at) <= Date.now() && Date.parse(o.expires_at) > Date.now();
+  if (!D.offers.some(o => liveNow(o) && o.vendor_id !== 'demo-vendor')) seedLive(D);
+  const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(D)); } catch(e) {} };
+  persist();
+  const fail = m => { throw new Error(m); };
+  const acct = id => D.accounts.find(a => a.id === id);
+  const monthStart = () => { const d = new Date(); return new Date(d.getFullYear(), d.getMonth(), 1).getTime(); };
+  function balanceOf(vid){
+    let fu = 0, paid = 0; const ms = monthStart();
+    D.ledger.filter(l => l.vendor_id === vid).forEach(l => { if (Date.parse(l.created_at) >= ms) fu += l.free_used || 0; paid += l.paid_delta || 0; });
+    const d = new Date();
+    return {free_allowance:SET.free, free_left:Math.max(0, SET.free - fu), paid, total:Math.max(0, SET.free - fu) + paid,
+      resets_at:new Date(d.getFullYear(), d.getMonth() + 1, 1).toISOString(), price_single_pence:SET.single, price_bulk_pence:SET.bulk, bulk_min_qty:SET.bulkMin};
+  }
+  const newCode = () => { const A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let c; do { c = 'TM-' + Array.from({length:6}, () => A[Math.floor(Math.random()*A.length)]).join(''); } while (D.vouchers.some(v => v.code === c)); return c; };
+  const account = async () => { const a = acct(D.session); if (!a) return null; return {id:a.id, email:a.email, role:a.role, name:a.name, vendor:a.role === 'vendor' ? D.vendors[a.id] : null}; };
+  const nowIso = () => new Date().toISOString();
+  return {
+    demo:true, account,
+    async signUp(f){
+      if (!/^\S+@\S+\.\S+$/.test(f.email || '')) fail('Enter a valid email address.');
+      if ((f.password || '').length < 8) fail('Use a password of at least 8 characters.');
+      if (D.accounts.some(a => a.email.toLowerCase() === f.email.toLowerCase().trim())) fail('An account with this email already exists. Sign in instead.');
+      const id = 'd' + Date.now().toString(36), role = f.role === 'vendor' ? 'vendor' : 'user';
+      D.accounts.push({id, email:f.email.trim(), password:f.password, role, name:f.name || f.email.split('@')[0]});
+      if (role === 'vendor') D.vendors[id] = {id, business_name:f.business || 'New business', venue_id:VENUES0.some(v => v.id === f.venue) ? f.venue : null, contact_email:f.email, approved:false, created_at:nowIso()};
+      D.session = id; persist(); return account();
+    },
+    async signIn(email, password){
+      const a = D.accounts.find(x => x.email.toLowerCase() === String(email).toLowerCase().trim());
+      if (!a || a.password !== password) fail('Email or password is wrong.');
+      D.session = a.id; persist(); return account();
+    },
+    async signOut(){ D.session = null; persist(); },
+    async resetPassword(){ fail('The live app emails a reset link. In this demo, every demo account uses the password "tastemate".'); },
+    async updatePassword(){},
+    onRecovery(){},
+    async liveOffers(){
+      return D.offers.filter(liveNow).map(o => ({id:o.id, venue_id:o.venue_id, title:o.title, offer_type:o.offer_type, tokens:o.tokens,
+        claimed:D.vouchers.filter(v => v.offer_id === o.id).length, radius_km:o.radius_km, min_pred:o.min_pred, starts_at:o.starts_at, expires_at:o.expires_at,
+        my_code:D.vouchers.find(v => v.offer_id === o.id && v.user_id === D.session)?.code || null}));
+    },
+    async claim(id){
+      const a = acct(D.session);
+      if (!a) fail('Sign in to claim offers.');
+      if (a.role !== 'user') fail('Offers can only be claimed with a diner account.');
+      const o = D.offers.find(x => x.id === id);
+      if (!o) fail('Offer not found.');
+      if (o.cancelled_at || Date.parse(o.expires_at) <= Date.now()) fail('This offer has ended.');
+      const ex = D.vouchers.find(v => v.offer_id === id && v.user_id === a.id);
+      if (ex) return ex;
+      if (D.vouchers.filter(v => v.offer_id === id).length >= o.tokens) fail(`All ${o.tokens} vouchers for this offer have been claimed.`);
+      const v = {id:'v' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), offer_id:id, user_id:a.id, code:newCode(), claimed_at:nowIso(), redeemed_at:null};
+      D.vouchers.push(v); persist(); return v;
+    },
+    async myVouchers(){
+      return D.vouchers.filter(v => v.user_id === D.session).sort((a, b) => b.claimed_at.localeCompare(a.claimed_at)).map(v => {
+        const o = D.offers.find(x => x.id === v.offer_id);
+        return {code:v.code, claimed_at:v.claimed_at, redeemed_at:v.redeemed_at, offer_id:o.id, title:o.title, offer_type:o.offer_type, venue_id:o.venue_id, expires_at:o.expires_at, cancelled_at:o.cancelled_at};
+      });
+    },
+    async getRatings(){ return Object.entries(D.ratings[D.session] || {}).map(([venue_id, rating]) => ({venue_id, rating, source:'app'})); },
+    async saveRatings(map){ if (!D.session) return; D.ratings[D.session] = {...map}; persist(); },
+    async matchPool(){
+      const out = [];
+      for (const [u, rs] of Object.entries(D.ratings)) if (u !== D.session) for (const [venue_id, rating] of Object.entries(rs)) out.push({member:'m' + u.slice(-6), venue_id, rating});
+      return out;
+    },
+    async balance(){ return balanceOf(D.session); },
+    async createOffer(f){
+      const v = D.vendors[D.session];
+      if (!v) fail('Only business accounts can create offers.');
+      if (!v.approved) fail('Your business account is waiting for approval. You can create offers once it is approved.');
+      if (!v.venue_id) fail('Your business account is not linked to a venue yet.');
+      const tokens = Math.floor(f.tokens);
+      if (!(tokens >= 1)) fail('Offer it to at least 1 person.');
+      if (!(f.hours > 0 && f.hours <= 168)) fail('An offer can run for up to 7 days.');
+      if (!f.title || f.title.trim().length < 3) fail('Describe the offer in at least 3 characters.');
+      const b = balanceOf(v.id), fu = Math.min(b.free_left, tokens), pu = tokens - fu;
+      if (pu > b.paid) fail(`Not enough tokens. This offer needs ${tokens} and you have ${b.total} (${b.free_left} free this month, ${b.paid} bought). Buy more tokens or offer it to fewer people.`);
+      const now = Date.now();
+      const o = {id:'o' + now.toString(36), vendor_id:v.id, venue_id:v.venue_id, title:f.title.trim(), offer_type:f.type, tokens, free_tokens:fu, paid_tokens:pu,
+        radius_km:f.radius, min_pred:f.minPred, starts_at:new Date(now).toISOString(), expires_at:new Date(now + f.hours*3600e3).toISOString(), cancelled_at:null, created_at:new Date(now).toISOString()};
+      D.offers.push(o);
+      D.ledger.push({id:D.ledger.length + 1, vendor_id:v.id, kind:'issue', paid_delta:-pu, free_used:fu, offer_id:o.id, note:`${tokens} tokens for "${o.title}"`, created_at:o.created_at});
+      persist(); return o;
+    },
+    async endOffer(id){
+      const o = D.offers.find(x => x.id === id && x.vendor_id === D.session);
+      if (!o || o.cancelled_at || Date.parse(o.expires_at) <= Date.now()) fail('Offer not found or already ended.');
+      o.cancelled_at = nowIso(); persist(); return o;
+    },
+    async vendorData(){
+      const offers = D.offers.filter(o => o.vendor_id === D.session).sort((a, b) => b.created_at.localeCompare(a.created_at));
+      const ids = new Set(offers.map(o => o.id));
+      return {offers, vouchers:D.vouchers.filter(v => ids.has(v.offer_id)), ledger:D.ledger.filter(l => l.vendor_id === D.session).sort((a, b) => b.created_at.localeCompare(a.created_at))};
+    },
+    async redeem(code, bill, party){
+      const v = D.vendors[D.session];
+      if (!v) fail('Only business accounts can scan vouchers.');
+      if (!v.approved) fail('Your business account is waiting for approval.');
+      const cc = String(code || '').replace(/\s/g, '').toUpperCase();
+      const vch = D.vouchers.find(x => x.code === cc);
+      if (!vch) fail(`Code ${cc || '(blank)'} not recognised. Check it and try again.`);
+      const o = D.offers.find(x => x.id === vch.offer_id);
+      if (o.vendor_id !== v.id) fail(`This voucher is for ${venue(o.venue_id)?.name || 'another venue'}, not your venue.`);
+      if (vch.redeemed_at) fail(`Already used on ${fmtDateTime(vch.redeemed_at)}.`);
+      if (Date.now() > Date.parse(o.expires_at) + SET.grace*60e3) fail(`This voucher expired on ${fmtDateTime(o.expires_at)}.`);
+      Object.assign(vch, {redeemed_at:nowIso(), redeemed_by:v.id, bill_pence:bill, party_size:party});
+      persist();
+      return {code:vch.code, offer_title:o.title, offer_type:o.offer_type, claimed_at:vch.claimed_at, redeemed_at:vch.redeemed_at, bill_pence:bill, party_size:party};
+    },
+    async checkout(qty){
+      const v = D.vendors[D.session]; qty = Math.floor(qty);
+      if (!v) fail('Only business accounts can buy tokens.');
+      if (!(qty >= 1)) fail('Choose at least 1 token.');
+      const unit = qty >= SET.bulkMin ? SET.bulk : SET.single;
+      D.ledger.push({id:D.ledger.length + 1, vendor_id:v.id, kind:'purchase', paid_delta:qty, free_used:0, unit_pence:unit, amount_pence:unit*qty, note:`${qty} tokens bought (demo: no card charged)`, created_at:nowIso()});
+      persist(); return {demo:true, qty, unit_pence:unit, amount_pence:unit*qty};
+    },
+    async adminOverview(){
+      if (acct(D.session)?.role !== 'admin') fail('Not allowed');
+      const buys = D.ledger.filter(l => l.kind === 'purchase');
+      return {users:D.accounts.filter(a => a.role === 'user').length + 50, vendors:Object.keys(D.vendors).length, vendors_pending:Object.values(D.vendors).filter(v => !v.approved).length,
+        tokens_sold:buys.reduce((s, l) => s + l.paid_delta, 0), revenue_pence:buys.reduce((s, l) => s + (l.amount_pence || 0), 0), offers:D.offers.length,
+        tokens_issued:D.offers.reduce((s, o) => s + o.tokens, 0), vouchers_claimed:D.vouchers.length, vouchers_redeemed:D.vouchers.filter(v => v.redeemed_at).length,
+        vendor_spend_pence:D.vouchers.reduce((s, v) => s + (v.bill_pence || 0), 0)};
+    },
+    async adminVendors(){
+      if (acct(D.session)?.role !== 'admin') fail('Not allowed');
+      return Object.values(D.vendors).map(v => {
+        const buys = D.ledger.filter(l => l.vendor_id === v.id && l.kind === 'purchase');
+        return {...v, venue_name:venue(v.venue_id)?.name, tokens_bought:buys.reduce((s, l) => s + l.paid_delta, 0), revenue_pence:buys.reduce((s, l) => s + (l.amount_pence || 0), 0)};
+      }).sort((a, b) => (a.approved - b.approved) || b.created_at.localeCompare(a.created_at));
+    },
+    async adminSetVendor(id, approved){ if (acct(D.session)?.role !== 'admin') fail('Only the publisher can approve businesses.'); Object.assign(D.vendors[id], {approved, approved_at:approved ? nowIso() : null}); persist(); },
+    async adminGrant(id, qty){ if (acct(D.session)?.role !== 'admin') fail('Only the publisher can grant tokens.'); D.ledger.push({id:D.ledger.length + 1, vendor_id:id, kind:'adjustment', paid_delta:qty, free_used:0, note:'Granted by publisher', created_at:nowIso()}); persist(); },
+    async deleteAccount(){
+      const id = D.session, a = acct(id); if (!a) fail('Sign in first.');
+      if (a.role === 'admin') fail('The demo publisher account cannot be deleted.');
+      D.accounts = D.accounts.filter(x => x.id !== id); delete D.ratings[id];
+      D.vouchers.forEach(v => { if (v.user_id === id) v.user_id = null; });
+      if (D.vendors[id]) { const ids = new Set(D.offers.filter(o => o.vendor_id === id).map(o => o.id)); D.offers = D.offers.filter(o => !ids.has(o.id)); D.vouchers = D.vouchers.filter(v => !ids.has(v.offer_id)); D.ledger = D.ledger.filter(l => l.vendor_id !== id); delete D.vendors[id]; }
+      D.session = null; persist();
+    },
+    resetDemo(){ D = seedDemo(); persist(); }
+  };
+}
+
+// Demo data: accounts, businesses, 6 weeks of offer history for the demo business, and live offers
+function seedDemo(){
+  const r = rng(2026), now = Date.now(), DAY = 864e5, iso = t => new Date(t).toISOString();
+  const D = {v:2, session:null, accounts:[
+      {id:'demo-diner', email:'diner@demo.app', password:'tastemate', role:'user', name:'Alex'},
+      {id:'demo-vendor', email:'vendor@demo.app', password:'tastemate', role:'vendor', name:'Sam (Blacklock)'},
+      {id:'demo-admin', email:'admin@demo.app', password:'tastemate', role:'admin', name:'Publisher'}],
+    vendors:{}, offers:[], vouchers:[], ledger:[], ratings:{}};
+  const vend = (id, name, approved, daysAgo) => { const vid = byName(name); D.vendors[id] = {id, business_name:name, venue_id:vid, contact_email:id + '@demo.app', approved, approved_at:approved ? iso(now - daysAgo*DAY) : null, created_at:iso(now - (daysAgo + 1)*DAY)}; };
+  vend('demo-vendor', 'Blacklock Covent Garden', true, 45);
+  vend('v-cahoots', 'Cahoots Underground', true, 30);
+  vend('v-delamina', 'Delamina Marylebone', true, 20);
+  vend('v-saltyard', 'Salt Yard Borough', true, 12);
+  vend('v-frameless', 'Frameless', true, 8);
+  vend('v-criterion', 'The Criterion Theatre', true, 6);
+  vend('v-topsecret', 'The Top Secret Comedy Club', true, 5);
+  vend('v-gold', 'Gold', false, 1);
+  D.vendors['v-gold'].contact_email = 'bookings@gold-example.co.uk';
+  // History for the demo business
+  const kinds = [
+    ['two_for_one', '2-for-1 mains', .88, .72, [2, 2, 2, 4]],
+    ['percent_off', '50% off the bill', .92, .78, [2, 2, 3, 4]],
+    ['free_item', 'Free dessert with any main', .62, .66, [1, 2, 2, 3]],
+    ['fixed_off', '£10 off for two', .74, .7, [2, 2, 2]],
+    ['other', 'Happy hour: cocktails £6', .55, .6, [1, 2, 2, 3, 4]]];
+  const slots = [[12, 3], [15, 2], [17, 3], [19, 2]];
+  const hist = [];
+  for (let d = 42; d >= 1; d -= 3) {
+    const [type, title, claimP, redeemP, parties] = kinds[Math.floor(r()*kinds.length)];
+    const [h, dur] = slots[Math.floor(r()*slots.length)];
+    const start = new Date(now - d*DAY); start.setHours(h, 0, 0, 0);
+    const tokens = [10, 15, 20, 20, 25, 30][Math.floor(r()*6)];
+    hist.push({type, title, claimP, redeemP, parties, start:start.getTime(), dur, tokens});
+  }
+  let paidUsed = 0; const freeByMonth = {};
+  const offers = hist.map((hh, i) => {
+    const mk = new Date(hh.start).getFullYear() + '-' + new Date(hh.start).getMonth();
+    const freeLeft = Math.max(0, 10 - (freeByMonth[mk] || 0)), fu = Math.min(freeLeft, hh.tokens), pu = hh.tokens - fu;
+    freeByMonth[mk] = (freeByMonth[mk] || 0) + fu; paidUsed += pu;
+    return {...hh, id:'h' + i, fu, pu};
+  });
+  const buy1 = Math.ceil((paidUsed + 60) / 50) * 50;
+  D.ledger.push({id:1, vendor_id:'demo-vendor', kind:'purchase', paid_delta:buy1, free_used:0, unit_pence:45, amount_pence:buy1*45, note:buy1 + ' tokens bought', created_at:iso(now - 44*DAY)});
+  offers.forEach(o => {
+    const exp = o.start + o.dur*3600e3;
+    D.offers.push({id:o.id, vendor_id:'demo-vendor', venue_id:byName('Blacklock Covent Garden'), title:o.title, offer_type:o.type, tokens:o.tokens, free_tokens:o.fu, paid_tokens:o.pu,
+      radius_km:3, min_pred:4, starts_at:iso(o.start), expires_at:iso(exp), cancelled_at:null, created_at:iso(o.start)});
+    D.ledger.push({id:D.ledger.length + 1, vendor_id:'demo-vendor', kind:'issue', paid_delta:-o.pu, free_used:o.fu, offer_id:o.id, note:`${o.tokens} tokens for "${o.title}"`, created_at:iso(o.start)});
+    const claims = Math.round(o.tokens * Math.min(1, o.claimP + (r() - .5)*.2));
+    for (let k = 0; k < claims; k++) {
+      const claimed = o.start + r()*Math.min(40, o.dur*30)*60e3;
+      const used = r() < o.redeemP;
+      const party = o.parties[Math.floor(r()*o.parties.length)];
+      const perHead = o.type === 'other' ? 18 + r()*14 : 34 + r()*22;
+      D.vouchers.push({id:o.id + 'v' + k, offer_id:o.id, user_id:'sim-' + Math.floor(r()*50), code:'TM-H' + o.id.slice(1).padStart(2, '0') + String(k).padStart(3, '0').slice(-3),
+        claimed_at:iso(claimed), redeemed_at:used ? iso(Math.min(exp + 10*60e3, claimed + (20 + r()*(o.dur*60 - 10))*60e3)) : null,
+        redeemed_by:used ? 'demo-vendor' : null, bill_pence:used && r() < .9 ? Math.round(party*perHead)*100 : null, party_size:used ? party : null});
+    }
+  });
+  seedLive(D);
+  return D;
+}
+function seedLive(D){
+  const now = Date.now(), MIN = 60e3, iso = t => new Date(t).toISOString();
+  const add = (vendor, title, type, tokens, claimed, mins, radius, minPred) => {
+    const id = 'L' + vendor + now.toString(36);
+    D.offers.push({id, vendor_id:vendor, venue_id:D.vendors[vendor].venue_id, title, offer_type:type, tokens, free_tokens:Math.min(10, tokens), paid_tokens:Math.max(0, tokens - 10),
+      radius_km:radius, min_pred:minPred, starts_at:iso(now - 20*MIN), expires_at:iso(now + mins*MIN), cancelled_at:null, created_at:iso(now - 20*MIN)});
+    for (let k = 0; k < claimed; k++) D.vouchers.push({id:id + 'c' + k, offer_id:id, user_id:'sim-' + k, code:'TM-L' + id.slice(-4).toUpperCase() + k, claimed_at:iso(now - (18 - k)*MIN), redeemed_at:null});
+  };
+  add('demo-vendor', '2-for-1 mains', 'two_for_one', 20, 7, 150, 3, 3.5);
+  add('v-cahoots', '50% off the bill', 'percent_off', 10, 6, 90, 2, 4);
+  add('v-delamina', 'Free dessert with any main', 'free_item', 25, 3, 240, 4, 3.8);
+  add('v-saltyard', '2-for-1 tapas plates', 'two_for_one', 12, 4, 180, 5, 4);
+  add('v-frameless', '50% off entry', 'percent_off', 12, 12, 120, 5, 3.5);
+  add('v-criterion', '£15 off top-price seats tonight', 'fixed_off', 16, 5, 200, 3, 3.8);
+  add('v-topsecret', '2-for-1 entry to the late show', 'two_for_one', 30, 11, 260, 2, 3.8);
+}
+const API = (CFG.SUPABASE_URL && CFG.SUPABASE_ANON_KEY && window.supabase) ? SupaApi() : DemoApi();
+
+/* ---------- Matching engine ---------- */
+const SOURCES = {google:'Google', tripadvisor:'Tripadvisor', yelp:'Yelp', other:'File', manual:'Tastemate', example:'Example'};
+function myRatings(){
+  const out = {};
+  for (const [vid, src] of Object.entries(S.mine)) {
+    const vals = Object.values(src).filter(n => typeof n === 'number');
+    if (vals.length) out[vid] = vals.reduce((a,b)=>a+b,0)/vals.length;
+  }
+  return out;
+}
+function sim(a, b){
+  let n = 0, agree = 0;
+  for (const k in a) if (b[k] != null) { n++; agree += Math.max(0, 1 - Math.abs(a[k]-b[k])/2); }
+  return n ? {pct:Math.round(agree/n*100), n} : {pct:0, n:0};
+}
+// Matching is done separately for each category: restaurants against restaurant ratings, bars against bars, and so on.
+const kindOf = id => venue(id)?.kind;
+function ofKind(r, kind){ const o = {}; for (const k in r) if (kindOf(k) === kind) o[k] = r[k]; return o; }
+const meanOf = r => { const v = Object.values(r); return v.length ? v.reduce((a,b)=>a+b,0)/v.length : 4; };
+function kmean(u, kind){
+  u.km ??= {};
+  if (u.km[kind] == null) { const v = Object.values(ofKind(u.ratings, kind)); u.km[kind] = v.length ? v.reduce((a,b)=>a+b,0)/v.length : (u.mean ?? meanOf(u.ratings)); }
+  return u.km[kind];
+}
+function neighbours(ratings, excludeId, kind){
+  const mine = kind ? ofKind(ratings, kind) : ratings;
+  return POOL.filter(u => u.id !== excludeId).map(u => ({u, ...sim(mine, u.ratings)}))
+    .filter(x => x.n >= 2)
+    .map(x => ({...x, score: x.pct * x.n/(x.n+2)}))
+    .sort((a,b) => b.score - a.score).slice(0, 10);
+}
+users.forEach(u => u.mean = meanOf(u.ratings));
+function myBase(kind, mr = myRatings()){ const v = Object.values(ofKind(mr, kind)); return v.length ? v.reduce((a,b)=>a+b,0)/v.length : meanOf(mr); }
+const kindNeighbours = mr => Object.fromEntries(KIND_ORDER.map(k => [k, neighbours(mr, null, k)]));
+// Predicted rating = your average in that category + how far above/below their own category average your matches rated it (weighted by match)
+function predict(vid, nbrs, base, kind){
+  kind ??= kindOf(vid);
+  base ??= myBase(kind);
+  let s = 0, w = 0; const raters = [];
+  nbrs.forEach(x => { const r = x.u.ratings[vid]; if (r != null) { const wt = Math.max(.05, x.pct/100)**2; s += (r - kmean(x.u, kind))*wt; w += wt; raters.push({...x, r}); } });
+  if (!w) return null;
+  const val = Math.max(1, Math.min(5, base + s/(w + .35)));  // shrink toward your average when few matches rated it
+  const avg = raters.reduce((a,x)=>a+x.r,0)/raters.length;
+  return {val, avg, count:raters.length, raters:raters.sort((a,b)=>b.pct-a.pct)};
+}
+function predictMine(vid, mr = myRatings()){ const k = kindOf(vid); if (!KINDS[k]) return null; return predict(vid, neighbours(mr, null, k), myBase(k, mr), k); }
+const userNbrCache = {};
+function predictForUser(u, vid){
+  const k = kindOf(vid), key = u.id + '|' + k;
+  userNbrCache[key] ??= neighbours(u.ratings, u.id, k);
+  return predict(vid, userNbrCache[key], kmean(u, k), k);
+}
+function km(a, b){
+  const R = 6371, dLat = (b.lat-a.lat)*Math.PI/180, dLng = (b.lng-a.lng)*Math.PI/180;
+  const h = Math.sin(dLat/2)**2 + Math.cos(a.lat*Math.PI/180)*Math.cos(b.lat*Math.PI/180)*Math.sin(dLng/2)**2;
+  return 2*R*Math.asin(Math.sqrt(h));
+}
+const hasCoords = v => v && typeof v.lat === 'number' && typeof v.lng === 'number';
+const fmtKm = d => d == null ? '' : d < 1 ? Math.round(d*1000)+' m' : d < 100 ? d.toFixed(1)+' km' : Math.round(d).toLocaleString()+' km';
+const distTo = v => hasCoords(v) ? km(me(), v) : null;
+function stars(r, n = true){
+  const full = Math.round(r);
+  return `<span class="stars" aria-label="${r.toFixed(1)} out of 5">${'★'.repeat(full)}<span class="off">${'★'.repeat(5-full)}</span></span>${n ? ` <span class="num">${r.toFixed(1)}</span>` : ''}`;
+}
+function cellBg(r){ return `background:color-mix(in srgb,var(--accent) ${12 + (r-1)*17}%,var(--surface))`; }
+function activeOffer(vid){ return S.offers.find(o => o.vid === vid && o.claimed < o.qty && o.exp > Date.now()); }
+function eligibility(o, recMap){
+  const v = venue(o.vid), d = distTo(v), mr = myRatings();
+  const p = recMap?.[o.vid] ?? predictMine(o.vid, mr);
+  const liked = (mr[o.vid] ?? 0) >= 4 || (p && p.val >= o.minPred);
+  const near = d != null && d <= o.radius;
+  return {near, liked, d, p, ok: near && liked};
+}
+
+/* ---------- Links out ---------- */
+const gDir = v => v.pid ? `https://www.google.com/maps/dir/?api=1&origin=${me().lat},${me().lng}&destination=${encodeURIComponent(v.name)}&destination_place_id=${v.pid}&travelmode=walking`
+  : `https://www.google.com/maps/dir/?api=1&origin=${me().lat},${me().lng}&destination=${hasCoords(v) ? v.lat+','+v.lng : encodeURIComponent(v.name+' '+(v.address||''))}&travelmode=walking`;
+const gMap = v => v.pid ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(v.name)}&query_place_id=${v.pid}`
+  : `https://www.google.com/maps/search/?api=1&query=${hasCoords(v) ? v.lat+','+v.lng : encodeURIComponent(v.name+' '+(v.address||''))}`;
+const taLink = v => `https://www.tripadvisor.co.uk/Search?q=${encodeURIComponent(v.name+' London')}`;
+const yelpLink = v => `https://www.yelp.co.uk/search?find_desc=${encodeURIComponent(v.name)}&find_loc=${encodeURIComponent(v.addr || v.address || 'London')}`;
+function routeLink(vs){
+  const pts = vs.filter(hasCoords).slice(0, 9);
+  if (!pts.length) return null;
+  const dest = pts[pts.length-1], way = pts.slice(0,-1).map(v => v.lat+','+v.lng).join('|');
+  return `https://www.google.com/maps/dir/?api=1&origin=${me().lat},${me().lng}&destination=${dest.lat},${dest.lng}${way ? '&waypoints='+encodeURIComponent(way) : ''}&travelmode=walking`;
+}
+function linkButtons(v, compact){
+  return `<div class="row">
+    <a class="btn primary" href="${gDir(v)}" target="_blank" rel="noopener">Directions</a>
+    <a class="btn" href="${gMap(v)}" target="_blank" rel="noopener">Google Maps</a>
+    ${compact ? '' : `<a class="btn" href="${taLink(v)}" target="_blank" rel="noopener">Tripadvisor</a><a class="btn" href="${yelpLink(v)}" target="_blank" rel="noopener">Yelp</a>`}
+  </div>`;
+}
+
+/* ---------- Map ---------- */
+function mapSVG(pts, {selId, showYou = true} = {}){
+  const W = 800, H = 500, M = 50, you = me();
+  const all = showYou ? pts.concat([you]) : pts;
+  let minLat = Math.min(...all.map(p=>p.lat)), maxLat = Math.max(...all.map(p=>p.lat));
+  let minLng = Math.min(...all.map(p=>p.lng)), maxLng = Math.max(...all.map(p=>p.lng));
+  if (maxLat-minLat < .01){ minLat -= .005; maxLat += .005; }
+  if (maxLng-minLng < .01){ minLng -= .008; maxLng += .008; }
+  const cx = Math.cos((minLat+maxLat)/2*Math.PI/180);
+  const spanX = (maxLng-minLng)*cx, spanY = maxLat-minLat;
+  const k = Math.min((W-2*M)/spanX, (H-2*M)/spanY);
+  const offX = (W - spanX*k)/2, offY = (H - spanY*k)/2;
+  const X = lng => offX + (lng-minLng)*cx*k, Y = lat => offY + (maxLat-lat)*k;
+  const pxKm = k/111.32;
+  const step = [.1,.2,.5,1,2,5,10,20,50,100,200,500,1000,2000,5000].filter(s => s*pxKm <= W/5).pop() || .1;
+  const g = step*pxKm;
+  let grid = '';
+  for (let x = (X(you.lng) % g); x < W; x += g) grid += `<line x1="${x.toFixed(1)}" y1="0" x2="${x.toFixed(1)}" y2="${H}"/>`;
+  for (let y = (Y(you.lat) % g); y < H; y += g) grid += `<line x1="0" y1="${y.toFixed(1)}" x2="${W}" y2="${y.toFixed(1)}"/>`;
+  const marks = pts.slice().sort((a,b)=>(a.id===selId)-(b.id===selId)).map(p => {
+    const x = X(p.lng), y = Y(p.lat), sel = p.id === selId, r = p.r || 8;
+    const anchor = x > W-170 ? 'end' : 'start', lx = anchor === 'end' ? x - r - 6 : x + r + 6;
+    return `<g data-venue="${p.id}" tabindex="0" role="button" aria-label="${esc(p.name)}">
+      <title>${esc(p.name)}</title>
+      ${sel ? `<circle cx="${x}" cy="${y}" r="${r+7}" fill="none" stroke="${p.fill}" stroke-width="2.5" opacity=".6"/>` : ''}
+      <circle class="dot" cx="${x}" cy="${y}" r="${r}" fill="${p.fill}" stroke="var(--surface)" stroke-width="2.5"/>
+      ${p.inner != null ? `<text x="${x}" y="${y+4}" text-anchor="middle" font-size="11" font-family="IBM Plex Mono, monospace" fill="var(--accent-ink)" font-weight="600">${p.inner}</text>` : ''}
+      ${sel || p.label ? `<text x="${lx}" y="${y+4}" text-anchor="${anchor}" font-size="${sel?14:12}" font-weight="${sel?700:600}" fill="var(--ink)" stroke="var(--surface-2)" stroke-width="4" paint-order="stroke">${esc(p.name)}</text>` : ''}
+    </g>`;
+  }).join('');
+  const yx = X(you.lng), yy = Y(you.lat);
+  return `<svg class="map" viewBox="0 0 ${W} ${H}" role="img" aria-label="Map of places">
+    <g stroke="var(--line)" stroke-width="1">${grid}</g>
+    ${showYou ? `<g><circle cx="${yx}" cy="${yy}" r="22" fill="var(--ink)" opacity=".08"/><rect x="${yx-7}" y="${yy-7}" width="14" height="14" rx="3" fill="var(--ink)" stroke="var(--surface)" stroke-width="2.5" transform="rotate(45 ${yx} ${yy})"/>
+      <text x="${yx}" y="${yy+26}" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)" stroke="var(--surface-2)" stroke-width="4" paint-order="stroke">You</text></g>` : ''}
+    ${marks}
+    <g transform="translate(${W-20-g},${H-22})"><rect x="-8" y="-18" width="${g+16}" height="30" rx="6" fill="var(--surface)" opacity=".85"/>
+      <line x1="0" y1="0" x2="${g}" y2="0" stroke="var(--ink)" stroke-width="2"/><line x1="0" y1="-4" x2="0" y2="4" stroke="var(--ink)" stroke-width="2"/><line x1="${g}" y1="-4" x2="${g}" y2="4" stroke="var(--ink)" stroke-width="2"/>
+      <text x="${g/2}" y="-6" text-anchor="middle" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">${step < 1 ? step*1000+' m' : step+' km'}</text></g>
+  </svg>`;
+}
+/* ---------- Google Maps (used when an API key is configured) ---------- */
+const GM = {}, LIVE = {}; let PENDING = [], gmPromise = null;
+const hasGoogle = () => !!CFG.GOOGLE_MAPS_API_KEY && !S.gmFailed;
+function loadGoogleMaps(){
+  if (!CFG.GOOGLE_MAPS_API_KEY) return Promise.reject(new Error('no key'));
+  if (gmPromise) return gmPromise;
+  window.gm_authFailure = () => { S.gmFailed = true; S.toast = {err:true, msg:'Google Maps rejected the API key, so the simple map is shown instead. Check the key and its restrictions.'}; render(); };
+  gmPromise = new Promise((resolve, reject) => {
+    window.__tmMapsReady = resolve;
+    const sc = document.createElement('script');
+    sc.src = 'https://maps.googleapis.com/maps/api/js?key=' + encodeURIComponent(CFG.GOOGLE_MAPS_API_KEY) + '&v=weekly&loading=async&callback=__tmMapsReady';
+    sc.async = true; sc.onerror = () => reject(new Error('Maps failed to load'));
+    document.head.appendChild(sc);
+    setTimeout(() => reject(new Error('Maps timed out')), 15000);
+  });
+  return gmPromise;
+}
+function mapSlot(id, pts, opts){
+  if (!hasGoogle()) { const svg = mapSVG(pts, opts); return opts.attr === 'cmp' ? svg.replace(/data-venue=/g, 'data-cmp=') : svg; }
+  PENDING.push({id, pts, opts});
+  return `<div class="gmap-slot" id="slot-${id}"><div class="gmap-loading">Loading Google Maps…</div></div>`;
+}
+async function mountMap({id, pts, opts}){
+  const slot = document.getElementById('slot-' + id); if (!slot) return;
+  try {
+    await loadGoogleMaps();
+    const {Map} = await google.maps.importLibrary('maps');
+    const {AdvancedMarkerElement} = await google.maps.importLibrary('marker');
+    let g = GM[id];
+    if (!g) {
+      const el = document.createElement('div'); el.className = 'gmap';
+      const map = new Map(el, {center:me(), zoom:13, mapId:CFG.GOOGLE_MAP_ID || 'DEMO_MAP_ID', disableDefaultUI:true, zoomControl:true, gestureHandling:'greedy', clickableIcons:false});
+      g = GM[id] = {el, map, markers:[], key:''};
+    }
+    if (!document.body.contains(slot)) return;
+    slot.replaceChildren(g.el);
+    g.markers.forEach(m => m.map = null); g.markers = [];
+    const you = document.createElement('div'); you.className = 'youpin'; you.title = 'You';
+    g.markers.push(new AdvancedMarkerElement({map:g.map, position:{lat:me().lat, lng:me().lng}, content:you, title:'You', zIndex:1}));
+    const bounds = new google.maps.LatLngBounds(); bounds.extend(me());
+    pts.forEach(p => {
+      const sel = p.id === opts.selId, d = document.createElement('div'), size = 2*(p.r || 8) + 4;
+      d.className = 'pin' + (sel ? ' sel' : '');
+      d.style.cssText = `width:${size}px;height:${size}px;background:${p.fill}`;
+      d.innerHTML = (p.inner != null ? p.inner : '') + (sel || p.label ? `<span class="pin-label">${esc(p.name)}</span>` : '');
+      const m = new AdvancedMarkerElement({map:g.map, position:{lat:p.lat, lng:p.lng}, content:d, title:p.name, zIndex: sel ? 100 : 10});
+      m.addListener('click', () => { if (opts.attr === 'cmp') S.cmpSel = p.id; else S.sel = p.id; render(); });
+      g.markers.push(m); bounds.extend({lat:p.lat, lng:p.lng});
+    });
+    const key = pts.map(p => p.id).join() + '|' + S.locKey;
+    if (key !== g.key) { g.map.fitBounds(bounds, 48); g.key = key; }
+  } catch (e) {
+    S.gmFailed = true;
+    const svg = mapSVG(pts, opts);
+    slot.outerHTML = opts.attr === 'cmp' ? svg.replace(/data-venue=/g, 'data-cmp=') : svg;
+  }
+}
+async function fetchLiveRating(v){
+  if (!hasGoogle() || !v?.pid) return;
+  const chip = document.getElementById('live-' + v.id);
+  try {
+    if (!LIVE[v.pid]) {
+      await loadGoogleMaps();
+      const {Place} = await google.maps.importLibrary('places');
+      const pl = new Place({id:v.pid});
+      await pl.fetchFields({fields:['rating','userRatingCount']});
+      LIVE[v.pid] = {g:pl.rating, gn:pl.userRatingCount};
+    }
+    const L = LIVE[v.pid], c = document.getElementById('live-' + v.id);
+    if (c && L.g) c.textContent = `Google ${L.g.toFixed(1)}★ (${(L.gn||0).toLocaleString()}) · live`;
+  } catch (e) { /* keep the stored figure */ }
+}
+
+function mapPoints(filterFn){
+  const vs = S.venues.filter(hasCoords).filter(filterFn || (()=>true));
+  const near = vs.filter(v => km(me(), v) <= 30);
+  const far = vs.length - near.length;
+  return {list: S.mapAll || !near.length ? vs : near, far, noneNear: !near.length};
+}
+
+/* ---------- Import ---------- */
+function flatten(o, p = '', out = {}, d = 0){
+  for (const k in o) {
+    const v = o[k], key = (p ? p+'.' : '') + String(k).toLowerCase();
+    if (v && typeof v === 'object' && !Array.isArray(v) && d < 4) flatten(v, key, out, d+1);
+    else out[key] = v;
+  }
+  return out;
+}
+const NAME_KEYS = ['business name','business_name','businessname','place name','place_name','placename','location name','venue','restaurant','name','title'];
+const RATING_KEYS = ['five_star_rating_published','five star rating published','star rating','star_rating','stars','rating','bubble_rating','bubblerating','ratingvalue','overall_rating','overall rating','your rating','score'];
+const last = k => k.split('.').pop();
+function pickBy(f, keys, test, skip){
+  let best = null, bi = 1e9;
+  for (const k in f) {
+    if (skip && skip.test(k)) continue;
+    const i = keys.indexOf(last(k));
+    if (i >= 0 && i < bi && test(f[k])) { best = f[k]; bi = i; }
+  }
+  return best;
+}
+function parseRating(v){
+  if (v == null || v === '') return null;
+  let n, den;
+  if (typeof v === 'number') n = v;
+  else { const m = String(v).match(/(\d+(?:[.,]\d+)?)\s*(?:\/\s*(\d+))?/); if (!m) return null; n = parseFloat(m[1].replace(',','.')); den = m[2] && +m[2]; }
+  if (den) n = n/den*5; else if (n > 10 && n <= 50) n = n/10; else if (n > 5 && n <= 10) n = n/2;
+  return n >= .5 && n <= 5 ? Math.round(n*2)/2 : null;
+}
+function toRecord(obj){
+  const f = flatten(obj);
+  const name = pickBy(f, NAME_KEYS, v => typeof v === 'string' && v.trim().length > 1 && v.length < 140, /(user|author|reviewer|owner|profile)/);
+  const rawR = pickBy(f, RATING_KEYS, v => parseRating(v) != null, /(average|avg|count|total)/);
+  if (!name || rawR == null) return null;
+  let lat = null, lng = null;
+  const gc = f['geometry.coordinates'];
+  if (Array.isArray(gc) && gc.length >= 2 && (gc[0] || gc[1])) { lng = +gc[0]; lat = +gc[1]; }
+  else {
+    for (const k in f) { const l = last(k); if ((l === 'latitude' || l === 'lat') && f[k] !== '' && !isNaN(+f[k])) lat = +f[k]; if ((l === 'longitude' || l === 'lng' || l === 'lon') && f[k] !== '' && !isNaN(+f[k])) lng = +f[k]; }
+    if (!lat && !lng) { lat = lng = null; }
+  }
+  const address = pickBy(f, ['address','formatted_address','location.address','full address'], v => typeof v === 'string');
+  return {name: name.trim(), rating: parseRating(rawR), lat, lng, address};
+}
+function extract(json){
+  const out = [];
+  (function walk(n, d){
+    if (d > 8 || n == null) return;
+    if (Array.isArray(n)) { n.forEach(x => walk(x, d+1)); return; }
+    if (typeof n === 'object') {
+      const rec = toRecord(n);
+      if (rec) { out.push(rec); return; }
+      for (const k in n) if (n[k] && typeof n[k] === 'object') walk(n[k], d+1);
+    }
+  })(json, 0);
+  return out;
+}
+function parseCSV(text){
+  const rows = []; let row = [], cell = '', q = false;
+  const delim = (text.split('\n')[0].match(/\t/g)||[]).length > (text.split('\n')[0].match(/,/g)||[]).length ? '\t' : ',';
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) { if (c === '"' && text[i+1] === '"') { cell += '"'; i++; } else if (c === '"') q = false; else cell += c; }
+    else if (c === '"') q = true;
+    else if (c === delim) { row.push(cell); cell = ''; }
+    else if (c === '\n' || c === '\r') { if (c === '\r' && text[i+1] === '\n') i++; row.push(cell); rows.push(row); row = []; cell = ''; }
+    else cell += c;
+  }
+  if (cell || row.length) { row.push(cell); rows.push(row); }
+  const head = (rows.shift() || []).map(h => h.trim());
+  return rows.filter(r => r.some(x => x.trim())).map(r => toRecord(Object.fromEntries(head.map((h,i) => [h, r[i]])))).filter(Boolean);
+}
+function parsePaste(text){
+  return text.split(/\r?\n/).map(l => l.trim()).filter(Boolean).map(l => {
+    const m = l.match(/^(.*?)[\s,;:|\t\-–—]+(\d(?:[.,]\d)?)\s*(?:\/\s*(\d+)|stars?|★)?\s*$/i);
+    if (!m) return null;
+    const r = parseRating(m[3] ? `${m[2]}/${m[3]}` : m[2]);
+    const name = m[1].replace(/[\s,;:|\-–—]+$/,'').trim();
+    return r && name ? {name, rating:r, lat:null, lng:null, address:null} : null;
+  }).filter(Boolean);
+}
+const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/&/g,' and ').replace(/[^a-z0-9 ]/g,' ').replace(/\b(the|restaurant|ltd|london)\b/g,' ').replace(/\s+/g,' ').trim();
+function mergeRecords(recs, source, label){
+  if (!recs.length) return {count:0};
+  const hadExample = Object.values(S.mine).some(s => s.example != null);
+  if (hadExample) for (const vid in S.mine) { delete S.mine[vid].example; if (!Object.keys(S.mine[vid]).length) delete S.mine[vid]; }
+  let matched = 0, added = 0;
+  recs.forEach(r => {
+    const n = norm(r.name);
+    let v = S.venues.find(x => norm(x.name) === n);
+    if (!v && r.lat != null) v = S.venues.find(x => hasCoords(x) && km(x, r) < .12 && (norm(x.name).includes(n) || n.includes(norm(x.name))));
+    if (v) { if (!v.imported) matched++; }
+    else {
+      v = {id:'i'+Math.abs([...n].reduce((h,c)=>(h*31+c.charCodeAt(0))|0, 7)).toString(36), name:r.name, cat:'Imported place', kind:'Place', area:r.address ? r.address.split(',').slice(-2).join(',').trim() : '', address:r.address, lat:r.lat ?? undefined, lng:r.lng ?? undefined, imported:true};
+      if (!venue(v.id)) { S.venues.push(v); added++; } else v = venue(v.id);
+    }
+    (S.mine[v.id] ??= {})[source] = r.rating;
+  });
+  S.log.push({source, label, count:recs.length, matched, added, at:Date.now()});
+  save();
+  return {count:recs.length, matched, added, hadExample};
+}
+async function readFile(file){
+  if (/\.zip$/i.test(file.name)) {
+    if (!window.JSZip) throw new Error('Zip support did not load. Unzip the file and upload the JSON or CSV inside.');
+    const zip = await JSZip.loadAsync(file);
+    const entries = Object.values(zip.files).filter(e => !e.dir && /\.(json|csv)$/i.test(e.name));
+    const pick = entries.filter(e => /review/i.test(e.name));
+    let recs = [];
+    for (const e of (pick.length ? pick : entries)) recs = recs.concat(parseText(await e.async('string')));
+    return recs;
+  }
+  return parseText(await file.text());
+}
+function parseText(t){
+  t = t.replace(/^﻿/, '');
+  const s = t.trim();
+  if (s.startsWith('{') || s.startsWith('[')) { try { return extract(JSON.parse(s)); } catch(e) { return []; } }
+  return parseCSV(t);
+}
+function reportImport(res, sourceLabel, fileLabel){
+  if (!res.count) { S.toast = {err:true, msg:`No ratings found in ${esc(fileLabel)}. Check it's the reviews file, or paste your reviews as “Place name, 4” lines below.`}; return; }
+  S.toast = {msg:`Imported <b>${res.count}</b> ${sourceLabel} ratings. ${res.matched} matched places in the Tastemate network${res.added ? `, ${res.added} added as new places` : ''}.${res.hadExample ? ' The example ratings were removed.' : ''}`};
+}
+function sampleGoogleExport(){
+  const f = (name, addr, lat, lng, stars, date) => ({type:'Feature', geometry:{type:'Point', coordinates:[lng, lat]}, properties:{date, five_star_rating_published:stars, review_text_published:'', location:{name, address:addr, country_code:'GB'}}});
+  const pick = (n, stars, date) => { const v = VENUES0.find(x => x.name === n); return f(n.replace(/ (Soho|Shoreditch|Covent Garden|Marylebone|Borough.*)$/,''), v.addr, v.lat, v.lng, stars, date); };
+  return {type:'FeatureCollection', features:[
+    pick('Dishoom Shoreditch',5,'2025-11-02T19:10:00Z'),
+    pick('Padella Borough Market',5,'2025-08-14T13:22:00Z'),
+    pick('Hoppers Shoreditch',5,'2026-01-18T12:05:00Z'),
+    pick('Carlotta',4,'2026-04-26T11:30:00Z'),
+    pick('HIDE',2,'2025-03-09T21:40:00Z'),
+    pick('Granger and Co. Notting Hill',3,'2024-12-01T20:15:00Z'),
+    pick('The British Museum',4,'2026-02-07T10:45:00Z'),
+    pick('Foyles',5,'2026-05-11T15:00:00Z'),
+    pick('Nightjar',3,'2026-06-21T23:00:00Z'),
+    f('Harbour Fish Shack','Front Street, Hamilton, Bermuda',32.2930,-64.7830,5,'2026-06-21T19:00:00Z')
+  ]};
+}
+
+/* ---------- Views ---------- */
+const TABS = [['rate','Rate places'],['reviews','Import reviews'],['discover','For you'],['matches','Top 10 matches'],['map','Map'],['offers','Live offers'],['venues','For venues']];
+
+function viewReviews(){
+  const mr = myRatings(), ids = Object.keys(mr);
+  const bySrc = {}; Object.values(S.mine).forEach(s => Object.keys(s).forEach(k => bySrc[k] = (bySrc[k]||0)+1));
+  const inNet = ids.filter(id => !venue(id)?.imported).length;
+  const bestMatch = Math.max(0, ...Object.values(kindNeighbours(mr)).flat().map(x => x.pct));
+  const lastLog = src => S.log.filter(l => l.source === src).pop();
+  const status = src => { const l = lastLog(src); return l ? `<span class="chip good">Linked</span> <span class="muted">${bySrc[src]||0} ratings · imported ${new Date(l.at).toLocaleDateString(undefined,{day:'numeric',month:'short'})}</span>` : `<span class="chip">Not linked yet</span>`; };
+  const fileBtn = (src, label) => `<label class="btn primary filebtn">${label}<input type="file" id="file-${src}" data-source="${src}" accept=".json,.csv,.tsv,.txt,.zip"></label>`;
+  const rows = ids.map(id => ({v:venue(id), r:mr[id], src:S.mine[id]})).filter(x => x.v).sort((a,b) => a.v.name.localeCompare(b.v.name));
+  return `<div class="stack">
+    ${S.toast ? `<div class="toast ${S.toast.err ? 'err' : ''}" role="status">${S.toast.msg}</div>` : ''}
+    <section class="panel stack">
+      <div class="head"><div><p class="eyebrow">Your taste profile</p><h2>Bring in the ratings you've already written</h2></div></div>
+      <div class="summary">
+        <div><b class="num">${ids.length}</b><span>places rated</span></div>
+        <div><b class="num">${inNet}</b><span>in the Tastemate network</span></div>
+        <div><b class="num">${bestMatch ? bestMatch+'%' : '–'}</b><span>closest taste match</span></div>
+        <div><b class="num">${Object.keys(bySrc).filter(k => k !== 'example').length}</b><span>sources linked</span></div>
+      </div>
+      <p class="note">Google, Tripadvisor and Yelp don't let other apps read your review history directly, so Tastemate imports the copy of your data each site gives you. Zip files work too. Everything stays in this browser.</p>
+    </section>
+
+    <section class="sources">
+      <div class="source">
+        <div class="head"><h3>Google Maps</h3></div>
+        <div class="status">${status('google')}</div>
+        <details><summary>How to get your file</summary><ol>
+          <li>Go to <a href="https://takeout.google.com" target="_blank" rel="noopener">takeout.google.com</a> and sign in.</li>
+          <li>Click <b>Deselect all</b>, then tick <b>Maps (your places)</b>.</li>
+          <li>Create the export. Google emails you a download link.</li>
+          <li>Upload the zip, or the <b>Reviews.json</b> file inside it.</li></ol></details>
+        <div class="row">${fileBtn('google','Upload Google file')}<button class="btn" data-act="sample-google">Try a sample export</button></div>
+      </div>
+      <div class="source">
+        <div class="head"><h3>Tripadvisor</h3></div>
+        <div class="status">${status('tripadvisor')}</div>
+        <details><summary>How to get your file</summary><ol>
+          <li>Sign in to Tripadvisor and request a copy of your personal data from the privacy section of your account settings.</li>
+          <li>When it arrives, upload the reviews file (JSON or CSV).</li>
+          <li>Quicker option: open your profile's Reviews tab and paste each place with its bubble score below.</li></ol></details>
+        <div class="row">${fileBtn('tripadvisor','Upload Tripadvisor file')}</div>
+      </div>
+      <div class="source">
+        <div class="head"><h3>Yelp</h3></div>
+        <div class="status">${status('yelp')}</div>
+        <details><summary>How to get your file</summary><ol>
+          <li>Sign in to Yelp and request your data from the privacy settings in your account.</li>
+          <li>Upload the reviews file from the download (JSON or CSV).</li>
+          <li>Or paste your reviewed places and star ratings below.</li></ol></details>
+        <div class="row">${fileBtn('yelp','Upload Yelp file')}</div>
+      </div>
+      <div class="source">
+        <div class="head"><h3>Other sites or a spreadsheet</h3></div>
+        <div class="status">${status('other')}</div>
+        <details><summary>CSV columns</summary>
+          <p style="margin-top:8px">Any CSV with a place name and a rating works. Coordinates put it on the map.</p>
+          <pre class="num small" id="tpl" style="white-space:pre-wrap;background:var(--surface-2);padding:8px;border-radius:6px;margin:8px 0">name,rating,latitude,longitude,address
+Kinoya Ramen,5,51.5122,-0.1236,Covent Garden London</pre>
+          <button class="btn" data-act="copy-tpl">Copy template</button></details>
+        <div class="row">${fileBtn('other','Upload CSV or JSON')}</div>
+      </div>
+    </section>
+
+    <section class="panel stack">
+      <div class="head"><h3>Paste ratings</h3><span class="muted small">One place per line: “Place name, 4”, “Place – 4/5” or “Place 40” for bubbles</span></div>
+      <label for="pasteBox" class="eyebrow">Your reviews</label>
+      <textarea id="pasteBox" placeholder="Hanok Table, 5&#10;Osteria Verde – 4/5&#10;Blackfriars Jazz Cellar 3"></textarea>
+      <div class="row"><label for="pasteSrc" class="small muted">From</label>
+        <select id="pasteSrc"><option value="tripadvisor">Tripadvisor</option><option value="yelp">Yelp</option><option value="google">Google</option><option value="other">Other</option></select>
+        <button class="btn primary" data-act="paste">Import pasted ratings</button></div>
+    </section>
+
+    <section class="panel stack">
+      <div class="head"><h3>All your ratings</h3>
+        <button class="btn danger" data-act="reset">${S.resetArm ? 'Click again to clear everything' : 'Clear all ratings'}</button></div>
+      ${bySrc.example ? `<p class="note">These are <b>example ratings</b> so you can see how matching works. They disappear when you import your own.</p>` : ''}
+      ${rows.length ? `<div class="tablewrap"><table>
+        <thead><tr><th>Place</th><th>Sources</th><th>Rating</th><th>Network</th><th></th></tr></thead>
+        <tbody>${rows.map(({v,r,src}) => `<tr>
+          <td><b>${esc(v.name)}</b><div class="muted small">${esc(v.cat)}${v.area ? ' · '+esc(v.area) : ''}</div></td>
+          <td><div class="row">${Object.entries(src).map(([k,n]) => `<span class="chip">${SOURCES[k]||k} <span class="num">${n}</span></span>`).join('')}</div></td>
+          <td>${stars(r)}</td>
+          <td>${v.imported ? '<span class="chip">Not yet</span>' : '<span class="chip accent">Matched</span>'}</td>
+          <td><button class="btn" data-act="remove" data-vid="${v.id}" aria-label="Remove ${esc(v.name)}">Remove</button></td></tr>`).join('')}</tbody></table></div>`
+        : `<p class="muted">No ratings yet. Upload a file above or rate places in the Rate places tab.</p>`}
+    </section>
+  </div>`;
+}
+
+const LOVE = 3.5;
+// Recommendations: places you haven't rated, predicted from matches in the same category.
+// Order: live offers first, then closest to you.
+function recommendations(){
+  const mr = myRatings(), nbk = kindNeighbours(mr);
+  const recs = S.venues.filter(v => mr[v.id] == null && KINDS[v.kind]).map(v => ({v, p:predict(v.id, nbk[v.kind], myBase(v.kind, mr), v.kind)})).filter(x => x.p);
+  recs.forEach(x => { x.offer = activeOffer(x.v.id); x.d = distTo(x.v); });
+  recs.sort((a,b) => (!!b.offer - !!a.offer) || ((a.d ?? 1e9) - (b.d ?? 1e9)) || b.p.val - a.p.val);
+  return {mr, nbk, recs};
+}
+function kindChips(cur, act, counts){
+  return `<div class="seg" role="group" aria-label="Category">${[['all','All'], ...KIND_ORDER.map(k => [k, KINDS[k]])].map(([k, l]) => `<button class="${cur === k ? 'on' : ''}" data-act="${act}" data-kind="${k}">${l}${counts && counts[k] != null ? ` <span class="num muted">${counts[k]}</span>` : ''}</button>`).join('')}</div>`;
+}
+
+function viewDiscover(){
+  const {mr, nbk, recs} = recommendations();
+  const kind = S.recKind || 'all';
+  const ready = KIND_ORDER.filter(k => nbk[k].length);
+  if (!ready.length) return `<section class="panel"><h2>Rate a few places first</h2><p class="muted" style="margin-top:6px">Tastemate compares you with people who rated the same kind of place: restaurants with restaurants, bars with bars. Rate at least two places in a category to get picks in it.</p><div class="row" style="margin-top:12px"><button class="btn primary" data-tab="rate">Rate places</button><button class="btn" data-tab="reviews">Import reviews</button></div></section>`;
+  const loved = recs.filter(x => x.p.val >= LOVE);
+  const counts = Object.fromEntries(KIND_ORDER.map(k => [k, loved.filter(x => x.v.kind === k).length]));
+  counts.all = loved.length;
+  const list = loved.filter(x => kind === 'all' || x.v.kind === kind);
+  const missing = KIND_ORDER.filter(k => !nbk[k].length);
+  const route = routeLink(list.slice(0,5).map(x=>x.v));
+  return `<div class="stack">
+    <div class="head"><div><p class="eyebrow">Live offers first, then closest to you · each category matched only against that category</p><h2>Places you're likely to love</h2></div>
+      ${route ? `<a class="btn" href="${route}" target="_blank" rel="noopener">Route through the first 5 in Google Maps</a>` : ''}</div>
+    ${kindChips(kind, 'rec-kind', counts)}
+    ${missing.length ? `<p class="note small">To get picks for ${missing.map(k => KINDS[k].toLowerCase()).join(', ')}, rate at least two places in ${missing.length > 1 ? 'each of those categories' : 'that category'}. <button class="linkbtn" data-act="rate-kind" data-kind="${missing[0]}">Rate ${KINDS[missing[0]].toLowerCase()}</button></p>` : ''}
+    ${list.length ? `<div class="grid">${list.map(({v,p,offer,d}) => {
+      const top = p.raters[0];
+      return `<article class="rec ${offer ? 'hasoffer' : ''}">
+        ${offer ? `<div class="offerbox"><span class="offerdeal"><span class="chip offer">Live offer</span><b>${esc(offer.deal)}</b></span><span class="timer" data-exp="${offer.exp}"></span></div>` : ''}
+        <div class="head"><div><h3>${esc(v.name)}</h3><p class="muted small">${esc(KINDS[v.kind])} · ${esc(v.cat)} · ${esc(v.area)}</p></div>
+          <div style="text-align:right"><div class="dist num">${d != null ? fmtKm(d) : ''}</div><div class="small muted">away</div></div></div>
+        <div class="row"><span class="chip accent">For you ${p.val.toFixed(1)}★</span><span class="chip">${p.count}/10 ${esc(KINDS[v.kind].toLowerCase())} matches · avg ${p.avg.toFixed(1)}★</span>${v.g ? `<span class="chip">Google ${v.g.toFixed(1)}★</span>` : ''}</div>
+        <p class="why">${esc(top.u.name)} (${top.pct}% ${esc(KINDS[v.kind].toLowerCase())} match) gave it ${top.r}★${p.val - (v.g||p.val) >= .15 ? '. People like you rate it above the crowd.' : p.val - (v.g||p.val) <= -.3 ? '. People like you rate it below the crowd.' : ''}</p>
+        ${linkButtons(v, true)}
+        <button class="btn" data-venue="${v.id}" data-goto="map">Show on map</button>
+      </article>`;}).join('')}</div>` : `<p class="note">No strong picks in this category yet. Rate a few more places in it.</p>`}
+  </div>`;
+}
+
+function venueDetail(v){
+  if (!v) return '';
+  const mr = myRatings(), p = predictMine(v.id, mr), o = activeOffer(v.id), d = distTo(v);
+  return `<div class="detail">
+    <div><p class="eyebrow">${esc(KINDS[v.kind] || 'Place')}</p><h2>${esc(v.name)}</h2><p class="muted">${esc(v.cat)}${v.area ? ' · '+esc(v.area) : ''}</p></div>
+    <div class="row"><span class="chip">${d != null ? fmtKm(d)+' away' : 'No location'}</span>
+      ${mr[v.id] != null ? `<span class="chip accent">You: ${mr[v.id].toFixed(1)}★</span>` : ''}
+      ${p ? `<span class="chip">For you ${p.val.toFixed(1)}★</span>` : ''}${v.g ? `<span class="chip" id="live-${v.id}">Google ${v.g.toFixed(1)}★ (${v.gn.toLocaleString()})</span>` : ''}</div>
+    ${v.addr ? `<p class="small muted">${esc(v.addr)}</p>` : ''}
+    ${p ? `<p class="small muted">${p.count} of your top 10 ${esc(KINDS[v.kind].toLowerCase())} matches rated it: ${p.raters.slice(0,4).map(x => `${esc(x.u.name)} ${x.r}★`).join(', ')}${p.count > 4 ? '…' : ''}</p>` : ''}
+    ${o ? `<div class="offerbox"><b>${esc(o.deal)}</b><span class="timer" data-exp="${o.exp}"></span></div>` : ''}
+    <div class="linklist">${linkButtons(v)}</div>
+  </div>`;
+}
+
+function viewMap(){
+  const {mr, recs} = recommendations();
+  const topIds = new Set(recs.filter(x => x.p.val >= 4).sort((a,b) => b.p.val - a.p.val).slice(0,8).map(x => x.v.id));
+  const {list, far, noneNear} = mapPoints();
+  const pts = list.map(v => {
+    const o = activeOffer(v.id);
+    const fill = o ? 'var(--offer)' : topIds.has(v.id) ? 'var(--star)' : mr[v.id] != null ? 'var(--accent)' : 'var(--muted)';
+    return {...v, fill, r: topIds.has(v.id) || o ? 9 : 7, label: topIds.has(v.id) || !!o};
+  });
+  const sel = venue(S.sel);
+  const loved = recs.filter(x => x.p.val >= LOVE);
+  const route = routeLink(loved.slice(0,5).map(x=>x.v));
+  return `<div class="stack">
+    <div class="head"><div><p class="eyebrow">${pts.length} places ${S.mapAll || noneNear ? 'everywhere' : 'within 30 km'}</p><h2>Everything on one map</h2></div>
+      <div class="row">${far && !noneNear ? `<button class="btn" data-act="maptoggle">${S.mapAll ? 'Show only nearby' : `Include ${far} far away`}</button>` : ''}
+      ${route ? `<a class="btn primary" href="${route}" target="_blank" rel="noopener">Open top picks in Google Maps</a>` : ''}</div></div>
+    ${noneNear ? `<p class="note">Nothing in the network is near ${esc(me().label)} yet, so the map shows every place. Switch location at the top to see London.</p>` : ''}
+    <div class="mapgrid">
+      <div>${pts.length ? mapSlot('main', pts, {selId:S.sel, attr:'venue'}) : '<p class="muted">No places with a location yet.</p>'}
+        <div class="legend"><span><i style="background:var(--ink);border-radius:2px;transform:rotate(45deg)"></i>You</span><span><i style="background:var(--offer)"></i>Live offer</span><span><i style="background:var(--star)"></i>Top pick for you</span><span><i style="background:var(--accent)"></i>You rated</span><span><i style="background:var(--muted)"></i>Other places</span></div>
+      </div>
+      <aside class="panel">${sel ? venueDetail(sel) : `<div class="detail"><h3>Tap a pin</h3><p class="muted small">See the place's details, then open directions or its page on Google Maps, Tripadvisor or Yelp.</p>
+        <div class="linklist">${loved.slice(0,5).filter(x=>hasCoords(x.v)).map(x => `<button class="btn" data-venue="${x.v.id}" style="justify-content:space-between"><span>${x.offer ? '<span class="chip offer">Offer</span> ' : ''}${esc(x.v.name)}</span><span class="num">${fmtKm(x.d)}</span></button>`).join('')}</div></div>`}</aside>
+    </div>
+    <p class="small muted">${hasGoogle() ? 'Tap a pin for details. ' : ''}The Google Maps button plots your top picks as walking stops, because Google Maps can only open several places at once as a route.</p>
+  </div>`;
+}
+
+function viewMatches(){
+  const mr = myRatings();
+  const counts = Object.fromEntries(KIND_ORDER.map(k => [k, Object.keys(ofKind(mr, k)).length]));
+  const kind = KINDS[S.matchKind] ? S.matchKind : KIND_ORDER.slice().sort((a,b) => counts[b] - counts[a])[0];
+  const label = KINDS[kind].toLowerCase();
+  const nb = neighbours(mr, null, kind);
+  const kindBar = `<div class="seg" role="group" aria-label="Category">${KIND_ORDER.map(k => `<button class="${k === kind ? 'on' : ''}" data-act="match-kind" data-kind="${k}">${KINDS[k]} <span class="num muted">${counts[k]}</span></button>`).join('')}</div>`;
+  if (!nb.length) return `<div class="stack">${kindBar}<section class="panel stack"><h2>No ${label} matches yet</h2><p class="muted">Matches for ${label} only compare ratings of ${label}. Rate at least two that other people have rated.</p><div><button class="btn primary" data-act="rate-kind" data-kind="${kind}">Rate ${label}</button></div></section></div>`;
+  const vids = S.venues.filter(v => v.kind === kind && (mr[v.id] != null || nb.some(x => x.u.ratings[v.id] != null))).map(v => {
+    const rs = nb.map(x => x.u.ratings[v.id]).filter(r => r != null);
+    return {v, count:rs.length, avg:rs.length ? rs.reduce((a,b)=>a+b,0)/rs.length : null};
+  }).sort((a,b) => b.count - a.count || (b.avg||0) - (a.avg||0));
+  const cell = r => r == null ? `<span class="cell none">–</span>` : `<span class="cell" style="${cellBg(r)}">${Number.isInteger(r) ? r : r.toFixed(1)}</span>`;
+  const {list} = mapPoints(v => vids.some(x => x.v.id === v.id && x.count));
+  const pts = list.map(v => { const x = vids.find(y => y.v.id === v.id); return {...v, r: 6 + x.count*1.4, inner: x.count, fill:`color-mix(in srgb, var(--accent) ${35 + ((x.avg||1)-1)*16}%, var(--muted))`}; });
+  const sel = venue(S.cmpSel)?.kind === kind ? venue(S.cmpSel) : null, selRow = sel && vids.find(x => x.v.id === sel.id);
+  return `<div class="stack">
+    ${kindBar}
+    <section class="panel stack">
+      <div class="head"><div><p class="eyebrow">Match = how closely your stars agree on ${label} you've both rated · more shared places ranks higher</p><h2>Your 10 closest matches for ${label}</h2></div><span class="small muted">Out of ${POOL.length} profiles</span></div>
+      <div class="users">${nb.map(x => `<div class="user"><b>${esc(x.u.name)}</b><span class="small muted">${esc(x.u.arch)}</span><div class="row" style="justify-content:space-between"><span class="num" style="font-size:1.2rem;color:var(--accent)">${x.pct}%</span><span class="small muted">${x.n} shared</span></div><div class="bar"><i style="width:${x.pct}%"></i></div></div>`).join('')}</div>
+    </section>
+    <section class="panel stack">
+      <div class="head"><h2>Side-by-side ratings</h2><span class="small muted">Darker cells are higher ratings</span></div>
+      <div class="tablewrap"><table class="matrix">
+        <thead><tr><th>Place</th><th class="u">You</th>${nb.map(x => `<th class="u">${esc(x.u.name.split(' ')[0])}<br><span class="num">${x.pct}%</span></th>`).join('')}<th class="c">Rated by</th><th class="c">Matches avg</th><th class="c">Google</th><th></th></tr></thead>
+        <tbody>${vids.map(({v,count,avg}) => `<tr>
+          <td><b>${esc(v.name)}</b><div class="small muted">${esc(v.cat)}</div></td>
+          <td class="c">${cell(mr[v.id] ?? null)}</td>
+          ${nb.map(x => `<td class="c">${cell(x.u.ratings[v.id] ?? null)}</td>`).join('')}
+          <td class="c num">${count}/10</td><td class="c num">${avg != null ? avg.toFixed(1) : '–'}</td><td class="c num muted">${v.g ? v.g.toFixed(1) : '–'}</td>
+          <td>${hasCoords(v) ? `<button class="btn" data-cmp="${v.id}">Map</button>` : ''}</td></tr>`).join('')}</tbody></table></div>
+    </section>
+    <section class="panel stack">
+      <div class="head"><div><p class="eyebrow">Number in each pin = how many of your top 10 rated it · darker = higher average</p><h2>Where your ${label} matches have been</h2></div></div>
+      <div class="mapgrid">
+        <div>${pts.length ? mapSlot('cmp', pts, {selId:sel?.id, attr:'cmp'}) : '<p class="muted">No mapped places yet.</p>'}</div>
+        <aside class="detail">${sel && selRow ? `
+          <div><h3>${esc(sel.name)}</h3><p class="muted small">${selRow.count} of 10 rated it · matches average ${selRow.avg?.toFixed(1) ?? '–'}★${sel.g ? ` · Google ${sel.g.toFixed(1)}★` : ''}</p></div>
+          <div class="tablewrap"><table><tbody>
+            <tr><td>You</td><td>${mr[sel.id] != null ? stars(mr[sel.id]) : '<span class="muted">Not rated</span>'}</td></tr>
+            ${nb.filter(x => x.u.ratings[sel.id] != null).map(x => `<tr><td>${esc(x.u.name)} <span class="muted num small">${x.pct}%</span></td><td>${stars(x.u.ratings[sel.id])}</td></tr>`).join('')}
+          </tbody></table></div>${linkButtons(sel, true)}`
+          : `<h3>Tap a pin</h3><p class="muted small">See every rating your matches gave that place, side by side with yours.</p>`}</aside>
+      </div>
+    </section>
+  </div>`;
+}
+
+/* ---------- Rating: only places within 500 m are listed; everything else is found by search ---------- */
+const NEAR_KM = 0.5;
+function rateRow(v){
+  const manual = S.mine[v.id]?.manual, others = Object.entries(S.mine[v.id]||{}).filter(([k]) => k !== 'manual'), d = distTo(v);
+  return `<div class="raterow">
+    <div style="min-width:0;flex:1 1 240px"><b>${esc(v.name)}</b><div class="small muted">${esc(KINDS[v.kind] || 'Place')} · ${esc(v.cat)}${v.area ? ' · '+esc(v.area) : ''}${d != null ? ' · '+fmtKm(d) : ''}${v.g ? ` · Google <span class="num">${v.g.toFixed(1)}</span>` : ''}</div>
+      ${others.length ? `<div class="row" style="margin-top:4px">${others.map(([k,n]) => `<span class="chip">${SOURCES[k]||k} ${n}★</span>`).join('')}</div>` : ''}</div>
+    <div class="starinput" role="group" aria-label="Rate ${esc(v.name)}">${[1,2,3,4,5].map(n => `<button class="${manual >= n ? 'on' : ''}" data-rate="${n}" data-vid="${v.id}" aria-label="${n} star${n>1?'s':''}">★</button>`).join('')}</div>
+  </div>`;
+}
+function searchResultsHtml(){
+  const q = (S.rateQ || '').trim().toLowerCase();
+  if (q.length < 2) return '';
+  const inKind = v => S.kind === 'all' || v.kind === S.kind;
+  const hits = S.venues.filter(v => inKind(v) && (v.name + ' ' + v.cat + ' ' + (v.area || '') + ' ' + (KINDS[v.kind] || '')).toLowerCase().includes(q)).slice(0, 15);
+  const g = (S.gResults || []).filter(v => !hits.some(h => h.pid && h.pid === v.pid));
+  return `<div class="stack">
+    ${hits.length ? `<div class="ratelist">${hits.map(rateRow).join('')}</div>` : `<p class="muted small">No Tastemate places match “${esc(S.rateQ)}”.</p>`}
+    ${hasGoogle() ? `<div class="row"><button class="btn" data-act="gsearch">Search Google Maps for “${esc(S.rateQ)}”</button>${S.gBusy ? '<span class="small muted">Searching…</span>' : ''}</div>` : ''}
+    ${g.length ? `<p class="eyebrow">From Google Maps</p><div class="ratelist">${g.map(rateRow).join('')}</div><p class="small muted">Places added from Google Maps are saved on this device.</p>` : ''}
+  </div>`;
+}
+function viewRate(){
+  const mr = myRatings(), n = Object.keys(mr).length;
+  const inKind = v => S.kind === 'all' || v.kind === S.kind;
+  const perKind = Object.fromEntries(KIND_ORDER.map(k => [k, Object.keys(ofKind(mr, k)).length]));
+  const ready = KIND_ORDER.filter(k => perKind[k] >= 2).length;
+  const near = S.venues.filter(v => inKind(v) && mr[v.id] == null && hasCoords(v) && km(me(), v) <= NEAR_KM).sort((a,b) => km(me(), a) - km(me(), b));
+  const rated = S.venues.filter(v => inKind(v) && mr[v.id] != null).sort((a,b) => a.name.localeCompare(b.name));
+  return `<div class="stack">
+    <section class="panel stack">
+      <div class="head"><div><p class="eyebrow">Step 1 · Tell Tastemate what you think</p><h2>Rate places you've been to</h2></div>
+        <div class="row">${n ? '' : `<button class="btn" data-act="example">Try an example profile</button>`}<button class="btn" data-tab="reviews">Import from Google, Tripadvisor or Yelp</button></div></div>
+      <p class="small">You're matched separately in each category, so rate at least two places in every category you care about.</p>
+      <div class="kindprog">${KIND_ORDER.map(k => `<div class="${perKind[k] >= 2 ? 'ok' : ''}"><span class="small">${KINDS[k]}</span><b class="num">${perKind[k]}</b><span class="small muted">${perKind[k] >= 2 ? 'matching on' : `rate ${2 - perKind[k]} more`}</span></div>`).join('')}</div>
+      ${ready ? `<div><button class="btn primary" data-tab="discover">See your recommendations</button></div>` : ''}
+    </section>
+    ${kindChips(S.kind, 'kind')}
+    <section class="panel stack">
+      <form id="placeSearch" class="row" role="search"><input id="rateSearch" type="search" placeholder="Search for any place to rate" aria-label="Search for a place" value="${esc(S.rateQ || '')}" style="flex:1 1 220px"><button class="btn primary" type="submit">Search</button></form>
+      <div id="searchResults">${searchResultsHtml()}</div>
+    </section>
+    <section class="stack">
+      <div class="head"><div><p class="eyebrow">Within 500 m of ${esc(me().label)}</p><h2>Near you</h2></div><span class="small muted num">${near.length}</span></div>
+      ${near.length ? `<div class="ratelist">${near.map(rateRow).join('')}</div>` : `<p class="note">Nothing${S.kind === 'all' ? '' : ' in ' + esc(KINDS[S.kind].toLowerCase())} left to rate within 500 m. Search above for places further away.</p>`}
+    </section>
+    ${rated.length ? `<section class="stack"><div class="head"><h2>Your ratings</h2><span class="small muted num">${rated.length}</span></div><div class="ratelist">${rated.map(rateRow).join('')}</div></section>` : ''}
+  </div>`;
+}
+const kindFromType = t => {
+  t = String(t || '');
+  if (/theater|theatre|comedy|concert|performing|opera|cabaret/.test(t)) return 'Theatre';
+  if (/bar|pub|night_club|wine|cocktail|brewery/.test(t)) return 'Drink';
+  if (/museum|gallery|art|historical|monument/.test(t)) return 'Culture';
+  if (/store|shop|market|book/.test(t)) return 'Shop';
+  if (/restaurant|food|cafe|bakery|meal|diner|brunch|coffee/.test(t)) return 'Eat';
+  return 'Place';
+};
+async function googleSearch(q){
+  await loadGoogleMaps();
+  const {Place} = await google.maps.importLibrary('places');
+  const {places} = await Place.searchByText({textQuery:q, fields:['id', 'displayName', 'formattedAddress', 'location', 'rating', 'userRatingCount', 'primaryType', 'primaryTypeDisplayName'],
+    locationBias:{center:{lat:me().lat, lng:me().lng}, radius:5000}, maxResultCount:8});
+  return (places || []).map(pl => {
+    const existing = S.venues.find(v => v.pid === pl.id);
+    if (existing) return existing;
+    const addr = pl.formattedAddress || '';
+    return {id:'g_' + pl.id, pid:pl.id, name:pl.displayName, cat:pl.primaryTypeDisplayName || 'Place', kind:kindFromType(pl.primaryType), area:addr.split(',').slice(-2, -1)[0]?.trim() || '', addr,
+      lat:pl.location?.lat(), lng:pl.location?.lng(), g:pl.rating || null, gn:pl.userRatingCount || 0, imported:true, fromGoogle:true};
+  });
+}
+
+/* ---------- Offers and vouchers (diners) ---------- */
+const normOffer = r => ({id:r.id, vid:r.venue_id, deal:r.title, type:r.offer_type, qty:r.tokens, claimed:r.claimed, exp:Date.parse(r.expires_at), radius:+r.radius_km, minPred:+r.min_pred, myCode:r.my_code});
+function qrBlock(code, px = 190){
+  let svg = '';
+  if (window.qrcode) { try { const q = qrcode(0, 'M'); q.addData(code); q.make(); svg = q.createSvgTag({cellSize:4, margin:3, scalable:true}); } catch(e) {} }
+  return `<div class="qrwrap">${svg ? `<div class="qr" style="width:${px}px">${svg}</div>` : ''}<div class="voucher" aria-label="Voucher code">${esc(code)}</div></div>`;
+}
+function offerCard(o, el, forYou){
+  const v = venue(o.vid), left = o.qty - o.claimed, live = left > 0 && o.exp > Date.now(), code = o.myCode;
+  const role = S.acct?.role;
+  let action = '';
+  if (code) action = `${qrBlock(code)}<p class="small muted">Show this to staff. They scan it to record your visit.</p>`;
+  else if (forYou && live && !S.acct) action = `<button class="btn primary" data-act="to-auth">Sign in to claim</button>`;
+  else if (forYou && live && role === 'user') action = `<button class="btn primary" data-act="claim" data-oid="${o.id}">Claim voucher</button>`;
+  return `<article class="offer ${live || code ? 'live' : ''}">
+    <div class="head"><div><h3>${esc(v.name)}</h3><p class="small muted">${esc(v.cat)}${el.d != null ? ' · ' + fmtKm(el.d) : ''}</p></div>
+      <span class="timer" data-exp="${o.exp}"></span></div>
+    <div class="row"><span class="chip">${OFFER_TYPES[o.type] || 'Offer'}</span>${API.demo ? '<span class="chip warn">Demo</span>' : ''}</div>
+    <div class="deal">${esc(o.deal)}</div>
+    <div><div class="row" style="justify-content:space-between;font-size:.85rem"><span>${left > 0 ? `<b class="num">${left}</b> of ${o.qty} vouchers left` : '<b>All claimed</b>'}</span><span class="muted">within ${o.radius} km</span></div>
+      <div class="meter" style="margin-top:4px"><i style="width:${Math.min(100, o.claimed/o.qty*100)}%"></i></div></div>
+    ${forYou ? `<p class="small muted">Sent to you because ${mr_reason(o, el)}</p>` : `<p class="small muted">${!el.near ? `You're outside the ${o.radius} km radius.` : `For people predicted to rate it ${o.minPred}★ or more.`}</p>`}
+    ${action}
+    ${linkButtons(v, true)}
+  </article>`;
+}
+function mr_reason(o, el){
+  const mine = myRatings()[o.vid];
+  if (mine >= 4) return `you rated it ${mine.toFixed(1)}★ and you're ${fmtKm(el.d)} away.`;
+  return `${el.p.count} of your top matches rate it highly (predicted ${el.p.val.toFixed(1)}★) and you're ${fmtKm(el.d)} away.`;
+}
+function viewOffers(){
+  const {recs} = recommendations(); const recMap = Object.fromEntries(recs.map(x => [x.v.id, x.p]));
+  const rows = S.offers.filter(o => venue(o.vid)).map(o => ({o, el:eligibility(o, recMap)}));
+  const live = x => x.o.claimed < x.o.qty && x.o.exp > Date.now();
+  const mine = rows.filter(x => x.o.myCode || (x.el.ok && live(x))), rest = rows.filter(x => !mine.includes(x));
+  return `<div class="stack">
+    <div class="head"><div><p class="eyebrow">Only sent to people nearby whose taste suggests they'll enjoy the place</p><h2>Live offers for you</h2></div></div>
+    ${!S.acct ? `<p class="note">Create a free account to claim vouchers. Venues scan your code when you visit.</p>` : ''}
+    ${mine.length ? `<div class="grid">${mine.map(x => offerCard(x.o, x.el, true)).join('')}</div>` : `<p class="note">No offers are targeted at you right now${me().label.includes('London') ? '. Rate more places to get better-matched offers' : ` near ${esc(me().label)}. Switch to London at the top to see offers there`}.</p>`}
+    ${rest.length ? `<h2 style="margin-top:8px">Other offers</h2><div class="grid">${rest.map(x => offerCard(x.o, x.el, false)).join('')}</div>` : ''}
+  </div>`;
+}
+function viewVouchers(){
+  const list = S.vouchers || [];
+  const status = v => v.redeemed_at ? 'used' : (v.cancelled_at || Date.parse(v.expires_at) <= Date.now()) ? 'expired' : 'ready';
+  return `<div class="stack">
+    <div class="head"><div><p class="eyebrow">Show the code at the venue. Staff scan it to record your visit.</p><h2>My vouchers</h2></div></div>
+    ${list.length ? `<div class="grid">${list.map(v => { const st = status(v), ve = venue(v.venue_id);
+      return `<article class="offer ${st === 'ready' ? 'live' : ''}">
+        <div class="head"><div><h3>${esc(ve?.name || 'Venue')}</h3><p class="small muted">Claimed ${fmtDateTime(v.claimed_at)}</p></div>
+          ${st === 'ready' ? `<span class="timer" data-exp="${Date.parse(v.expires_at)}"></span>` : st === 'used' ? `<span class="chip good">Used ${fmtDateTime(v.redeemed_at)}</span>` : `<span class="chip">Expired</span>`}</div>
+        <div class="deal">${esc(v.title)}</div>
+        ${st === 'ready' ? qrBlock(v.code) : `<p class="num muted">${esc(v.code)}</p>`}
+        ${ve && st === 'ready' ? linkButtons(ve, true) : ''}
+      </article>`; }).join('')}</div>`
+      : `<p class="note">No vouchers yet. Claim one from Live offers.</p><div><button class="btn primary" data-tab="offers">See live offers</button></div>`}
+  </div>`;
+}
+
+/* ---------- Sign in ---------- */
+function viewAuth(){
+  const m = S.authMode || 'signin', role = S.signupRole || 'user';
+  const venueOpts = VENUES0.slice().sort((a, b) => a.name.localeCompare(b.name)).map(v => `<option value="${v.id}">${esc(v.name)} · ${esc(v.area)}</option>`).join('');
+  const title = {signin:'Sign in to Tastemate', signup:'Create your free account', forgot:'Reset your password', recovery:'Choose a new password'}[m];
+  return `<div class="authwrap stack">
+    <section class="panel stack">
+      ${m === 'signin' || m === 'signup' ? `<div class="seg" role="tablist"><button class="${m === 'signin' ? 'on' : ''}" data-act="auth-mode" data-mode="signin">Sign in</button><button class="${m === 'signup' ? 'on' : ''}" data-act="auth-mode" data-mode="signup">Create account</button></div>` : ''}
+      <h2>${title}</h2>
+      ${S.authMsg ? `<div class="toast" role="status">${S.authMsg}</div>` : ''}
+      ${S.authErr ? `<div class="toast err" role="alert">${esc(S.authErr)}</div>` : ''}
+      <form id="authForm" class="stack" data-mode="${m}" novalidate>
+        ${m === 'signup' ? `<fieldset class="roles"><legend class="eyebrow">I'm signing up as</legend>
+          <label class="rolecard ${role === 'user' ? 'on' : ''}"><input type="radio" name="auth-role" value="user" ${role === 'user' ? 'checked' : ''}><b>A diner</b><span class="small muted">Get recommendations and claim offers. Always free.</span></label>
+          <label class="rolecard ${role === 'vendor' ? 'on' : ''}"><input type="radio" name="auth-role" value="vendor" ${role === 'vendor' ? 'checked' : ''}><b>A business</b><span class="small muted">Send offers and scan vouchers. 10 free tokens a month.</span></label></fieldset>
+          <label class="field" for="auth-name">Your name<input id="auth-name" autocomplete="name" required></label>` : ''}
+        ${m === 'signup' && role === 'vendor' ? `
+          <label class="field" for="auth-business">Business name<input id="auth-business" autocomplete="organization" required></label>
+          <label class="field" for="auth-venue">Your venue<select id="auth-venue"><option value="">My venue isn't listed</option>${venueOpts}</select></label>
+          <p class="small muted">We check every business before its offers go live. This usually takes a day.</p>` : ''}
+        ${m !== 'recovery' ? `<label class="field" for="auth-email">Email<input id="auth-email" type="email" autocomplete="email" required></label>` : ''}
+        ${m !== 'forgot' ? `<label class="field" for="auth-password">${m === 'recovery' ? 'New password' : 'Password'}<input id="auth-password" type="password" autocomplete="${m === 'signin' ? 'current-password' : 'new-password'}" minlength="8" required></label>` : ''}
+        <button class="btn primary big" type="submit">${{signin:'Sign in', signup:role === 'vendor' ? 'Create business account' : 'Create account', forgot:'Email me a reset link', recovery:'Save new password'}[m]}</button>
+      </form>
+      <div class="row small">${m === 'signin' ? `<button class="linkbtn" data-act="auth-mode" data-mode="forgot">Forgot password?</button>` : ''}
+        ${m === 'forgot' ? `<button class="linkbtn" data-act="auth-mode" data-mode="signin">Back to sign in</button>` : ''}
+        <button class="linkbtn" data-act="auth-cancel">Continue without an account</button></div>
+    </section>
+    ${API.demo ? `<section class="panel stack"><h3>Try the demo accounts</h3><p class="small muted">Demo mode runs on this device only: no emails, no real payments. Every demo account's password is <b class="num">tastemate</b>.</p>
+      <div class="row"><button class="btn" data-act="demo-login" data-email="diner@demo.app">Diner</button><button class="btn" data-act="demo-login" data-email="vendor@demo.app">Business (Blacklock)</button><button class="btn" data-act="demo-login" data-email="admin@demo.app">Publisher</button></div></section>` : ''}
+  </div>`;
+}
+
+function viewAccount(){
+  if (!S.acct) return `<section class="panel stack authwrap"><h2>Your account</h2><p>Sign in to manage or delete your account.</p><div><button class="btn primary" data-act="to-auth">Sign in</button></div></section>`;
+  const a = S.acct, roleLabel = {user:'Diner', vendor:'Business', admin:'Publisher'}[a.role];
+  return `<div class="stack authwrap">
+    <section class="panel stack"><div><p class="eyebrow">${roleLabel} account</p><h2>${esc(a.vendor?.business_name || a.name || 'Your account')}</h2></div>
+      <p><span class="muted">Email</span><br>${esc(a.email)}</p>
+      ${a.vendor ? `<p><span class="muted">Venue</span><br>${esc(venue(a.vendor.venue_id)?.name || 'Not linked yet')} ${a.vendor.approved ? '<span class="chip good">Approved</span>' : '<span class="chip warn">Waiting for approval</span>'}</p>` : ''}
+      <div class="row"><button class="btn" data-act="signout">Sign out</button><a class="btn" href="${esc(CFG.APP_URL ? CFG.APP_URL.replace(/\/$/, '') + '/privacy-policy.html' : 'privacy-policy.html')}" target="_blank" rel="noopener">Privacy policy</a></div>
+    </section>
+    <section class="panel stack"><h3>Delete account</h3>
+      <p class="small">${a.role === 'vendor' ? 'This permanently deletes your business account, offers, vouchers and token history. Unused bought tokens are lost. Payment receipts stay with Stripe for accounting.' : 'This permanently deletes your account, ratings and vouchers. Venues keep anonymous visit counts that are not linked to you.'}</p>
+      <div><button class="btn danger" data-act="delete-account">${S.delArm ? 'Tap again to delete permanently' : 'Delete my account'}</button></div>
+    </section>
+  </div>`;
+}
+
+/* ---------- Business (vendor) area ---------- */
+const isLiveOffer = o => !o.cancelled_at && Date.parse(o.expires_at) > Date.now();
+function computeStats(d, days){
+  const since = days ? Date.now() - days*864e5 : 0;
+  const offers = d.offers.filter(o => Date.parse(o.created_at) >= since);
+  const ids = new Set(offers.map(o => o.id));
+  const vs = d.vouchers.filter(v => ids.has(v.offer_id)), red = vs.filter(v => v.redeemed_at);
+  const billed = red.filter(v => v.bill_pence != null), parties = red.filter(v => v.party_size);
+  const buys = d.ledger.filter(l => l.kind === 'purchase' && l.amount_pence);
+  const boughtQty = buys.reduce((s, l) => s + l.paid_delta, 0);
+  const avgUnit = boughtQty ? buys.reduce((s, l) => s + l.amount_pence, 0) / boughtQty : 0;
+  const issued = offers.reduce((s, o) => s + o.tokens, 0), paidUsed = offers.reduce((s, o) => s + (o.paid_tokens || 0), 0), freeUsed = offers.reduce((s, o) => s + (o.free_tokens || 0), 0);
+  const revenue = billed.reduce((s, v) => s + v.bill_pence, 0), cost = paidUsed * avgUnit;
+  const byHour = Array.from({length:24}, () => ({n:0, rev:0})), byDow = Array.from({length:7}, () => ({n:0, rev:0}));
+  red.forEach(v => { const t = new Date(v.redeemed_at); const h = byHour[t.getHours()], w = byDow[(t.getDay() + 6) % 7]; h.n++; w.n++; h.rev += v.bill_pence || 0; w.rev += v.bill_pence || 0; });
+  const offerOf = Object.fromEntries(offers.map(o => [o.id, o]));
+  const byType = {};
+  offers.forEach(o => { const t = byType[o.offer_type] ??= {offers:0, tokens:0, claimed:0, redeemed:0, rev:0, billed:0}; t.offers++; t.tokens += o.tokens; });
+  vs.forEach(v => { const t = byType[offerOf[v.offer_id].offer_type]; t.claimed++; if (v.redeemed_at) { t.redeemed++; if (v.bill_pence != null) { t.rev += v.bill_pence; t.billed++; } } });
+  const perOffer = offers.map(o => { const ov = vs.filter(v => v.offer_id === o.id), orr = ov.filter(v => v.redeemed_at);
+    return {o, claimed:ov.length, redeemed:orr.length, rev:orr.reduce((s, v) => s + (v.bill_pence || 0), 0)}; });
+  const waits = red.map(v => (Date.parse(v.redeemed_at) - Date.parse(v.claimed_at)) / 60000).filter(x => x >= 0).sort((a, b) => a - b);
+  const q = p => waits.length ? waits[Math.min(waits.length - 1, Math.floor(p*waits.length))] : null;
+  const busiest = byHour.reduce((b, h, i) => h.n > b.n ? {n:h.n, i} : b, {n:0, i:-1});
+  return {offers, issued, claimed:vs.length, redeemed:red.length, revenue, avgBill:billed.length ? revenue/billed.length : null,
+    avgParty:parties.length ? parties.reduce((s, v) => s + v.party_size, 0)/parties.length : null, paidUsed, freeUsed, cost, avgUnit,
+    byHour, byDow, byType, perOffer, waitMed:q(.5), waitP75:q(.75), busiest};
+}
+const pct = (a, b) => b ? Math.round(a/b*100) + '%' : '–';
+function tile(label, value, sub){ return `<div class="tile"><span class="tl">${label}</span><b class="num">${value}</b>${sub ? `<span class="small muted">${sub}</span>` : ''}</div>`; }
+function bars(data, labels, tip, every = 1, desc = ''){
+  const max = Math.max(1, ...data.map(d => d.n));
+  return `<div class="barchart"><div class="vbars" style="grid-template-columns:repeat(${data.length},minmax(0,1fr))" role="img" aria-label="${esc(desc + ': ' + data.map((d, i) => labels[i] + ' ' + d.n).join(', '))}">
+    ${data.map((d, i) => `<div class="vbar" tabindex="0" data-tip="${esc(tip(d, i))}"><div class="col"><i style="height:${d.n ? Math.max(3, d.n/max*100) : 0}%"></i></div><span>${i % every === 0 ? labels[i] : ''}</span></div>`).join('')}
+  </div><div class="small muted" style="margin-top:4px">Highest: <span class="num">${max}</span> visits · hover or tap a bar for details</div></div>`;
+}
+const needVendorData = () => (!S.vdata || !S.bal) ? `<p class="muted">Loading your business data…</p>` : '';
+function pendingNote(){ return S.acct?.vendor && !S.acct.vendor.approved ? `<p class="note"><b>Waiting for approval.</b> We check every business before its offers go live, usually within a day. You can look around in the meantime.</p>` : ''; }
+
+function viewVHome(){
+  const wait = needVendorData(); if (wait) return wait;
+  const V = S.acct.vendor, v = venue(V.venue_id), b = S.bal, st = computeStats(S.vdata, 30);
+  const live = S.vdata.offers.filter(isLiveOffer);
+  return `<div class="stack">
+    ${pendingNote()}
+    <div class="head"><div><p class="eyebrow">${esc(v ? v.name + ' · ' + v.area : V.business_name)}</p><h2>Good ${new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 18 ? 'afternoon' : 'evening'}${S.acct.name ? ', ' + esc(S.acct.name.split(' ')[0]) : ''}</h2></div>
+      <div class="row"><button class="btn primary" data-tab="v-scan">Scan a code</button><button class="btn" data-tab="v-offers">New offer</button></div></div>
+    <div class="tiles">
+      ${tile('Tokens left', b.total, `${b.free_left} free this month + ${b.paid} bought`)}
+      ${tile('Visits, last 30 days', st.redeemed, `from ${st.claimed} claimed vouchers`)}
+      ${tile('Conversion', pct(st.redeemed, st.issued), 'visits per token issued')}
+      ${tile('Spend by offer customers', pounds(st.revenue), st.avgBill != null ? `average bill ${pounds(st.avgBill)}` : 'enter bills when scanning')}
+    </div>
+    <section class="panel stack"><div class="head"><h2>Live now</h2><span class="small muted">${live.length} offer${live.length === 1 ? '' : 's'}</span></div>
+      ${live.length ? live.map(o => liveOfferRow(o)).join('') : `<p class="muted">No offers running. <button class="linkbtn" data-tab="v-offers">Create one</button> to reach people nearby who are likely to enjoy ${esc(v?.name || 'your venue')}.</p>`}
+    </section>
+  </div>`;
+}
+function liveOfferRow(o){
+  const vs = S.vdata.vouchers.filter(x => x.offer_id === o.id), red = vs.filter(x => x.redeemed_at).length;
+  return `<div class="liverow"><div style="flex:1 1 220px"><b>${esc(o.title)}</b><div class="small muted">${OFFER_TYPES[o.offer_type]} · ${o.tokens} people · within ${o.radius_km} km · <span class="timer" data-exp="${Date.parse(o.expires_at)}"></span></div>
+      <div class="meter" style="margin-top:6px"><i style="width:${vs.length/o.tokens*100}%"></i></div>
+      <div class="small" style="margin-top:4px"><b class="num">${vs.length}</b> claimed · <b class="num">${red}</b> visited · <span class="num">${o.tokens - vs.length}</span> unclaimed</div></div>
+    <button class="btn danger" data-act="end-offer" data-oid="${o.id}">${S.endArm === o.id ? 'Tap again to end (tokens are not returned)' : 'End early'}</button></div>`;
+}
+
+function viewVScan(){
+  const canScan = !!(navigator.mediaDevices?.getUserMedia && window.jsQR);
+  const r = S.scanResult;
+  const today = (S.vdata?.vouchers || []).filter(v => v.redeemed_at && new Date(v.redeemed_at).toDateString() === new Date().toDateString())
+    .sort((a, b) => b.redeemed_at.localeCompare(a.redeemed_at));
+  const offerTitle = id => S.vdata?.offers.find(o => o.id === id)?.title || '';
+  return `<div class="stack">
+    ${pendingNote()}
+    <section class="panel stack">
+      <div><p class="eyebrow">Each scan is recorded centrally and counts towards your stats</p><h2>Scan a customer's voucher</h2></div>
+      ${r ? `<div class="toast ${r.ok ? '' : 'err'}" role="status">${r.ok ? `<b>Visit recorded.</b> ${esc(r.data.offer_title)} · <span class="num">${esc(r.data.code)}</span>${r.data.bill_pence != null ? ' · bill ' + pounds(r.data.bill_pence) : ''}${r.data.party_size ? ' · ' + r.data.party_size + ' people' : ''}` : esc(r.msg)}</div>` : ''}
+      <div id="scanBox" class="scanbox" hidden><video id="scanVideo" playsinline muted></video><div class="scanframe"></div><p class="scanhint">Point at the QR code</p></div>
+      ${canScan ? `<div class="row"><button class="btn primary big" data-act="scan-start" id="scanStart">Scan with camera</button><button class="btn" data-act="scan-stop" id="scanStop" hidden>Stop camera</button></div>`
+        : `<p class="small muted">Camera scanning works in the Tastemate app and in Chrome or Safari. Type the code instead.</p>`}
+      ${API.demo && S.vdata ? (() => { const live = new Set(S.vdata.offers.filter(isLiveOffer).map(o => o.id)); const codes = S.vdata.vouchers.filter(v => live.has(v.offer_id) && !v.redeemed_at).slice(0, 3).map(v => v.code);
+        return codes.length ? `<p class="small muted">Demo: codes claimed by diners for your live offer: ${codes.map(c => `<button type="button" class="linkbtn num" data-act="fill-code" data-code="${c}">${c}</button>`).join(', ')}</p>` : ''; })() : ''}
+      <form id="redeemForm" class="venueform">
+        <label for="r-code">Voucher code<input id="r-code" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="TM-XXXXXX" required></label>
+        <label for="r-bill">Bill total, £ (optional)<input id="r-bill" type="number" min="0" step="0.01" inputmode="decimal" placeholder="64.50"></label>
+        <label for="r-party">People (optional)<input id="r-party" type="number" min="1" max="100" inputmode="numeric" placeholder="2"></label>
+        <div style="grid-column:1/-1"><button class="btn primary" type="submit">Record visit</button></div>
+      </form>
+    </section>
+    <section class="panel stack"><div class="head"><h2>Scanned today</h2><span class="small muted num">${today.length}</span></div>
+      ${today.length ? `<div class="tablewrap"><table><thead><tr><th>Time</th><th>Offer</th><th class="c">People</th><th class="c">Bill</th></tr></thead><tbody>
+        ${today.map(v => `<tr><td class="num">${new Date(v.redeemed_at).toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'})}</td><td>${esc(offerTitle(v.offer_id))}</td><td class="c num">${v.party_size || '–'}</td><td class="c num">${v.bill_pence != null ? pounds(v.bill_pence) : '–'}</td></tr>`).join('')}
+      </tbody></table></div>` : '<p class="muted">No vouchers scanned yet today.</p>'}
+    </section>
+  </div>`;
+}
+let scanStream = null, scanTimer = null;
+function stopScan(){
+  if (scanTimer) { clearInterval(scanTimer); scanTimer = null; }
+  if (scanStream) { scanStream.getTracks().forEach(t => t.stop()); scanStream = null; }
+  const box = $('#scanBox'); if (box) box.hidden = true;
+  const a = $('#scanStart'), b = $('#scanStop'); if (a) a.hidden = false; if (b) b.hidden = true;
+}
+async function startScan(){
+  try {
+    scanStream = await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}, audio:false});
+  } catch(e) { S.scanResult = {ok:false, msg:'Camera access was refused. Allow the camera for Tastemate in your settings, or type the code.'}; render(); return; }
+  const video = $('#scanVideo'), box = $('#scanBox');
+  box.hidden = false; $('#scanStart').hidden = true; $('#scanStop').hidden = false;
+  video.srcObject = scanStream; await video.play().catch(() => {});
+  const canvas = document.createElement('canvas'), ctx = canvas.getContext('2d', {willReadFrequently:true});
+  scanTimer = setInterval(() => {
+    if (!video.videoWidth) return;
+    const scale = Math.min(1, 640 / video.videoWidth);
+    canvas.width = Math.round(video.videoWidth*scale); canvas.height = Math.round(video.videoHeight*scale);
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const img = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const hit = window.jsQR(img.data, img.width, img.height, {inversionAttempts:'attemptBoth'});
+    const m = hit && String(hit.data).toUpperCase().match(/TM-[A-Z0-9]{6,}/);
+    if (m) {
+      stopScan();
+      $('#r-code').value = m[0];
+      if (navigator.vibrate) navigator.vibrate(60);
+      $('#r-bill').focus();
+    }
+  }, 180);
+}
+
+function reachFor(vid, radius, minPred){
+  const v = venue(vid); let rated = 0, predicted = 0, nearby = 0;
+  POOL.forEach(u => {
+    if (u.lat != null && km(u, v) > radius) return;
+    nearby++;
+    if ((u.ratings[vid] ?? 0) >= 4) rated++;
+    else if (u.ratings[vid] == null) { const p = predictForUser(u, vid); if (p && p.val >= minPred) predicted++; }
+  });
+  return {rated, predicted, nearby, total: rated + predicted};
+}
+const OFFER_DEFAULTS = {percent_off:'50% off the bill', two_for_one:'2-for-1 mains', free_item:'Free dessert with any main', fixed_off:'£10 off for two', other:''};
+function viewVOffers(){
+  const wait = needVendorData(); if (wait) return wait;
+  const d = S.vdata;
+  return `<div class="stack">
+    ${pendingNote()}
+    <section class="panel stack">
+      <div><p class="eyebrow">Each person you offer it to uses one token, whether or not they take it up</p><h2>Send a live offer</h2></div>
+      <form class="venueform" id="offerForm">
+        <label for="f-type">Type of offer<select id="f-type">${Object.entries(OFFER_TYPES).map(([k, l]) => `<option value="${k}">${l}</option>`).join('')}</select></label>
+        <label for="f-title">What customers see<input id="f-title" maxlength="80" value="${esc(OFFER_DEFAULTS.percent_off)}" required></label>
+        <label for="f-qty">First how many people<input id="f-qty" type="number" min="1" max="5000" value="20"></label>
+        <label for="f-hours">Valid for (hours)<input id="f-hours" type="number" min=".5" max="168" step=".5" value="2"></label>
+        <label for="f-radius">Send to people within (km)<input id="f-radius" type="number" min=".5" max="50" step=".5" value="3"></label>
+        <label for="f-min">Only people predicted ≥ <span id="f-min-val" class="num">4.0</span>★<input id="f-min" type="range" min="3" max="5" step=".1" value="4"></label>
+        <div id="cost" class="costline" style="grid-column:1/-1"></div>
+        <div id="reach" class="reach" style="grid-column:1/-1"></div>
+        <div style="grid-column:1/-1" class="row"><button class="btn primary" type="submit" id="offerSubmit">Send offer now</button><button class="btn" type="button" data-tab="v-tokens">Buy tokens</button></div>
+      </form>
+    </section>
+    <section class="panel stack"><h2>All offers</h2>
+      ${d.offers.length ? `<div class="tablewrap"><table><thead><tr><th>Offer</th><th>Started</th><th class="c">Tokens</th><th class="c">Claimed</th><th class="c">Visits</th><th class="c">Conversion</th><th class="c">Spend</th><th>Status</th></tr></thead><tbody>
+        ${d.offers.map(o => { const vs = d.vouchers.filter(v => v.offer_id === o.id), red = vs.filter(v => v.redeemed_at); const live = isLiveOffer(o);
+          return `<tr><td><b>${esc(o.title)}</b><div class="small muted">${OFFER_TYPES[o.offer_type]}</div></td><td class="num small">${fmtDateTime(o.created_at)}</td><td class="c num">${o.tokens}</td><td class="c num">${vs.length}</td><td class="c num">${red.length}</td><td class="c num">${pct(red.length, o.tokens)}</td><td class="c num">${pounds(red.reduce((s, v) => s + (v.bill_pence || 0), 0))}</td>
+            <td>${live ? `<span class="chip good">Live</span>` : o.cancelled_at ? '<span class="chip">Ended early</span>' : '<span class="chip">Ended</span>'}</td></tr>`; }).join('')}
+      </tbody></table></div>` : '<p class="muted">No offers yet.</p>'}
+    </section>
+  </div>`;
+}
+function updateOfferForm(){
+  if (!$('#offerForm') || !S.bal) return;
+  const n = Math.max(0, Math.floor(+$('#f-qty').value || 0)), radius = +$('#f-radius').value || 0, minP = +$('#f-min').value;
+  $('#f-min-val').textContent = minP.toFixed(1);
+  const b = S.bal, fu = Math.min(b.free_left, n), pu = n - fu, ok = pu <= b.paid && n > 0;
+  $('#cost').innerHTML = n ? `<b>Uses ${n} token${n === 1 ? '' : 's'}</b>: ${fu} free (this month)${pu ? ` + ${pu} bought` : ''}. ${ok ? `You'll have ${b.total - n} left.` : `<span style="color:var(--bad)">You have ${b.total}. Buy ${pu - b.paid} more or offer it to fewer people.</span>`}` : '';
+  $('#offerSubmit').disabled = !ok || !S.acct.vendor.approved;
+  const vid = S.acct.vendor.venue_id; if (!vid) { $('#reach').innerHTML = ''; return; }
+  const r = reachFor(vid, radius, minP);
+  $('#reach').innerHTML = `<div class="row" style="gap:14px;align-items:baseline"><b class="big num">${r.total}</b><span>people match your settings${r.total < n ? `. Only ${r.total} are likely to see it, so you could offer it to fewer people` : ''}.</span></div>
+    <p class="small muted" style="margin-top:4px">${r.rated} already rated you 4★ or more · ${r.predicted} haven't visited but are predicted to rate you ${minP.toFixed(1)}★+ · estimate from ${POOL.length} Tastemate profiles</p>`;
+}
+
+function viewVStats(){
+  const wait = needVendorData(); if (wait) return wait;
+  const days = S.statsRange ?? 30, st = computeStats(S.vdata, days);
+  const hrs = Array.from({length:24}, (_, i) => String(i).padStart(2, '0'));
+  const dows = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const types = Object.entries(st.byType).sort((a, b) => b[1].redeemed - a[1].redeemed);
+  const roi = st.cost ? st.revenue / st.cost : null;
+  return `<div class="stack">
+    <div class="head"><div><p class="eyebrow">Offers started in the period</p><h2>How your offers perform</h2></div>
+      <div class="seg">${[[7, '7 days'], [30, '30 days'], [90, '90 days'], [0, 'All time']].map(([n, l]) => `<button class="${days === n ? 'on' : ''}" data-act="range" data-n="${n}">${l}</button>`).join('')}</div></div>
+    ${!st.offers.length ? '<p class="note">No offers in this period.</p>' : `
+    <div class="tiles">
+      ${tile('Tokens issued', st.issued, `${st.offers.length} offers · ${st.freeUsed} free, ${st.paidUsed} bought`)}
+      ${tile('Claimed', st.claimed, `${pct(st.claimed, st.issued)} of tokens`)}
+      ${tile('Visits', st.redeemed, `${pct(st.redeemed, st.claimed)} of claims turned up`)}
+      ${tile('Conversion', pct(st.redeemed, st.issued), 'visits per token issued')}
+    </div>
+    <div class="tiles">
+      ${tile('Spend by offer customers', pounds(st.revenue), 'from bills entered at scan')}
+      ${tile('Average bill', st.avgBill != null ? pounds(st.avgBill) : '–', st.avgParty ? `${st.avgParty.toFixed(1)} people on average` : '')}
+      ${tile('Token cost', pounds(st.cost), st.avgUnit ? `bought tokens at ${Math.round(st.avgUnit)}p avg; free ones cost £0` : 'all free tokens')}
+      ${tile('Spend per £1 of tokens', roi != null ? pounds(roi*100).replace('.00', '') : '–', st.redeemed ? `cost per visit ${pounds(st.cost / st.redeemed)}` : '')}
+    </div>
+    <section class="panel stack"><div class="head"><h3>Visits by time of day</h3>${st.busiest.i >= 0 ? `<span class="small muted">Busiest: ${hrs[st.busiest.i]}:00–${hrs[(st.busiest.i + 1) % 24]}:00</span>` : ''}</div>
+      ${bars(st.byHour, hrs, (d, i) => `${hrs[i]}:00 · ${d.n} visit${d.n === 1 ? '' : 's'} · ${pounds(d.rev)}`, 3, 'Visits by hour')}</section>
+    <section class="panel stack"><h3>Visits by day of week</h3>
+      ${bars(st.byDow, dows, (d, i) => `${dows[i]} · ${d.n} visit${d.n === 1 ? '' : 's'} · ${pounds(d.rev)}`, 1, 'Visits by day')}</section>
+    <section class="panel stack"><h3>By type of offer</h3>
+      <div class="tablewrap"><table><thead><tr><th>Type</th><th class="c">Offers</th><th class="c">Tokens</th><th class="c">Claim rate</th><th class="c">Turn-up rate</th><th class="c">Conversion</th><th class="c">Spend</th><th class="c">Avg bill</th></tr></thead><tbody>
+        ${types.map(([k, t]) => `<tr><td><b>${OFFER_TYPES[k]}</b></td><td class="c num">${t.offers}</td><td class="c num">${t.tokens}</td><td class="c num">${pct(t.claimed, t.tokens)}</td><td class="c num">${pct(t.redeemed, t.claimed)}</td><td class="c num"><b>${pct(t.redeemed, t.tokens)}</b></td><td class="c num">${pounds(t.rev)}</td><td class="c num">${t.billed ? pounds(t.rev/t.billed) : '–'}</td></tr>`).join('')}
+      </tbody></table></div></section>
+    <section class="panel stack"><h3>Time from claim to visit</h3>
+      <p>${st.waitMed != null ? `Half of customers arrive within <b class="num">${Math.round(st.waitMed)} min</b> of claiming, and three quarters within <b class="num">${Math.round(st.waitP75)} min</b>. Set offer lengths to match.` : 'No visits yet.'}</p></section>
+    <section class="panel stack"><h3>Best offers</h3>
+      <div class="tablewrap"><table><thead><tr><th>Offer</th><th>Started</th><th class="c">Conversion</th><th class="c">Visits</th><th class="c">Spend</th></tr></thead><tbody>
+        ${st.perOffer.slice().sort((a, b) => b.redeemed/b.o.tokens - a.redeemed/a.o.tokens).slice(0, 8).map(x => `<tr><td>${esc(x.o.title)}</td><td class="small num">${new Date(x.o.created_at).toLocaleString('en-GB', {weekday:'short', day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'})}</td><td class="c num">${pct(x.redeemed, x.o.tokens)}</td><td class="c num">${x.redeemed}/${x.o.tokens}</td><td class="c num">${pounds(x.rev)}</td></tr>`).join('')}
+      </tbody></table></div></section>`}
+  </div>`;
+}
+
+function viewVTokens(){
+  const wait = needVendorData(); if (wait) return wait;
+  const b = S.bal;
+  return `<div class="stack">
+    <div class="tiles">
+      ${tile('Free tokens this month', `${b.free_left}/${b.free_allowance}`, `resets ${new Date(b.resets_at).toLocaleDateString('en-GB', {day:'numeric', month:'short'})}`)}
+      ${tile('Bought tokens', b.paid, 'never expire')}
+      ${tile('Total available', b.total, '1 token = 1 person offered')}
+    </div>
+    <section class="panel stack">
+      <div><p class="eyebrow">${b.price_single_pence}p per token, or ${b.price_bulk_pence}p each when you buy ${b.bulk_min_qty} or more</p><h2>Buy tokens</h2></div>
+      ${BUY_IN_APP || API.demo ? `<form id="buyForm" class="stack">
+        <div class="row">${[10, 50, 100, 250, 500].map(n => `<button type="button" class="btn" data-act="qty" data-n="${n}">${n}</button>`).join('')}</div>
+        <label class="field" for="buy-qty" style="max-width:220px">Number of tokens<input id="buy-qty" type="number" min="1" max="20000" value="100" inputmode="numeric"></label>
+        <p id="buy-price" class="costline"></p>
+        <div><button class="btn primary big" type="submit">${API.demo ? 'Buy (demo, no card charged)' : 'Continue to secure payment'}</button></div>
+        <p class="small muted">Payments are handled by Stripe. You'll get a receipt by email.</p>
+      </form>` : `<p class="note">To buy tokens, sign in at <b class="num" id="portalUrl">${esc(CFG.APP_URL || 'the Tastemate website')}</b> on any browser with this same account. Tokens appear here straight away.</p>
+        ${CFG.APP_URL ? `<div><button class="btn" data-act="copy-portal">Copy link</button></div>` : ''}`}
+    </section>
+    <section class="panel stack"><h2>Token history</h2>
+      ${S.vdata.ledger.length ? `<div class="tablewrap"><table><thead><tr><th>Date</th><th>What</th><th class="c">Tokens</th><th class="c">Paid</th></tr></thead><tbody>
+        ${S.vdata.ledger.map(l => `<tr><td class="num small">${fmtDateTime(l.created_at)}</td><td>${esc(l.note || l.kind)}</td>
+          <td class="c num">${l.kind === 'issue' ? `−${(l.free_used || 0) + Math.abs(l.paid_delta || 0)}${l.free_used ? ` <span class="muted small">(${l.free_used} free)</span>` : ''}` : '+' + l.paid_delta}</td>
+          <td class="c num">${l.amount_pence ? pounds(l.amount_pence) : '–'}</td></tr>`).join('')}
+      </tbody></table></div>` : '<p class="muted">No tokens used or bought yet.</p>'}
+    </section>
+  </div>`;
+}
+function updateBuyPrice(){
+  const el = $('#buy-price'); if (!el || !S.bal) return;
+  const b = S.bal, n = Math.max(0, Math.floor(+$('#buy-qty').value || 0));
+  const unit = n >= b.bulk_min_qty ? b.price_bulk_pence : b.price_single_pence;
+  el.innerHTML = n ? `<b class="num">${n} × ${unit}p = ${pounds(n*unit)}</b>${n >= b.bulk_min_qty ? ' (bulk price)' : ` · buy ${b.bulk_min_qty} for ${pounds(b.bulk_min_qty*b.price_bulk_pence)} at the bulk price`}` : 'Choose how many tokens.';
+}
+
+/* ---------- Publisher (admin) ---------- */
+function viewAOverview(){
+  const o = S.admin?.ov; if (!o) return '<p class="muted">Loading…</p>';
+  return `<div class="stack">
+    <div><p class="eyebrow">Everything across Tastemate</p><h2>Publisher overview</h2></div>
+    <div class="tiles">
+      ${tile('Token sales', pounds(o.revenue_pence), `${o.tokens_sold} tokens sold · paid out by Stripe`)}
+      ${tile('Businesses', o.vendors, o.vendors_pending ? `${o.vendors_pending} waiting for approval` : 'all approved')}
+      ${tile('Diners', o.users, API.demo ? 'includes 50 simulated' : '')}
+      ${tile('Offers sent', o.offers, `${o.tokens_issued} tokens issued`)}
+    </div>
+    <div class="tiles">
+      ${tile('Vouchers claimed', o.vouchers_claimed, pct(o.vouchers_claimed, o.tokens_issued) + ' of tokens')}
+      ${tile('Visits recorded', o.vouchers_redeemed, pct(o.vouchers_redeemed, o.vouchers_claimed) + ' of claims')}
+      ${tile('Spend at venues', pounds(o.vendor_spend_pence), 'from bills entered at scan')}
+    </div>
+    ${o.vendors_pending ? `<div><button class="btn primary" data-tab="a-vendors">Review ${o.vendors_pending} business${o.vendors_pending === 1 ? '' : 'es'}</button></div>` : ''}
+    <p class="small muted">Payouts, refunds and receipts are in your Stripe dashboard.</p>
+  </div>`;
+}
+function viewAVendors(){
+  const list = S.admin?.vendors; if (!list) return '<p class="muted">Loading…</p>';
+  return `<div class="stack">
+    <div><p class="eyebrow">Approve a business once you've checked it runs the venue</p><h2>Businesses</h2></div>
+    <div class="tablewrap"><table><thead><tr><th>Business</th><th>Venue</th><th>Signed up</th><th class="c">Tokens bought</th><th class="c">Paid</th><th>Status</th><th></th></tr></thead><tbody>
+      ${list.map(v => `<tr><td><b>${esc(v.business_name)}</b><div class="small muted">${esc(v.contact_email || '')}</div></td><td>${esc(v.venue_name || 'Not listed')}</td><td class="small num">${fmtDateTime(v.created_at)}</td>
+        <td class="c num">${v.tokens_bought}</td><td class="c num">${pounds(v.revenue_pence)}</td>
+        <td>${v.approved ? '<span class="chip good">Approved</span>' : '<span class="chip warn">Waiting</span>'}</td>
+        <td><div class="row">${v.approved ? `<button class="btn" data-act="approve" data-id="${v.id}" data-on="0">Suspend</button>` : `<button class="btn primary" data-act="approve" data-id="${v.id}" data-on="1">Approve</button>`}
+          <button class="btn" data-act="grant" data-id="${v.id}">+50 tokens</button></div></td></tr>`).join('')}
+    </tbody></table></div>
+  </div>`;
+}
+
+/* ---------- Data loading ---------- */
+let POOL = users;
+async function loadPool(){
+  try {
+    const rows = await API.matchPool(), m = {};
+    rows.forEach(r => { (m[r.member] ??= {id:r.member, name:'Member ' + r.member.slice(1, 5).toUpperCase(), arch:'Tastemate member', member:true, ratings:{}}).ratings[r.venue_id] = +r.rating; });
+    const members = Object.values(m); members.forEach(u => u.mean = meanOf(u.ratings));
+    POOL = users.concat(members);
+    for (const k in userNbrCache) delete userNbrCache[k];
+  } catch(e) {}
+}
+const netRatings = () => Object.fromEntries(Object.entries(myRatings()).filter(([id]) => VENUES0.some(v => v.id === id)));
+let syncT = null;
+function scheduleSync(){
+  if (S.acct?.role !== 'user') return;
+  clearTimeout(syncT); syncT = setTimeout(() => API.saveRatings(netRatings()).catch(() => {}), 1200);
+}
+async function pullRatings(){
+  const rows = await API.getRatings();
+  rows.forEach(r => { if (!S.mine[r.venue_id]) S.mine[r.venue_id] = {account:+r.rating}; });
+  save();
+}
+async function refreshAll(){
+  const role = S.acct?.role;
+  const jobs = [];
+  if (role !== 'vendor' && role !== 'admin') jobs.push(API.liveOffers().then(rows => S.offers = rows.map(normOffer)));
+  if (role === 'user') jobs.push(API.myVouchers().then(v => S.vouchers = v), loadPool());
+  if (role === 'vendor') jobs.push(API.vendorData().then(d => S.vdata = d), API.balance().then(b => S.bal = b), API.account().then(a => { if (a) S.acct = a; }));
+  if (role === 'admin') jobs.push(Promise.all([API.adminOverview(), API.adminVendors()]).then(([ov, vendors]) => S.admin = {ov, vendors}));
+  const res = await Promise.allSettled(jobs);
+  const bad = res.find(x => x.status === 'rejected');
+  if (bad && !S.toast) S.toast = {err:true, msg:esc(cleanErr(bad.reason?.message))};
+}
+async function afterSignIn(acct){
+  S.acct = acct; S.authErr = S.authMsg = null;
+  S.vdata = S.bal = S.admin = null; S.vouchers = [];
+  S.tab = tabsFor()[acct?.role === 'user' ? 2 : 0][0];
+  if (acct?.role === 'user') { await pullRatings().catch(() => {}); scheduleSync(); if (!Object.keys(S.mine).length) S.tab = 'rate'; }
+  await refreshAll();
+  render(); window.scrollTo({top:0});
+}
+
+/* ---------- Render + events ---------- */
+function tabsFor(){
+  const role = S.acct?.role;
+  if (role === 'vendor') return [['v-home', 'Today'], ['v-scan', 'Scan'], ['v-offers', 'Offers'], ['v-stats', 'Stats'], ['v-tokens', 'Tokens']];
+  if (role === 'admin') return [['a-overview', 'Overview'], ['a-vendors', 'Businesses']];
+  const t = [['rate', 'Rate places'], ['reviews', 'Import reviews'], ['discover', 'For you'], ['matches', 'Top 10 matches'], ['map', 'Map'], ['offers', 'Live offers']];
+  if (role === 'user') t.push(['vouchers', 'My vouchers']);
+  return t;
+}
+const VIEWS = {account:viewAccount, reviews:viewReviews, discover:viewDiscover, map:viewMap, matches:viewMatches, rate:viewRate, offers:viewOffers, vouchers:viewVouchers, auth:viewAuth,
+  'v-home':viewVHome, 'v-scan':viewVScan, 'v-offers':viewVOffers, 'v-stats':viewVStats, 'v-tokens':viewVTokens, 'a-overview':viewAOverview, 'a-vendors':viewAVendors};
+function render(){
+  stopScan();
+  const tabs = tabsFor(), role = S.acct?.role;
+  if (S.tab !== 'auth' && S.tab !== 'account' && !tabs.some(t => t[0] === S.tab)) S.tab = tabs[0][0];
+  let nOffers = 0;
+  if (role !== 'vendor' && role !== 'admin') {
+    const {recs} = recommendations(); const recMap = Object.fromEntries(recs.map(x => [x.v.id, x.p]));
+    nOffers = S.offers.filter(o => venue(o.vid) && !o.myCode && o.claimed < o.qty && o.exp > Date.now() && eligibility(o, recMap).ok).length;
+  }
+  const nReady = (S.vouchers || []).filter(v => !v.redeemed_at && !v.cancelled_at && Date.parse(v.expires_at) > Date.now()).length;
+  $('#tabs').innerHTML = tabs.map(([k, l]) => `<button role="tab" aria-selected="${S.tab === k}" data-tab="${k}">${l}${k === 'offers' && nOffers ? `<span class="badge">${nOffers}</span>` : ''}${k === 'vouchers' && nReady ? `<span class="badge">${nReady}</span>` : ''}</button>`).join('');
+  const roleLabel = {user:'Diner', vendor:'Business', admin:'Publisher'}[role];
+  $('#acct').innerHTML = S.acct ? `<span class="chip accent">${roleLabel}</span><button class="linkbtn small" data-act="account">${esc(S.acct.vendor?.business_name || S.acct.name || S.acct.email)}</button><button class="btn" data-act="signout">Sign out</button>`
+    : `<button class="btn primary" data-act="to-auth">Sign in</button>`;
+  $('.loc').hidden = role === 'vendor' || role === 'admin';
+  $('#foot').textContent = API.demo
+    ? 'Demo mode: accounts, offers, scans and payments are simulated on this device. Places and average ratings are from Google Maps (23 Sep 2026). The 50 comparison users are simulated.'
+    : 'Places and average ratings are from Google Maps (23 Sep 2026). Recommendations use Tastemate members plus 50 simulated profiles while the community grows.';
+  PENDING = [];
+  $('#view').innerHTML = S.booting ? '<p class="muted">Loading…</p>' : VIEWS[S.tab]();
+  if (S.toast && S.tab !== 'reviews' && S.tab !== 'auth') $('#view').insertAdjacentHTML('afterbegin', `<div class="toast ${S.toast.err ? 'err' : ''}" role="status" style="margin-bottom:14px">${S.toast.msg}</div>`);
+  PENDING.forEach(mountMap);
+  if (S.tab === 'map' && S.sel) fetchLiveRating(venue(S.sel));
+  $('#locSel').value = S.locKey;
+  if (S.tab === 'v-offers') updateOfferForm();
+  if (S.tab === 'v-tokens') updateBuyPrice();
+  tick();
+}
+function tick(){
+  document.querySelectorAll('[data-exp]').forEach(el => {
+    const ms = +el.dataset.exp - Date.now();
+    if (ms <= 0) { el.textContent = 'Ended'; return; }
+    const h = Math.floor(ms/3600000), m = Math.floor(ms/60000)%60, s = Math.floor(ms/1000)%60;
+    el.textContent = (h ? h+'h ' : '') + String(m).padStart(h?2:1,'0') + 'm ' + String(s).padStart(2,'0') + 's left';
+  });
+}
+setInterval(tick, 1000);
+const go = (tab) => { S.tab = tab; S.toast = null; S.delArm = false; S.resetArm = false; S.endArm = null; S.scanResult = null; save(); render(); window.scrollTo({top:0}); };
+async function busy(t, fn){
+  if (t) t.disabled = true;
+  try { await fn(); }
+  catch(err) { S.toast = {err:true, msg:esc(cleanErr(err.message))}; render(); }
+  finally { if (t && document.body.contains(t)) t.disabled = false; }
+}
+
+document.addEventListener('click', async e => {
+  const t = e.target.closest('[data-tab],[data-venue],[data-cmp],[data-rate],[data-act]');
+  if (!t) return;
+  if (t.dataset.tab) { go(t.dataset.tab); return; }
+  if (t.dataset.rate) {
+    const vid = t.dataset.vid, n = +t.dataset.rate;
+    if (!venue(vid)) { const g = (S.gResults || []).find(v => v.id === vid); if (g) S.venues.push(g); }
+    S.mine[vid] ??= {};
+    if (S.mine[vid].manual === n) delete S.mine[vid].manual; else S.mine[vid].manual = n;
+    if (!Object.keys(S.mine[vid]).length) delete S.mine[vid];
+    save();
+    const y = window.scrollY;
+    render();
+    window.scrollTo({top:y});
+    return;
+  }
+  if (t.dataset.venue) { S.sel = t.dataset.venue; if (t.dataset.goto) S.tab = 'map'; render(); return; }
+  if (t.dataset.cmp) { S.cmpSel = t.dataset.cmp; render(); return; }
+  const act = t.dataset.act;
+  if (act === 'sample-google') { const recs = extract(sampleGoogleExport()); reportImport(mergeRecords(recs, 'google', 'Sample export'), 'Google', 'the sample'); render(); }
+  if (act === 'paste') {
+    const recs = parsePaste($('#pasteBox').value), src = $('#pasteSrc').value;
+    if (!recs.length) S.toast = {err:true, msg:'No ratings found. Put one place per line with its rating at the end, like “Hanok Table, 5”.'};
+    else reportImport(mergeRecords(recs, src, 'Pasted'), SOURCES[src], 'your text');
+    render();
+  }
+  if (act === 'remove') { delete S.mine[t.dataset.vid]; save(); render(); }
+  if (act === 'reset') {
+    if (!S.resetArm) { S.resetArm = true; t.textContent = 'Click again to clear everything'; return; }
+    S.mine = {}; S.log = []; S.venues = VENUES0.slice(); S.resetArm = false; S.toast = {msg:'All ratings cleared.'}; save(); render();
+  }
+  if (act === 'copy-tpl' || act === 'copy-portal') {
+    const el = act === 'copy-tpl' ? $('#tpl') : $('#portalUrl');
+    try { await navigator.clipboard.writeText(el.textContent); t.textContent = 'Copied'; }
+    catch(err) { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); t.textContent = 'Selected, press copy'; }
+  }
+  if (act === 'kind') { S.kind = t.dataset.kind; render(); return; }
+  if (act === 'rec-kind') { S.recKind = t.dataset.kind; render(); return; }
+  if (act === 'match-kind') { S.matchKind = t.dataset.kind; S.cmpSel = null; render(); return; }
+  if (act === 'rate-kind') { S.kind = t.dataset.kind; go('rate'); return; }
+  if (act === 'gsearch') {
+    const q = (S.rateQ || '').trim(); if (!q) return;
+    S.gBusy = true; $('#searchResults').innerHTML = searchResultsHtml();
+    try { S.gResults = await googleSearch(q); } catch(err) { S.gResults = []; S.toast = {err:true, msg:'Google Maps search is unavailable right now. Try again later.'}; }
+    S.gBusy = false; render(); return;
+  }
+  if (act === 'example') { EXAMPLE_PROFILE.forEach(([n,r]) => { const id = byName(n); if (id) (S.mine[id] ??= {}).example = r; }); S.toast = null; save(); render(); return; }
+  if (act === 'maptoggle') { S.mapAll = !S.mapAll; render(); }
+  if (act === 'to-auth') { S.authMode = 'signin'; S.authErr = S.authMsg = null; go('auth'); }
+  if (act === 'auth-mode') { S.authMode = t.dataset.mode; S.authErr = S.authMsg = null; render(); }
+  if (act === 'auth-cancel') { go(tabsFor()[0][0]); }
+  if (act === 'demo-login') busy(t, async () => afterSignIn(await API.signIn(t.dataset.email, 'tastemate')));
+  if (act === 'signout') busy(t, async () => { await API.signOut(); S.acct = null; S.mine = {}; S.vouchers = []; S.vdata = S.bal = S.admin = null; POOL = users; save(); await refreshAll(); go('rate'); });
+  if (act === 'claim') busy(t, async () => {
+    const v = await API.claim(t.dataset.oid);
+    S.toast = {msg:`Voucher claimed: <b class="num">${esc(v.code)}</b>. Show the QR code at the venue. It's also saved in My vouchers.`};
+    await refreshAll(); render();
+  });
+  if (act === 'fill-code') { $('#r-code').value = t.dataset.code; $('#r-bill').focus(); }
+  if (act === 'account') { S.delArm = false; go('account'); }
+  if (act === 'delete-account') {
+    if (!S.delArm) { S.delArm = true; render(); return; }
+    busy(t, async () => { await API.deleteAccount(); S.delArm = false; S.acct = null; S.mine = {}; S.vouchers = []; S.vdata = S.bal = S.admin = null; POOL = users; save(); await refreshAll(); S.tab = 'rate'; S.toast = {msg:'Your account has been deleted.'}; render(); });
+  }
+  if (act === 'scan-start') startScan();
+  if (act === 'scan-stop') stopScan();
+  if (act === 'end-offer') {
+    if (S.endArm !== t.dataset.oid) { S.endArm = t.dataset.oid; render(); return; }
+    busy(t, async () => { await API.endOffer(t.dataset.oid); S.endArm = null; S.toast = {msg:'Offer ended. Vouchers already claimed can still be used until the original end time.'}; await refreshAll(); render(); });
+  }
+  if (act === 'range') { S.statsRange = +t.dataset.n; render(); }
+  if (act === 'qty') { $('#buy-qty').value = t.dataset.n; updateBuyPrice(); }
+  if (act === 'approve') busy(t, async () => { await API.adminSetVendor(t.dataset.id, t.dataset.on === '1'); await refreshAll(); render(); });
+  if (act === 'grant') busy(t, async () => { await API.adminGrant(t.dataset.id, 50); S.toast = {msg:'Added 50 tokens.'}; await refreshAll(); render(); });
+});
+if (NATIVE && navigator.geolocation) $('#gpsBtn').hidden = false;
+$('#gpsBtn').addEventListener('click', () => {
+  const btn = $('#gpsBtn'); btn.textContent = 'Finding you…';
+  navigator.geolocation.getCurrentPosition(pos => {
+    LOCS.gps = {label:'My location', lat:pos.coords.latitude, lng:pos.coords.longitude};
+    if (!$('#locSel option[value="gps"]')) $('#locSel').insertAdjacentHTML('afterbegin', '<option value="gps">My location</option>');
+    S.locKey = 'gps'; S.sel = null; btn.textContent = 'Update my location'; render();
+  }, () => { btn.textContent = 'Use my location'; S.toast = {err:true, msg:'Location is off for Tastemate. Allow it in your phone settings, or pick an area from the list.'}; render(); }, {enableHighAccuracy:false, timeout:12000, maximumAge:300000});
+});
+// In the Android app, open outside links (Google Maps, Tripadvisor, Yelp, Stripe) in the phone's own apps
+document.addEventListener('click', e => {
+  if (!NATIVE) return;
+  const a = e.target.closest('a[target="_blank"]');
+  if (a) { e.preventDefault(); window.location.href = a.href; }
+}, true);
+document.addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('g[data-venue],g[data-cmp]')) { e.preventDefault(); e.target.dispatchEvent(new MouseEvent('click', {bubbles:true})); }
+});
+document.addEventListener('change', async e => {
+  const t = e.target;
+  if (t.id === 'locSel') { S.locKey = t.value; S.sel = null; save(); render(); return; }
+  if (t.name === 'auth-role') { S.signupRole = t.value; const keep = {email:$('#auth-email')?.value, pw:$('#auth-password')?.value, name:$('#auth-name')?.value}; render(); if ($('#auth-email')) $('#auth-email').value = keep.email || ''; if ($('#auth-password')) $('#auth-password').value = keep.pw || ''; if ($('#auth-name')) $('#auth-name').value = keep.name || ''; return; }
+  if (t.id === 'f-type') { const title = $('#f-title'); if (!title.dataset.edited) title.value = OFFER_DEFAULTS[t.value]; }
+  if (t.matches('input[type=file][data-source]') && t.files.length) {
+    const src = t.dataset.source; let all = [];
+    try {
+      for (const f of t.files) all = all.concat(await readFile(f));
+      reportImport(mergeRecords(all, src, t.files[0].name), SOURCES[src], t.files[0].name);
+    } catch(err) { S.toast = {err:true, msg:esc(err.message || 'That file could not be read.')}; }
+    render();
+  }
+  if (t.closest('#offerForm')) updateOfferForm();
+});
+document.addEventListener('input', e => {
+  if (e.target.id === 'rateSearch') { S.rateQ = e.target.value; S.gResults = null; const box = $('#searchResults'); if (box) box.innerHTML = searchResultsHtml(); }
+  if (e.target.id === 'f-title') e.target.dataset.edited = '1';
+  if (e.target.closest('#offerForm')) updateOfferForm();
+  if (e.target.id === 'buy-qty') updateBuyPrice();
+});
+document.addEventListener('submit', e => {
+  const f = e.target; e.preventDefault();
+  const btn = f.querySelector('[type=submit]');
+  if (f.id === 'placeSearch') { S.rateQ = $('#rateSearch').value; const box = $('#searchResults'); if (box) box.innerHTML = searchResultsHtml(); if (hasGoogle() && S.rateQ.trim().length > 1) $('[data-act="gsearch"]')?.click(); return; }
+  if (f.id === 'authForm') busy(btn, async () => {
+    const m = f.dataset.mode, email = $('#auth-email')?.value.trim(), pw = $('#auth-password')?.value;
+    S.authErr = S.authMsg = null;
+    try {
+      if (m === 'signin') return afterSignIn(await API.signIn(email, pw));
+      if (m === 'signup') {
+        const role = S.signupRole || 'user';
+        if (!$('#auth-name').value.trim()) throw new Error('Enter your name.');
+        if (role === 'vendor' && !$('#auth-business').value.trim()) throw new Error('Enter your business name.');
+        const res = await API.signUp({email, password:pw, role, name:$('#auth-name').value.trim(), business:$('#auth-business')?.value.trim(), venue:$('#auth-venue')?.value});
+        if (res?.confirm) { S.authMode = 'signin'; S.authMsg = `Almost there. We've emailed a confirmation link to <b>${esc(email)}</b>. Open it, then sign in here.`; render(); return; }
+        return afterSignIn(res);
+      }
+      if (m === 'forgot') { await API.resetPassword(email); S.authMsg = `If ${esc(email)} has an account, a reset link is on its way.`; render(); return; }
+      if (m === 'recovery') { if ((pw || '').length < 8) throw new Error('Use a password of at least 8 characters.'); await API.updatePassword(pw); S.authMode = 'signin'; return afterSignIn(await API.account()); }
+    } catch(err) { S.authErr = cleanErr(err.message); render(); }
+  });
+  if (f.id === 'redeemForm') busy(btn, async () => {
+    const code = $('#r-code').value, billTxt = $('#r-bill').value.trim(), partyTxt = $('#r-party').value.trim();
+    const bill = billTxt ? Math.round(parseFloat(billTxt.replace(/[£,]/g, '')) * 100) : null, party = partyTxt ? parseInt(partyTxt, 10) : null;
+    try {
+      const data = await API.redeem(code, Number.isFinite(bill) ? bill : null, Number.isFinite(party) ? party : null);
+      S.scanResult = {ok:true, data};
+      S.vdata = await API.vendorData();
+    } catch(err) { S.scanResult = {ok:false, msg:cleanErr(err.message)}; }
+    render();
+    if (!S.scanResult.ok) $('#r-code').value = code;
+  });
+  if (f.id === 'offerForm') busy(btn, async () => {
+    const o = await API.createOffer({title:$('#f-title').value, type:$('#f-type').value, tokens:+$('#f-qty').value, hours:+$('#f-hours').value, radius:+$('#f-radius').value, minPred:+$('#f-min').value});
+    await refreshAll();
+    S.tab = 'v-home'; S.toast = {msg:`“${esc(o.title)}” is live for the first ${o.tokens} people who match. ${o.free_tokens} free and ${o.paid_tokens} bought tokens used.`}; render(); window.scrollTo({top:0});
+  });
+  if (f.id === 'buyForm') busy(btn, async () => {
+    const qty = Math.floor(+$('#buy-qty').value || 0);
+    const res = await API.checkout(qty);
+    if (res.url) { window.location.href = res.url; return; }
+    S.toast = {msg:`Added ${res.qty} tokens (${pounds(res.amount_pence)}). ${res.demo ? 'Demo: no card was charged.' : ''}`};
+    await refreshAll(); render();
+  });
+});
+
+/* ---------- Start ---------- */
+S.booting = true; render();
+(async () => {
+  try { S.acct = await API.account(); } catch(e) { S.acct = null; }
+  API.onRecovery(() => { S.authMode = 'recovery'; S.tab = 'auth'; render(); });
+  if (location.hash === '#tokens-paid') { S.tab = 'v-tokens'; S.toast = {msg:'Payment received. Your tokens will appear in a few seconds.'}; setTimeout(async () => { await refreshAll(); render(); }, 4000); }
+  if (location.hash === '#account') { S.tab = S.acct ? 'account' : 'auth'; S.authMsg = S.acct ? null : 'Sign in to manage or delete your account.'; }
+  if (location.hash === '#tokens-cancelled') { S.tab = 'v-tokens'; S.toast = {err:true, msg:'Payment cancelled. No money was taken.'}; }
+  if (/#tokens-/.test(location.hash)) history.replaceState(null, '', location.pathname + location.search);
+  if (S.acct?.role === 'user') await pullRatings().catch(() => {});
+  await refreshAll();
+  S.booting = false; render();
+})();
+setInterval(async () => { if (!document.hidden && !scanStream && !S.booting && !['auth','v-offers','v-tokens','v-scan','reviews'].includes(S.tab) && !document.activeElement?.matches('input,textarea,select')) { await refreshAll(); render(); } }, 60000);
+})();
+</script>

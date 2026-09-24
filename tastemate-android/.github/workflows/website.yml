@@ -1,0 +1,46 @@
+name: Publish website
+
+# The website is the same app for browsers. Businesses buy tokens here.
+# It also hosts the privacy policy. Runs on every change to main, or from the Actions tab.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build website
+        env:
+          TASTEMATE_TARGET: web
+          TASTEMATE_MAPS_KEY: ${{ secrets.MAPS_API_KEY }}
+          TASTEMATE_MAP_ID: ${{ secrets.MAP_ID }}
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+          APP_URL: ${{ vars.APP_URL }}
+        run: npm run build:web
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: www
+      - id: deployment
+        uses: actions/deploy-pages@v4
